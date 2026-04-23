@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0e23">
+<title>LevelUp!</title>
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   CSS — LevelUp!
+   ═══════════════════════════════════════════ */
+:root {
+  --bg-main: #0f0e23;
+  --bg-card: #1a1940;
+  --bg-card-light: #232255;
+  --accent-cyan: #00e5ff;
+  --accent-green: #00ff87;
+  --accent-pink: #ff4da6;
+  --accent-yellow: #ffd700;
+  --accent-purple: #b14dff;
+  --accent-orange: #ff8a00;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0cc;
+  --correct: #00ff87;
+  --incorrect: #ff6b6b;
+  --radius: 16px;
+  --glow-cyan: 0 0 20px rgba(0,229,255,0.3);
+  --glow-green: 0 0 20px rgba(0,255,135,0.3);
+  --glow-pink: 0 0 20px rgba(255,77,166,0.3);
+  --glow-yellow: 0 0 20px rgba(255,215,0,0.3);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Fredoka', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Fondo animado con partículas */
+body::before {
+  content: '';
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(177,77,255,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,229,255,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255,77,166,0.04) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+.screen {
+  display: none; flex-direction: column; align-items: center;
+  padding: 24px 20px; min-height: 100dvh;
+  position: relative; z-index: 1;
+  animation: fadeIn 0.4s ease;
+}
+.screen.active { display: flex; }
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ─── TIPOGRAFÍA ─── */
+.pixel-font { font-family: 'Press Start 2P', monospace; }
+h1 { font-size: 28px; font-weight: 700; }
+h2 { font-size: 22px; font-weight: 600; }
+h3 { font-size: 18px; font-weight: 600; }
+
+/* ─── LOGO ─── */
+.logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 32px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple), var(--accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(0,229,255,0.4));
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ─── BOTONES ─── */
+.btn {
+  border: none; border-radius: var(--radius);
+  padding: 16px 32px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 18px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative; overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn:active { transform: scale(0.95); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  color: #fff;
+  box-shadow: var(--glow-cyan);
+  width: 100%; max-width: 320px;
+}
+.btn-primary:active { box-shadow: 0 0 40px rgba(0,229,255,0.6); }
+
+.btn-secondary {
+  background: var(--bg-card-light);
+  color: var(--accent-cyan);
+  border: 2px solid var(--accent-cyan);
+  width: 100%; max-width: 320px;
+}
+
+.btn-small {
+  padding: 10px 20px; font-size: 14px;
+  background: var(--bg-card-light);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  width: 100%; max-width: 400px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ─── PANTALLA INICIO ─── */
+.inicio-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%; max-width: 400px;
+  margin: 24px 0;
+}
+.stat-box {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.stat-value {
+  font-size: 28px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.xp-bar-container {
+  width: 100%; max-width: 400px;
+  margin: 16px 0;
+}
+.xp-bar-bg {
+  background: var(--bg-card);
+  border-radius: 12px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+  border-radius: 12px;
+  transition: width 0.8s ease;
+  position: relative;
+}
+.xp-bar-fill::after {
+  content: '';
+  position: absolute; top:0; left:0; right:0; bottom:0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+  border-radius: 12px;
+}
+.xp-bar-text {
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: var(--text-secondary);
+  margin-top: 6px;
+}
+.nivel-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange));
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: var(--glow-yellow);
+}
+
+/* ─── PANTALLA JUEGO ─── */
+.game-header {
+  width: 100%; max-width: 400px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.progress-bar-bg {
+  flex: 1;
+  background: var(--bg-card);
+  border-radius: 8px;
+  height: 12px;
+  margin: 0 12px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+  border-radius: 8px;
+  transition: width 0.4s ease;
+}
+.timer-display {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--accent-cyan);
+  min-width: 52px;
+  text-align: right;
+}
+.question-counter {
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-width: 40px;
+}
+
+.materia-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.materia-matematicas { background: rgba(0,229,255,0.15); color: var(--accent-cyan); }
+.materia-ciencias { background: rgba(0,255,135,0.15); color: var(--accent-green); }
+.materia-historia { background: rgba(255,138,0,0.15); color: var(--accent-orange); }
+.materia-ingles { background: rgba(177,77,255,0.15); color: var(--accent-purple); }
+.materia-funcion_ejecutiva { background: rgba(255,77,166,0.15); color: var(--accent-pink); }
+
+.question-text {
+  font-size: 20px; font-weight: 600;
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+/* Opciones de selección */
+.options-grid {
+  display: flex; flex-direction: column;
+  gap: 12px;
+  width: 100%; max-width: 400px;
+}
+.option-btn {
+  background: var(--bg-card);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  color: var(--text-primary);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.option-btn:active { transform: scale(0.97); }
+.option-btn:hover { border-color: var(--accent-cyan); }
+.option-btn.correct {
+  border-color: var(--correct);
+  background: rgba(0,255,135,0.15);
+  box-shadow: var(--glow-green);
+}
+.option-btn.incorrect {
+  border-color: var(--incorrect);
+  background: rgba(255,107,107,0.15);
+}
+.option-btn.reveal-correct {
+  border-color: var(--correct);
+  background: rgba(0,255,135,0.1);
+}
+.option-btn.disabled { pointer-events: none; opacity: 0.6; }
+
+/* Ordenar (click to order) */
+.order-items {
+  display: flex; flex-direction: column;
+  gap: 10px;
+  width: 100%; max-width: 400px;
+}
+.order-item {
+  background: var(--bg-card);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  color: var(--text-primary);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex; align-items: center; gap: 12px;
+}
+.order-item:active { transform: scale(0.97); }
+.order-item.selected {
+  border-color: var(--accent-cyan);
+  background: rgba(0,229,255,0.1);
+}
+.order-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  color: #000;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+  flex-shrink: 0;
+}
+.order-num.empty {
+  background: rgba(255,255,255,0.1);
+  color: transparent;
+}
+
+/* Storytelling input */
+.story-input {
+  width: 100%; max-width: 400px;
+  background: var(--bg-card);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 16px;
+  color: var(--text-primary);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 17px;
+  resize: none;
+  min-height: 80px;
+  outline: none;
+}
+.story-input:focus { border-color: var(--accent-cyan); }
+.story-words {
+  display: flex; gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.story-word {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 16px;
+}
+.btn-submit-story {
+  margin-top: 12px;
+}
+
+/* ─── FEEDBACK DESPUÉS DE RESPUESTA ─── */
+.feedback-overlay {
+  display: none;
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.3s ease;
+}
+.feedback-overlay.active { display: flex; }
+.feedback-overlay.correct-bg {
+  background: rgba(0,255,135,0.08);
+  backdrop-filter: blur(8px);
+}
+.feedback-overlay.incorrect-bg {
+  background: rgba(255,107,107,0.08);
+  backdrop-filter: blur(8px);
+}
+
+.feedback-icon {
+  font-size: 64px;
+  margin-bottom: 12px;
+  animation: bounceIn 0.5s ease;
+}
+@keyframes bounceIn {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.feedback-text {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.feedback-hint {
+  font-size: 15px;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+.xp-gain {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  color: var(--accent-yellow);
+  margin-bottom: 20px;
+  animation: floatUp 0.6s ease;
+}
+@keyframes floatUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ─── RECOMPENSA ─── */
+.reward-card {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-yellow);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: var(--glow-yellow);
+  animation: popIn 0.4s ease;
+}
+@keyframes popIn {
+  0% { transform: scale(0.8) rotate(-2deg); opacity: 0; }
+  60% { transform: scale(1.05) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.reward-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-yellow);
+  margin-bottom: 12px;
+}
+.reward-text {
+  font-size: 17px;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+/* ─── PANTALLA RESULTADO ─── */
+.result-score {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 48px;
+  margin: 16px 0 8px;
+}
+.result-label {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+.result-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  width: 100%; max-width: 400px;
+  margin-bottom: 32px;
+}
+.result-stat {
+  text-align: center;
+}
+.result-stat-val {
+  font-size: 24px;
+  font-weight: 700;
+}
+.result-stat-lbl {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+/* ─── LEVEL UP ANIMATION ─── */
+.levelup-overlay {
+  display: none;
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+.levelup-overlay.active { display: flex; }
+.levelup-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 36px;
+  background: linear-gradient(135deg, var(--accent-yellow), var(--accent-orange), var(--accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulse 0.5s ease infinite alternate;
+  text-align: center;
+  line-height: 1.5;
+}
+@keyframes pulse {
+  from { transform: scale(1); filter: brightness(1); }
+  to { transform: scale(1.08); filter: brightness(1.3); }
+}
+.levelup-nivel {
+  font-size: 24px;
+  color: var(--accent-yellow);
+  margin-top: 16px;
+  animation: floatUp 0.6s ease 0.3s both;
+}
+
+/* ─── PANEL MAMÁ ─── */
+.pin-screen {
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 100dvh; padding: 24px;
+  position: relative; z-index: 1;
+}
+.pin-screen.active { display: flex; }
+.pin-input {
+  background: var(--bg-card);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 16px;
+  color: var(--text-primary);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px;
+  text-align: center;
+  width: 180px;
+  letter-spacing: 12px;
+  outline: none;
+  margin: 20px 0;
+}
+.pin-input:focus { border-color: var(--accent-cyan); }
+
+.panel-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  width: 100%; max-width: 500px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.panel-section h3 {
+  color: var(--accent-cyan);
+  margin-bottom: 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.panel-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.panel-row:last-child { border: none; }
+.panel-row-label { color: var(--text-secondary); font-size: 14px; }
+.panel-row-value { font-weight: 600; font-size: 16px; }
+
+.materia-bar-container {
+  margin: 8px 0;
+}
+.materia-bar-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  display: flex; justify-content: space-between;
+}
+.materia-bar-bg {
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  height: 10px;
+  overflow: hidden;
+}
+.materia-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+/* ─── CONFETTI CANVAS ─── */
+#confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 300;
+}
+
+/* ─── UTILIDADES ─── */
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-24 { gap: 24px; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.text-center { text-align: center; }
+.text-secondary { color: var(--text-secondary); }
+.text-cyan { color: var(--accent-cyan); }
+.text-green { color: var(--accent-green); }
+.text-pink { color: var(--accent-pink); }
+.text-yellow { color: var(--accent-yellow); }
+.w-full { width: 100%; max-width: 400px; }
+
+.streak-fire {
+  font-size: 18px;
+  display: flex; align-items: center; gap: 6px;
+}
+.greeting { font-size: 24px; margin-bottom: 4px; }
+.greeting-sub { color: var(--text-secondary); font-size: 15px; margin-bottom: 8px; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.shake { animation: shake 0.4s ease; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ CONFETTI CANVAS ═══════ -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ═══════ LEVEL UP OVERLAY ═══════ -->
+<div class="levelup-overlay" id="levelup-overlay">
+  <div class="levelup-text">⬆ LEVEL UP! ⬆</div>
+  <div class="levelup-nivel" id="levelup-nivel-text"></div>
+</div>
+
+<!-- ═══════ FEEDBACK OVERLAY ═══════ -->
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-icon" id="feedback-icon"></div>
+  <div class="feedback-text" id="feedback-text"></div>
+  <div class="feedback-hint" id="feedback-hint"></div>
+  <div class="xp-gain" id="feedback-xp"></div>
+  <div class="reward-card" id="reward-card" style="display:none">
+    <div class="reward-label" id="reward-label"></div>
+    <div class="reward-text" id="reward-text"></div>
+  </div>
+  <button class="btn btn-primary mt-16" onclick="nextQuestion()">Siguiente →</button>
+</div>
+
+<!-- ═══════ SCREEN: INICIO ═══════ -->
+<div class="screen active" id="screen-inicio">
+  <div style="margin-top: 20px;"></div>
+  <div class="logo">LevelUp!</div>
+  <div class="greeting" id="greeting">¡Hola Magda! 👋</div>
+  <div class="greeting-sub" id="greeting-sub"></div>
+
+  <div class="nivel-badge" id="inicio-nivel">NOOB</div>
+
+  <div class="xp-bar-container">
+    <div class="xp-bar-bg">
+      <div class="xp-bar-fill" id="inicio-xp-bar" style="width:0%"></div>
+    </div>
+    <div class="xp-bar-text">
+      <span id="inicio-xp-text">0 XP</span>
+      <span id="inicio-xp-next">Siguiente nivel: 100 XP</span>
+    </div>
+  </div>
+
+  <div class="inicio-stats">
+    <div class="stat-box">
+      <div class="stat-value text-pink" id="inicio-racha">0</div>
+      <div class="stat-label">🔥 Racha</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value text-green" id="inicio-correctas">0</div>
+      <div class="stat-label">✓ Correctas</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value text-cyan" id="inicio-sesiones">0</div>
+      <div class="stat-label">🎮 Sesiones</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value text-yellow" id="inicio-record">0</div>
+      <div class="stat-label">⭐ Récord racha</div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="startGame()" style="font-size:22px; padding:20px 40px;">
+    🎮 ¡JUGAR!
+  </button>
+  <button class="btn btn-small mt-16" onclick="showPinScreen()">
+    📊 Panel Mamá
+  </button>
+</div>
+
+<!-- ═══════ SCREEN: JUEGO ═══════ -->
+<div class="screen" id="screen-juego">
+  <div class="game-header">
+    <div class="question-counter" id="q-counter">1/8</div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="timer-display" id="timer-display">5:00</div>
+  </div>
+
+  <div class="materia-badge" id="materia-badge">MATEMÁTICAS</div>
+
+  <div class="card" id="question-card">
+    <div class="question-text" id="question-text"></div>
+    <div id="question-body"></div>
+  </div>
+</div>
+
+<!-- ═══════ SCREEN: RESULTADO ═══════ -->
+<div class="screen" id="screen-resultado">
+  <div style="margin-top: 40px;"></div>
+  <div class="pixel-font text-yellow mb-8" style="font-size:14px;">BLOQUE COMPLETADO</div>
+  <div class="result-score text-green" id="result-score">0/0</div>
+  <div class="result-label">respuestas correctas</div>
+
+  <div class="result-stats">
+    <div class="result-stat">
+      <div class="result-stat-val text-yellow" id="result-xp">+0</div>
+      <div class="result-stat-lbl">XP ganados</div>
+    </div>
+    <div class="result-stat">
+      <div class="result-stat-val text-pink" id="result-racha">0</div>
+      <div class="result-stat-lbl">🔥 Racha</div>
+    </div>
+    <div class="result-stat">
+      <div class="result-stat-val text-cyan" id="result-nivel">Noob</div>
+      <div class="result-stat-lbl">Nivel</div>
+    </div>
+  </div>
+
+  <div id="result-message" class="card text-center mb-16" style="display:none">
+    <div id="result-message-text" style="font-size:18px;line-height:1.5;"></div>
+  </div>
+
+  <button class="btn btn-primary" onclick="startGame()">🎮 Jugar otro bloque</button>
+  <button class="btn btn-secondary mt-8" onclick="showScreen('screen-inicio')">🏠 Inicio</button>
+</div>
+
+<!-- ═══════ SCREEN: PIN ═══════ -->
+<div class="pin-screen" id="screen-pin">
+  <h2 class="mb-8">🔒 Panel Mamá</h2>
+  <p class="text-secondary" style="font-size:14px;">Ingresa el PIN de 4 dígitos</p>
+  <input type="password" class="pin-input" id="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*">
+  <div id="pin-error" style="color:var(--incorrect);font-size:14px;min-height:20px;"></div>
+  <button class="btn btn-primary" onclick="checkPin()">Entrar</button>
+  <button class="btn btn-small mt-16" onclick="showScreen('screen-inicio')">← Volver</button>
+</div>
+
+<!-- ═══════ SCREEN: PANEL MAMÁ ═══════ -->
+<div class="screen" id="screen-panel">
+  <h2 class="mb-16">📊 Panel Mamá</h2>
+
+  <div class="panel-section">
+    <h3>Resumen General</h3>
+    <div class="panel-row">
+      <span class="panel-row-label">Total sesiones</span>
+      <span class="panel-row-value" id="panel-sesiones">0</span>
+    </div>
+    <div class="panel-row">
+      <span class="panel-row-label">Total respuestas correctas</span>
+      <span class="panel-row-value text-green" id="panel-correctas">0</span>
+    </div>
+    <div class="panel-row">
+      <span class="panel-row-label">Total respuestas</span>
+      <span class="panel-row-value" id="panel-total">0</span>
+    </div>
+    <div class="panel-row">
+      <span class="panel-row-label">Porcentaje acierto</span>
+      <span class="panel-row-value text-cyan" id="panel-porcentaje">0%</span>
+    </div>
+    <div class="panel-row">
+      <span class="panel-row-label">Racha actual</span>
+      <span class="panel-row-value text-pink" id="panel-racha">0 días</span>
+    </div>
+    <div class="panel-row">
+      <span class="panel-row-label">Récord racha</span>
+      <span class="panel-row-value text-yellow" id="panel-record">0 días</span>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <h3>Nivel de dificultad adaptativo</h3>
+    <div class="panel-row">
+      <span class="panel-row-label">Matemáticas</span>
+      <span class="panel-row-value text-cyan" id="panel-diff-mate">4° básico</span>
+    </div>
+    <div class="panel-row">
+      <span class="panel-row-label">Inglés</span>
+      <span class="panel-row-value text-purple" id="panel-diff-ingles">4° básico</span>
+    </div>
+  </div>
+
+  <div class="panel-section">
+    <h3>Rendimiento por materia</h3>
+    <div id="panel-materias"></div>
+  </div>
+
+  <div class="panel-section">
+    <h3>Últimas sesiones</h3>
+    <div id="panel-historial"></div>
+  </div>
+
+  <button class="btn btn-secondary mt-8" onclick="exportProgress()">📥 Exportar progreso</button>
+  <button class="btn btn-small mt-8" onclick="showScreen('screen-inicio')">← Volver al inicio</button>
+  <div style="height:40px;"></div>
+</div>
+
+<!-- ═══════ SCRIPTS ═══════ -->
+<script src="questions.js"></script>
+<script>
+// ═══════════════════════════════════════════
+// LevelUp! — Motor de juego
+// ═══════════════════════════════════════════
+
+// ─── NIVELES ───
+const LEVELS = [
+  { name: "Noob", xp: 0 },
+  { name: "Amateur", xp: 100 },
+  { name: "Pro", xp: 300 },
+  { name: "Máster", xp: 600 },
+  { name: "Leyenda", xp: 1000 },
+  { name: "Hacker Supremo", xp: 1500 }
+];
+
+const QUESTIONS_PER_BLOCK = 8;
+const BLOCK_TIME_SECONDS = 300; // 5 min
+const DEFAULT_PIN = "1234";
+
+// ─── ESTADO DEL JUEGO ───
+let progreso = loadProgress();
+let historial = loadHistory();
+let respondidas = loadAnswered();
+let currentBlock = [];
+let currentIndex = 0;
+let blockCorrect = 0;
+let blockXP = 0;
+let timerInterval = null;
+let timeRemaining = BLOCK_TIME_SECONDS;
+let orderSelection = [];
+
+// ─── PERSISTENCIA ───
+function loadProgress() {
+  const saved = localStorage.getItem('levelup_progreso');
+  return saved ? JSON.parse(saved) : {
+    xp: 0,
+    nivel: "Noob",
+    racha_actual: 0,
+    racha_record: 0,
+    ultima_sesion: null,
+    dificultad_mate: "nivel_4",
+    dificultad_ingles: "nivel_4",
+    mate_seguidas_ok: 0,
+    mate_seguidas_mal: 0,
+    ingles_seguidas_ok: 0,
+    ingles_seguidas_mal: 0,
+    total_correctas: 0,
+    total_respondidas: 0,
+    total_sesiones: 0,
+    stats_materia: {}
+  };
+}
+
+function saveProgress() {
+  localStorage.setItem('levelup_progreso', JSON.stringify(progreso));
+}
+
+function loadHistory() {
+  const saved = localStorage.getItem('levelup_historial');
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveHistory() {
+  localStorage.setItem('levelup_historial', JSON.stringify(historial));
+}
+
+function loadAnswered() {
+  const saved = localStorage.getItem('levelup_respondidas');
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveAnswered() {
+  localStorage.setItem('levelup_respondidas', JSON.stringify(respondidas));
+}
+
+function loadPin() {
+  return localStorage.getItem('levelup_pin_mama') || DEFAULT_PIN;
+}
+
+// ─── PANTALLAS ───
+function showScreen(screenId) {
+  document.querySelectorAll('.screen, .pin-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  if (screenId === 'screen-inicio') updateInicio();
+  if (screenId === 'screen-panel') updatePanel();
+}
+
+// ─── INICIO ───
+function updateInicio() {
+  // Saludo según hora
+  const hour = new Date().getHours();
+  let saludo = hour < 12 ? '¡Buenos días Magda! ☀️' : hour < 19 ? '¡Hola Magda! 👋' : '¡Buenas noches Magda! 🌙';
+  document.getElementById('greeting').textContent = saludo;
+
+  // Frase motivacional
+  const frases = [
+    "¿Lista para subir de nivel?",
+    "Tu cerebro está listo para explotar 🧠",
+    "Hoy vas a romperla 💪",
+    "Cada respuesta te acerca al siguiente nivel",
+    "¡A craftear conocimiento! ⛏️"
+  ];
+  document.getElementById('greeting-sub').textContent = frases[Math.floor(Math.random() * frases.length)];
+
+  // Stats
+  document.getElementById('inicio-nivel').textContent = progreso.nivel.toUpperCase();
+  document.getElementById('inicio-racha').textContent = progreso.racha_actual;
+  document.getElementById('inicio-correctas').textContent = progreso.total_correctas;
+  document.getElementById('inicio-sesiones').textContent = progreso.total_sesiones;
+  document.getElementById('inicio-record').textContent = progreso.racha_record;
+
+  // XP bar
+  const currentLevel = LEVELS.find(l => l.name === progreso.nivel) || LEVELS[0];
+  const currentIdx = LEVELS.indexOf(currentLevel);
+  const nextLevel = LEVELS[currentIdx + 1];
+  const xpInLevel = progreso.xp - currentLevel.xp;
+  const xpNeeded = nextLevel ? (nextLevel.xp - currentLevel.xp) : 1;
+  const pct = nextLevel ? Math.min(100, (xpInLevel / xpNeeded) * 100) : 100;
+
+  document.getElementById('inicio-xp-bar').style.width = pct + '%';
+  document.getElementById('inicio-xp-text').textContent = progreso.xp + ' XP';
+  document.getElementById('inicio-xp-next').textContent = nextLevel
+    ? `Siguiente nivel: ${nextLevel.xp} XP`
+    : '¡Nivel máximo!';
+}
+
+// ─── GENERACIÓN DE BLOQUE ───
+function buildBlock() {
+  let questions = [];
+
+  // Materias y sus pesos de aparición
+  const materiaPool = [
+    { materia: 'matematicas', peso: 2 },
+    { materia: 'ciencias', peso: 1.5 },
+    { materia: 'historia', peso: 1.5 },
+    { materia: 'ingles', peso: 2 },
+    { materia: 'funcion_ejecutiva', peso: 1 }
+  ];
+
+  // Obtener preguntas disponibles por materia
+  function getAvailable(materia) {
+    let pool = [];
+    if (materia === 'funcion_ejecutiva') {
+      const fe = QUESTION_BANK.funcion_ejecutiva;
+      for (const tipo of ['secuenciacion', 'storytelling', 'planificacion', 'categorizacion']) {
+        if (fe[tipo]) pool.push(...fe[tipo].map(q => ({ ...q, materia: 'funcion_ejecutiva', subtipo: tipo })));
+      }
+    } else {
+      const bank = QUESTION_BANK[materia];
+      // Para mate e inglés, usar nivel adaptativo
+      let nivel = 'nivel_4';
+      if (materia === 'matematicas') nivel = progreso.dificultad_mate;
+      if (materia === 'ingles') nivel = progreso.dificultad_ingles;
+
+      if (bank[nivel]) {
+        pool.push(...bank[nivel].map(q => ({ ...q, materia, nivel })));
+      }
+      // Si no hay suficientes, agregar del nivel base
+      if (pool.length < 3 && nivel !== 'nivel_4' && bank['nivel_4']) {
+        pool.push(...bank['nivel_4'].map(q => ({ ...q, materia, nivel: 'nivel_4' })));
+      }
+    }
+    // Filtrar ya respondidas
+    return pool.filter(q => !respondidas.includes(q.id));
+  }
+
+  // Construir pool ponderado
+  let weightedPool = [];
+  for (const mp of materiaPool) {
+    const available = getAvailable(mp.materia);
+    for (let i = 0; i < mp.peso; i++) {
+      weightedPool.push(...available);
+    }
+  }
+
+  // Si no hay suficientes, resetear respondidas
+  if (weightedPool.length < QUESTIONS_PER_BLOCK) {
+    respondidas = [];
+    saveAnswered();
+    weightedPool = [];
+    for (const mp of materiaPool) {
+      const available = getAvailable(mp.materia);
+      for (let i = 0; i < mp.peso; i++) {
+        weightedPool.push(...available);
+      }
+    }
+  }
+
+  // Shuffle y tomar N preguntas, asegurando variedad de materias
+  shuffleArray(weightedPool);
+  const usedMaterias = new Set();
+  const usedIds = new Set();
+
+  // Primero, una de cada materia
+  for (const mp of materiaPool) {
+    const q = weightedPool.find(q => q.materia === mp.materia && !usedIds.has(q.id));
+    if (q) {
+      questions.push(q);
+      usedIds.add(q.id);
+      usedMaterias.add(q.materia);
+    }
+  }
+
+  // Rellenar hasta QUESTIONS_PER_BLOCK
+  for (const q of weightedPool) {
+    if (questions.length >= QUESTIONS_PER_BLOCK) break;
+    if (!usedIds.has(q.id)) {
+      questions.push(q);
+      usedIds.add(q.id);
+    }
+  }
+
+  shuffleArray(questions);
+  return questions;
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ─── INICIAR JUEGO ───
+function startGame() {
+  currentBlock = buildBlock();
+  currentIndex = 0;
+  blockCorrect = 0;
+  blockXP = 0;
+  timeRemaining = BLOCK_TIME_SECONDS;
+
+  showScreen('screen-juego');
+  startTimer();
+  renderQuestion();
+}
+
+// ─── TIMER ───
+function startTimer() {
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeRemaining--;
+    updateTimerDisplay();
+    if (timeRemaining <= 0) {
+      clearInterval(timerInterval);
+      endBlock();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const min = Math.floor(timeRemaining / 60);
+  const sec = timeRemaining % 60;
+  const display = document.getElementById('timer-display');
+  display.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+  if (timeRemaining <= 60) display.style.color = 'var(--incorrect)';
+  else display.style.color = 'var(--accent-cyan)';
+}
+
+// ─── RENDERIZAR PREGUNTA ───
+function renderQuestion() {
+  if (currentIndex >= currentBlock.length) {
+    endBlock();
+    return;
+  }
+
+  const q = currentBlock[currentIndex];
+  const total = currentBlock.length;
+
+  // Header
+  document.getElementById('q-counter').textContent = `${currentIndex + 1}/${total}`;
+  document.getElementById('progress-fill').style.width = `${(currentIndex / total) * 100}%`;
+
+  // Badge materia
+  const badge = document.getElementById('materia-badge');
+  const materiaNames = {
+    matematicas: '🔢 Matemáticas',
+    ciencias: '🔬 Ciencias',
+    historia: '🏛️ Historia',
+    ingles: '🇬🇧 English',
+    funcion_ejecutiva: '🧩 Desafío Mental'
+  };
+  badge.textContent = materiaNames[q.materia] || q.materia;
+  badge.className = 'materia-badge materia-' + q.materia;
+
+  // Pregunta
+  document.getElementById('question-text').textContent = q.pregunta;
+
+  // Body según tipo
+  const body = document.getElementById('question-body');
+  body.innerHTML = '';
+
+  if (q.tipo === 'seleccion') {
+    renderSeleccion(body, q);
+  } else if (q.tipo === 'ordenar') {
+    renderOrdenar(body, q);
+  } else if (q.tipo === 'storytelling') {
+    renderStorytelling(body, q);
+  }
+}
+
+function renderSeleccion(container, q) {
+  const grid = document.createElement('div');
+  grid.className = 'options-grid';
+
+  const shuffled = [...q.opciones];
+  shuffleArray(shuffled);
+
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => handleSeleccion(btn, opt, q, grid);
+    grid.appendChild(btn);
+  });
+
+  container.appendChild(grid);
+}
+
+function handleSeleccion(btn, selected, q, grid) {
+  const correct = selected === q.respuesta;
+  const allBtns = grid.querySelectorAll('.option-btn');
+
+  allBtns.forEach(b => {
+    b.classList.add('disabled');
+    if (b.textContent === q.respuesta) b.classList.add('reveal-correct');
+  });
+
+  if (correct) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('incorrect');
+    btn.classList.add('shake');
+  }
+
+  setTimeout(() => processAnswer(correct, q), 600);
+}
+
+function renderOrdenar(container, q) {
+  orderSelection = [];
+  const items = document.createElement('div');
+  items.className = 'order-items';
+  items.id = 'order-items';
+
+  q.items.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'order-item';
+    div.dataset.idx = idx;
+
+    const num = document.createElement('div');
+    num.className = 'order-num empty';
+    num.id = `order-num-${idx}`;
+    div.appendChild(num);
+
+    const text = document.createElement('span');
+    text.textContent = item;
+    div.appendChild(text);
+
+    div.onclick = () => handleOrder(idx, q);
+    items.appendChild(div);
+  });
+
+  container.appendChild(items);
+}
+
+function handleOrder(idx, q) {
+  // Si ya está seleccionado, deseleccionar
+  const pos = orderSelection.indexOf(idx);
+  if (pos !== -1) {
+    orderSelection.splice(pos);
+    updateOrderDisplay();
+    return;
+  }
+
+  orderSelection.push(idx);
+  updateOrderDisplay();
+
+  // Si completó el orden
+  if (orderSelection.length === q.items.length) {
+    const correct = JSON.stringify(orderSelection) === JSON.stringify(q.orden_correcto);
+    setTimeout(() => processAnswer(correct, q), 600);
+  }
+}
+
+function updateOrderDisplay() {
+  const items = document.querySelectorAll('.order-item');
+  items.forEach((item, idx) => {
+    const num = document.getElementById(`order-num-${idx}`);
+    const pos = orderSelection.indexOf(idx);
+    if (pos !== -1) {
+      item.classList.add('selected');
+      num.classList.remove('empty');
+      num.textContent = pos + 1;
+    } else {
+      item.classList.remove('selected');
+      num.classList.add('empty');
+      num.textContent = '';
+    }
+  });
+}
+
+function renderStorytelling(container, q) {
+  // Palabras a usar
+  const wordsDiv = document.createElement('div');
+  wordsDiv.className = 'story-words';
+  q.palabras.forEach(w => {
+    const span = document.createElement('span');
+    span.className = 'story-word';
+    span.textContent = w;
+    wordsDiv.appendChild(span);
+  });
+  container.appendChild(wordsDiv);
+
+  // Input
+  const input = document.createElement('textarea');
+  input.className = 'story-input';
+  input.placeholder = 'Escribe tu oración aquí...';
+  input.id = 'story-textarea';
+  container.appendChild(input);
+
+  // Botón enviar
+  const btn = document.createElement('button');
+  btn.className = 'btn btn-primary btn-submit-story mt-8';
+  btn.textContent = '✅ Enviar';
+  btn.onclick = () => {
+    const text = document.getElementById('story-textarea').value.toLowerCase().trim();
+    if (!text) return;
+    const allPresent = q.palabras.every(w => text.includes(w.toLowerCase()));
+    processAnswer(allPresent, q, true);
+  };
+  container.appendChild(btn);
+}
+
+// ─── PROCESAR RESPUESTA ───
+function processAnswer(correct, q, isStory = false) {
+  // Registrar
+  respondidas.push(q.id);
+  saveAnswered();
+  progreso.total_respondidas++;
+
+  let xpGained = 0;
+
+  if (correct) {
+    blockCorrect++;
+    progreso.total_correctas++;
+    xpGained = 10;
+
+    // Bonus por racha de correctas en el bloque
+    if (blockCorrect > 1) xpGained += 5;
+
+    // Dificultad adaptativa mate
+    if (q.materia === 'matematicas') {
+      progreso.mate_seguidas_ok++;
+      progreso.mate_seguidas_mal = 0;
+      if (progreso.mate_seguidas_ok >= 3) {
+        const upgraded = upgradeDifficulty('mate');
+        if (upgraded) progreso.mate_seguidas_ok = 0;
+      }
+    }
+    // Dificultad adaptativa inglés
+    if (q.materia === 'ingles') {
+      progreso.ingles_seguidas_ok++;
+      progreso.ingles_seguidas_mal = 0;
+      if (progreso.ingles_seguidas_ok >= 3) {
+        const upgraded = upgradeDifficulty('ingles');
+        if (upgraded) progreso.ingles_seguidas_ok = 0;
+      }
+    }
+  } else {
+    // Dificultad adaptativa: bajar si falla mucho
+    if (q.materia === 'matematicas') {
+      progreso.mate_seguidas_mal++;
+      progreso.mate_seguidas_ok = 0;
+      if (progreso.mate_seguidas_mal >= 2) {
+        downgradeDifficulty('mate');
+        progreso.mate_seguidas_mal = 0;
+      }
+    }
+    if (q.materia === 'ingles') {
+      progreso.ingles_seguidas_mal++;
+      progreso.ingles_seguidas_ok = 0;
+      if (progreso.ingles_seguidas_mal >= 2) {
+        downgradeDifficulty('ingles');
+        progreso.ingles_seguidas_mal = 0;
+      }
+    }
+  }
+
+  // Stats por materia
+  if (!progreso.stats_materia[q.materia]) {
+    progreso.stats_materia[q.materia] = { correctas: 0, total: 0 };
+  }
+  progreso.stats_materia[q.materia].total++;
+  if (correct) progreso.stats_materia[q.materia].correctas++;
+
+  // XP
+  blockXP += xpGained;
+  const oldLevel = progreso.nivel;
+  progreso.xp += xpGained;
+  progreso.nivel = calculateLevel(progreso.xp);
+  saveProgress();
+
+  // Sonidos y efectos
+  if (correct) {
+    playSound('correct');
+    miniConfetti();
+  } else {
+    playSound('incorrect');
+  }
+
+  // Mostrar feedback + recompensa
+  showFeedback(correct, xpGained, q, isStory);
+
+  // Level up check
+  if (progreso.nivel !== oldLevel) {
+    setTimeout(() => showLevelUp(progreso.nivel), 800);
+  }
+}
+
+function upgradeDifficulty(subject) {
+  const key = `dificultad_${subject}`;
+  if (progreso[key] === 'nivel_4') { progreso[key] = 'nivel_5'; return true; }
+  if (progreso[key] === 'nivel_5') { progreso[key] = 'nivel_6'; return true; }
+  return false;
+}
+
+function downgradeDifficulty(subject) {
+  const key = `dificultad_${subject}`;
+  if (progreso[key] === 'nivel_6') { progreso[key] = 'nivel_5'; return true; }
+  if (progreso[key] === 'nivel_5') { progreso[key] = 'nivel_4'; return true; }
+  return false;
+}
+
+function calculateLevel(xp) {
+  let level = LEVELS[0].name;
+  for (const l of LEVELS) {
+    if (xp >= l.xp) level = l.name;
+  }
+  return level;
+}
+
+// ─── FEEDBACK ───
+function showFeedback(correct, xp, q, isStory) {
+  const overlay = document.getElementById('feedback-overlay');
+  overlay.className = 'feedback-overlay active ' + (correct ? 'correct-bg' : 'incorrect-bg');
+
+  const correctPhrases = [
+    "¡GG! 🎮", "¡Crack! 💪", "¡Eso es! ✨", "¡Nailed it! 🎯",
+    "¡Pro move! 🏆", "¡Ez! 😎", "¡Genial! 🌟"
+  ];
+  const incorrectPhrases = [
+    "¡Casi! La próxima la clavas 💪", "No pasa nada, sigue intentando 🌟",
+    "¡Uff, por poquito! 😅", "Un error más cerca de aprender 🧠"
+  ];
+
+  document.getElementById('feedback-icon').textContent = correct ? '✅' : '🤔';
+  document.getElementById('feedback-text').textContent = correct
+    ? correctPhrases[Math.floor(Math.random() * correctPhrases.length)]
+    : incorrectPhrases[Math.floor(Math.random() * incorrectPhrases.length)];
+
+  // Hint solo cuando es incorrecta y hay hint
+  const hintEl = document.getElementById('feedback-hint');
+  if (!correct && q.hint) {
+    hintEl.textContent = '💡 ' + q.hint;
+    hintEl.style.display = 'block';
+  } else if (isStory && correct) {
+    hintEl.textContent = '¡Gran oración! Tu creatividad es nivel pro 🎨';
+    hintEl.style.display = 'block';
+  } else {
+    hintEl.style.display = 'none';
+  }
+
+  // XP
+  document.getElementById('feedback-xp').textContent = correct ? `+${xp} XP` : '';
+
+  // Recompensa
+  showReward();
+}
+
+function showReward() {
+  const card = document.getElementById('reward-card');
+  const categories = Object.keys(REWARD_BANK);
+  const cat = categories[Math.floor(Math.random() * categories.length)];
+  const rewards = REWARD_BANK[cat];
+  const reward = rewards[Math.floor(Math.random() * rewards.length)];
+
+  const catNames = {
+    chistes: '😂 CHISTE',
+    datos_bizarros: '🤯 DATO BIZARRO',
+    records_guinness: '🏆 RÉCORD GUINNESS',
+    sabias_que_animales: '🦎 ¿SABÍAS QUE...?',
+    que_preferirías: '🤔 ¿QUÉ PREFERIRÍAS?',
+    datos_gamer: '🎮 DATO GAMER'
+  };
+
+  document.getElementById('reward-label').textContent = catNames[cat] || cat;
+  document.getElementById('reward-text').textContent = reward.texto;
+  card.style.display = 'block';
+}
+
+function nextQuestion() {
+  document.getElementById('feedback-overlay').classList.remove('active');
+  document.getElementById('reward-card').style.display = 'none';
+  currentIndex++;
+  renderQuestion();
+}
+
+// ─── FIN DEL BLOQUE ───
+function endBlock() {
+  clearInterval(timerInterval);
+
+  // Actualizar racha
+  const today = new Date().toISOString().split('T')[0];
+  if (progreso.ultima_sesion) {
+    const last = new Date(progreso.ultima_sesion);
+    const diff = Math.floor((new Date(today) - last) / (1000 * 60 * 60 * 24));
+    if (diff === 1) {
+      progreso.racha_actual++;
+    } else if (diff > 1) {
+      progreso.racha_actual = 1;
+    }
+    // Mismo día = no cambia racha
+  } else {
+    progreso.racha_actual = 1;
+  }
+
+  if (progreso.racha_actual > progreso.racha_record) {
+    progreso.racha_record = progreso.racha_actual;
+  }
+
+  progreso.ultima_sesion = today;
+  progreso.total_sesiones++;
+  saveProgress();
+
+  // Guardar en historial
+  historial.push({
+    fecha: today,
+    timestamp: new Date().toISOString(),
+    preguntas: currentBlock.length,
+    correctas: blockCorrect,
+    xp_ganados: blockXP,
+    detalle: currentBlock.map((q, i) => ({
+      id: q.id,
+      materia: q.materia
+    }))
+  });
+  // Mantener solo últimos 50 bloques
+  if (historial.length > 50) historial = historial.slice(-50);
+  saveHistory();
+
+  // Mostrar resultado
+  showScreen('screen-resultado');
+  document.getElementById('result-score').textContent = `${blockCorrect}/${currentBlock.length}`;
+  document.getElementById('result-xp').textContent = `+${blockXP}`;
+  document.getElementById('result-racha').textContent = progreso.racha_actual;
+  document.getElementById('result-nivel').textContent = progreso.nivel;
+
+  // Mensaje según rendimiento
+  const pct = currentBlock.length > 0 ? blockCorrect / currentBlock.length : 0;
+  const msgEl = document.getElementById('result-message');
+  const msgText = document.getElementById('result-message-text');
+
+  const messages = pct === 1
+    ? ["¡PERFECTO! Eres imparable 🔥", "¡Flawless Victory! 🏆", "100% — te pasaste 🌟"]
+    : pct >= 0.7
+    ? ["¡Muy bien! Casi perfecta 💪", "¡Crack! Vas para arriba 📈"]
+    : pct >= 0.5
+    ? ["¡Buen trabajo! Sigue practicando 🌱", "¡Vas bien! Cada bloque te hace más pro 💫"]
+    : ["¡No te rindas! Cada error es un power-up para tu cerebro 🧠"];
+
+  msgText.textContent = messages[Math.floor(Math.random() * messages.length)];
+  msgEl.style.display = 'block';
+
+  // Confetti grande
+  playSound('victory');
+  bigConfetti();
+}
+
+// ─── LEVEL UP ───
+function showLevelUp(newLevel) {
+  const overlay = document.getElementById('levelup-overlay');
+  document.getElementById('levelup-nivel-text').textContent = `🎖️ ${newLevel}`;
+  overlay.classList.add('active');
+  playSound('levelup');
+  bigConfetti();
+  setTimeout(() => overlay.classList.remove('active'), 3000);
+}
+
+// ─── PANEL MAMÁ ───
+function showPinScreen() {
+  showScreen('screen-pin');
+  document.getElementById('pin-input').value = '';
+  document.getElementById('pin-error').textContent = '';
+  setTimeout(() => document.getElementById('pin-input').focus(), 300);
+}
+
+function checkPin() {
+  const input = document.getElementById('pin-input').value;
+  if (input === loadPin()) {
+    showScreen('screen-panel');
+  } else {
+    document.getElementById('pin-error').textContent = 'PIN incorrecto';
+    document.getElementById('pin-input').value = '';
+    playSound('incorrect');
+  }
+}
+
+// Enter en PIN
+document.getElementById('pin-input').addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') checkPin();
+});
+
+function updatePanel() {
+  document.getElementById('panel-sesiones').textContent = progreso.total_sesiones;
+  document.getElementById('panel-correctas').textContent = progreso.total_correctas;
+  document.getElementById('panel-total').textContent = progreso.total_respondidas;
+
+  const pct = progreso.total_respondidas > 0
+    ? Math.round((progreso.total_correctas / progreso.total_respondidas) * 100)
+    : 0;
+  document.getElementById('panel-porcentaje').textContent = pct + '%';
+  document.getElementById('panel-racha').textContent = progreso.racha_actual + ' días';
+  document.getElementById('panel-record').textContent = progreso.racha_record + ' días';
+
+  // Dificultad
+  const diffNames = { nivel_4: '4° básico', nivel_5: '5° básico', nivel_6: '6° básico' };
+  document.getElementById('panel-diff-mate').textContent = diffNames[progreso.dificultad_mate] || '4° básico';
+  document.getElementById('panel-diff-ingles').textContent = diffNames[progreso.dificultad_ingles] || '4° básico';
+
+  // Materias
+  const materiasDiv = document.getElementById('panel-materias');
+  materiasDiv.innerHTML = '';
+  const materiaNames = {
+    matematicas: 'Matemáticas',
+    ciencias: 'Ciencias',
+    historia: 'Historia',
+    ingles: 'Inglés',
+    funcion_ejecutiva: 'Desafío Mental'
+  };
+  const materiaColors = {
+    matematicas: 'var(--accent-cyan)',
+    ciencias: 'var(--accent-green)',
+    historia: 'var(--accent-orange)',
+    ingles: 'var(--accent-purple)',
+    funcion_ejecutiva: 'var(--accent-pink)'
+  };
+
+  for (const [key, name] of Object.entries(materiaNames)) {
+    const stats = progreso.stats_materia[key] || { correctas: 0, total: 0 };
+    const pct = stats.total > 0 ? Math.round((stats.correctas / stats.total) * 100) : 0;
+
+    const div = document.createElement('div');
+    div.className = 'materia-bar-container';
+    div.innerHTML = `
+      <div class="materia-bar-label">
+        <span>${name}</span>
+        <span>${stats.correctas}/${stats.total} (${pct}%)</span>
+      </div>
+      <div class="materia-bar-bg">
+        <div class="materia-bar-fill" style="width:${pct}%;background:${materiaColors[key]}"></div>
+      </div>
+    `;
+    materiasDiv.appendChild(div);
+  }
+
+  // Historial
+  const histDiv = document.getElementById('panel-historial');
+  histDiv.innerHTML = '';
+  const recent = historial.slice(-10).reverse();
+
+  if (recent.length === 0) {
+    histDiv.innerHTML = '<p class="text-secondary" style="font-size:14px;">Aún no hay sesiones registradas</p>';
+  } else {
+    recent.forEach(s => {
+      const div = document.createElement('div');
+      div.className = 'panel-row';
+      const date = new Date(s.timestamp || s.fecha);
+      const dateStr = date.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit' });
+      const timeStr = s.timestamp ? date.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }) : '';
+      div.innerHTML = `
+        <span class="panel-row-label">${dateStr} ${timeStr}</span>
+        <span class="panel-row-value">${s.correctas}/${s.preguntas} — <span class="text-yellow">+${s.xp_ganados} XP</span></span>
+      `;
+      histDiv.appendChild(div);
+    });
+  }
+}
+
+function exportProgress() {
+  const data = {
+    progreso: progreso,
+    historial: historial,
+    exportado: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `levelup_progreso_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── SONIDOS (Web Audio API) ───
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playSound(type) {
+  try {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    if (type === 'correct') {
+      playTone(523, 0.1, 'sine');
+      setTimeout(() => playTone(659, 0.1, 'sine'), 100);
+      setTimeout(() => playTone(784, 0.15, 'sine'), 200);
+    } else if (type === 'incorrect') {
+      playTone(200, 0.15, 'sine');
+      setTimeout(() => playTone(180, 0.2, 'sine'), 150);
+    } else if (type === 'victory') {
+      [523, 587, 659, 784, 880, 1047].forEach((f, i) => {
+        setTimeout(() => playTone(f, 0.15, 'sine'), i * 100);
+      });
+    } else if (type === 'levelup') {
+      [440, 554, 659, 880, 1109, 1319].forEach((f, i) => {
+        setTimeout(() => playTone(f, 0.2, 'square'), i * 120);
+      });
+    }
+  } catch (e) {
+    // Audio no disponible, no pasa nada
+  }
+}
+
+function playTone(freq, duration, waveType) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = waveType || 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration + 0.05);
+}
+
+// ─── CONFETTI ───
+const confettiCanvas = document.getElementById('confetti-canvas');
+const confettiCtx = confettiCanvas.getContext('2d');
+let confettiParticles = [];
+let confettiAnimating = false;
+
+function resizeCanvas() {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function createParticle(big = false) {
+  const colors = ['#00e5ff', '#00ff87', '#ff4da6', '#ffd700', '#b14dff', '#ff8a00'];
+  return {
+    x: Math.random() * confettiCanvas.width,
+    y: big ? -10 : Math.random() * confettiCanvas.height * 0.3,
+    w: Math.random() * 10 + 4,
+    h: Math.random() * 6 + 3,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - 0.5) * 4,
+    vy: Math.random() * 3 + 1.5,
+    rotation: Math.random() * 360,
+    rv: (Math.random() - 0.5) * 10,
+    life: big ? 180 : 80
+  };
+}
+
+function miniConfetti() {
+  for (let i = 0; i < 30; i++) {
+    confettiParticles.push(createParticle(false));
+  }
+  if (!confettiAnimating) animateConfetti();
+}
+
+function bigConfetti() {
+  for (let i = 0; i < 80; i++) {
+    const p = createParticle(true);
+    p.y = -Math.random() * 100;
+    confettiParticles.push(p);
+  }
+  if (!confettiAnimating) animateConfetti();
+}
+
+function animateConfetti() {
+  confettiAnimating = true;
+  confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+  confettiParticles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rotation += p.rv;
+    p.life--;
+    p.vy += 0.05; // gravedad
+
+    confettiCtx.save();
+    confettiCtx.translate(p.x, p.y);
+    confettiCtx.rotate((p.rotation * Math.PI) / 180);
+    confettiCtx.fillStyle = p.color;
+    confettiCtx.globalAlpha = Math.max(0, p.life / 80);
+    confettiCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    confettiCtx.restore();
+  });
+
+  confettiParticles = confettiParticles.filter(p => p.life > 0);
+
+  if (confettiParticles.length > 0) {
+    requestAnimationFrame(animateConfetti);
+  } else {
+    confettiAnimating = false;
+    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  }
+}
+
+// ─── INIT ───
+updateInicio();
+</script>
+</body>
+</html>
