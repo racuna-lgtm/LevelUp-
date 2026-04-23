@@ -1,277 +1,416 @@
-// ═══════════════════════════════════════════
-// LevelUp! — Banco de preguntas y recompensas
-// Etapa 1: banco de prueba (~20 preguntas)
-// Etapa 2: banco completo (2000+)
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// LevelUp! — Banco completo de preguntas y recompensas
+// Alineado al currículum MINEDUC Chile 4° básico
+// Con niveles adaptativos 5° y 6° para Matemáticas e Inglés
+// ═══════════════════════════════════════════════════════════════
 
 const QUESTION_BANK = {
 
-  matematicas: {
-    nivel_4: [
-      {
-        id: "mat4_001", tipo: "seleccion",
-        pregunta: "¿Cuánto es 345 + 278?",
-        opciones: ["613", "623", "633", "523"],
-        respuesta: "623",
-        hint: "Suma las unidades primero: 5 + 8 = 13, llevas 1"
-      },
-      {
-        id: "mat4_002", tipo: "seleccion",
-        pregunta: "¿Cuánto es 7 × 8?",
-        opciones: ["54", "56", "58", "48"],
-        respuesta: "56",
-        hint: "Piensa: 7 × 8 es lo mismo que 8 × 7"
-      },
-      {
-        id: "mat4_003", tipo: "seleccion",
-        pregunta: "¿Cuánto es 1.000 − 437?",
-        opciones: ["573", "563", "663", "567"],
-        respuesta: "563",
-        hint: "Resta paso a paso desde las unidades"
-      },
-      {
-        id: "mat4_004", tipo: "seleccion",
-        pregunta: "¿Cuántos minutos hay en 2 horas y media?",
-        opciones: ["120", "130", "150", "200"],
-        respuesta: "150",
-        hint: "1 hora = 60 minutos. Entonces 2 horas = 120, más media hora..."
-      },
-      {
-        id: "mat4_005", tipo: "seleccion",
-        pregunta: "Si tienes 3 cajas con 12 lápices cada una, ¿cuántos lápices tienes?",
-        opciones: ["32", "36", "39", "42"],
-        respuesta: "36",
-        hint: "Multiplica: 3 × 12"
-      }
-    ],
-    nivel_5: [
-      {
-        id: "mat5_001", tipo: "seleccion",
-        pregunta: "¿Cuánto es 3/4 + 1/4?",
-        opciones: ["4/8", "1", "4/4", "1 y 4/4"],
-        respuesta: "1",
-        hint: "Cuando el numerador y el denominador son iguales, el resultado es 1"
-      },
-      {
-        id: "mat5_002", tipo: "seleccion",
-        pregunta: "¿Cuál es el 25% de 200?",
-        opciones: ["25", "50", "75", "100"],
-        respuesta: "50",
-        hint: "25% es lo mismo que 1/4. ¿Cuánto es 200 ÷ 4?"
-      }
-    ],
-    nivel_6: [
-      {
-        id: "mat6_001", tipo: "seleccion",
-        pregunta: "Si un cubo tiene aristas de 3 cm, ¿cuál es su volumen?",
-        opciones: ["9 cm³", "18 cm³", "27 cm³", "36 cm³"],
-        respuesta: "27 cm³",
-        hint: "Volumen del cubo = lado × lado × lado"
-      }
-    ]
-  },
+matematicas: {
+  nivel_4: [
+    { id:"mat4_001", tipo:"seleccion", pregunta:"¿Cuánto es 345 + 278?", opciones:["613","623","633","523"], respuesta:"623", hint:"Suma unidades: 5+8=13, llevas 1" },
+    { id:"mat4_002", tipo:"seleccion", pregunta:"¿Cuánto es 1.000 − 437?", opciones:["573","563","663","567"], respuesta:"563", hint:"Resta paso a paso desde las unidades" },
+    { id:"mat4_003", tipo:"seleccion", pregunta:"¿Cuánto es 2.456 + 3.544?", opciones:["5.000","6.000","5.900","6.100"], respuesta:"6.000", hint:"Suma de izquierda a derecha" },
+    { id:"mat4_004", tipo:"seleccion", pregunta:"¿Cuánto es 5.000 − 1.283?", opciones:["3.717","3.817","3.727","4.717"], respuesta:"3.717", hint:"Necesitas pedir prestado varias veces" },
+    { id:"mat4_005", tipo:"seleccion", pregunta:"Pedro tiene $3.450 y gasta $1.780. ¿Cuánto le queda?", opciones:["$1.670","$1.770","$1.680","$2.670"], respuesta:"$1.670", hint:"Resta lo que gastó de lo que tenía" },
+    { id:"mat4_006", tipo:"seleccion", pregunta:"En una biblioteca hay 1.245 libros y llegan 867 más. ¿Cuántos hay?", opciones:["2.112","2.012","2.102","2.212"], respuesta:"2.112", hint:"Suma los que había con los nuevos" },
+    { id:"mat4_007", tipo:"seleccion", pregunta:"¿Cuánto es 4.321 − 2.987?", opciones:["1.334","1.434","1.234","1.344"], respuesta:"1.334", hint:"Resta con reagrupación" },
+    { id:"mat4_008", tipo:"seleccion", pregunta:"Sofía tiene 2.350 stickers y le regalan 1.675. ¿Cuántos tiene?", opciones:["4.025","4.125","3.925","3.025"], respuesta:"4.025", hint:"Suma ambas cantidades" },
+    { id:"mat4_009", tipo:"seleccion", pregunta:"¿Cuánto le falta a 3.456 para llegar a 5.000?", opciones:["1.544","1.454","2.544","1.644"], respuesta:"1.544", hint:"Resta: 5.000 − 3.456" },
+    { id:"mat4_010", tipo:"seleccion", pregunta:"Un bus lleva 45 pasajeros, suben 18 y bajan 12. ¿Cuántos hay?", opciones:["51","49","53","47"], respuesta:"51", hint:"45 + 18 − 12" },
+    { id:"mat4_011", tipo:"seleccion", pregunta:"¿Cuánto es 7 × 8?", opciones:["54","56","58","48"], respuesta:"56", hint:"7 × 8 = 56" },
+    { id:"mat4_012", tipo:"seleccion", pregunta:"¿Cuánto es 9 × 6?", opciones:["56","52","54","48"], respuesta:"54", hint:"9 × 6 = 54" },
+    { id:"mat4_013", tipo:"seleccion", pregunta:"Si compras 6 paquetes con 8 galletas cada uno, ¿cuántas tienes?", opciones:["42","48","46","52"], respuesta:"48", hint:"6 × 8" },
+    { id:"mat4_014", tipo:"seleccion", pregunta:"¿Cuánto es 12 × 5?", opciones:["55","60","65","50"], respuesta:"60", hint:"10×5 + 2×5 = 50 + 10" },
+    { id:"mat4_015", tipo:"seleccion", pregunta:"Un cine tiene 9 filas con 7 asientos cada una. ¿Cuántos asientos hay?", opciones:["63","56","72","67"], respuesta:"63", hint:"9 × 7" },
+    { id:"mat4_016", tipo:"seleccion", pregunta:"¿Cuánto es 8 × 8?", opciones:["62","66","64","68"], respuesta:"64", hint:"8 al cuadrado" },
+    { id:"mat4_017", tipo:"seleccion", pregunta:"3 cajas con 12 lápices cada una. ¿Cuántos lápices?", opciones:["32","36","39","42"], respuesta:"36", hint:"3 × 12" },
+    { id:"mat4_018", tipo:"seleccion", pregunta:"¿Cuánto es 7 × 9?", opciones:["61","63","65","67"], respuesta:"63", hint:"7 × 9 = 63" },
+    { id:"mat4_019", tipo:"seleccion", pregunta:"4 estantes con 15 libros cada uno. ¿Cuántos libros?", opciones:["55","60","65","50"], respuesta:"60", hint:"4 × 15" },
+    { id:"mat4_020", tipo:"seleccion", pregunta:"¿Cuánto es 6 × 6?", opciones:["32","34","36","38"], respuesta:"36", hint:"6 al cuadrado" },
+    { id:"mat4_021", tipo:"seleccion", pregunta:"¿Cuánto es 72 ÷ 8?", opciones:["8","9","7","6"], respuesta:"9", hint:"¿8 × cuánto = 72?" },
+    { id:"mat4_022", tipo:"seleccion", pregunta:"56 dulces entre 7 niños. ¿Cuántos le tocan a cada uno?", opciones:["7","8","9","6"], respuesta:"8", hint:"56 ÷ 7" },
+    { id:"mat4_023", tipo:"seleccion", pregunta:"¿Cuánto es 45 ÷ 5?", opciones:["8","9","7","10"], respuesta:"9", hint:"5 × 9 = 45" },
+    { id:"mat4_024", tipo:"seleccion", pregunta:"63 stickers en 9 sobres iguales. ¿Cuántos por sobre?", opciones:["6","7","8","9"], respuesta:"7", hint:"63 ÷ 9" },
+    { id:"mat4_025", tipo:"seleccion", pregunta:"¿Cuánto es 48 ÷ 6?", opciones:["7","8","9","6"], respuesta:"8", hint:"6 × 8 = 48" },
+    { id:"mat4_026", tipo:"seleccion", pregunta:"36 niños en equipos de 4. ¿Cuántos equipos?", opciones:["8","9","7","10"], respuesta:"9", hint:"36 ÷ 4" },
+    { id:"mat4_027", tipo:"seleccion", pregunta:"¿Qué fracción representa la mitad?", opciones:["1/3","1/2","1/4","2/3"], respuesta:"1/2", hint:"Dividir algo en 2 partes iguales" },
+    { id:"mat4_028", tipo:"seleccion", pregunta:"Comes 3 de 8 trozos de pizza. ¿Qué fracción comiste?", opciones:["3/8","3/5","5/8","8/3"], respuesta:"3/8", hint:"3 de un total de 8" },
+    { id:"mat4_029", tipo:"seleccion", pregunta:"¿Cuál es mayor: 1/2 o 1/4?", opciones:["1/4","Son iguales","1/2","No se sabe"], respuesta:"1/2", hint:"La mitad es más grande que un cuarto" },
+    { id:"mat4_030", tipo:"seleccion", pregunta:"¿Cuánto es 1/4 de 20?", opciones:["4","5","10","8"], respuesta:"5", hint:"20 ÷ 4 = 5" },
+    { id:"mat4_031", tipo:"seleccion", pregunta:"Una barra tiene 6 trozos, comes 2. ¿Qué fracción queda?", opciones:["2/6","4/6","2/4","6/2"], respuesta:"4/6", hint:"Quedan 4 de 6" },
+    { id:"mat4_032", tipo:"seleccion", pregunta:"¿Cuál es mayor: 3/4 o 2/4?", opciones:["2/4","Son iguales","3/4","No se sabe"], respuesta:"3/4", hint:"3 cuartos > 2 cuartos" },
+    { id:"mat4_033", tipo:"seleccion", pregunta:"¿Cuántos minutos hay en 2 horas y media?", opciones:["120","130","150","200"], respuesta:"150", hint:"120 + 30 = 150" },
+    { id:"mat4_034", tipo:"seleccion", pregunta:"¿Cuántos centímetros hay en 3 metros?", opciones:["30","300","3.000","3"], respuesta:"300", hint:"1 m = 100 cm" },
+    { id:"mat4_035", tipo:"seleccion", pregunta:"Si son las 10:45, ¿qué hora será en 30 minutos?", opciones:["11:05","11:15","10:75","11:00"], respuesta:"11:15", hint:"45 + 30 = 75 min = 1h 15m" },
+    { id:"mat4_036", tipo:"seleccion", pregunta:"¿Cuántos gramos hay en 2 kilogramos?", opciones:["200","2.000","20","20.000"], respuesta:"2.000", hint:"1 kg = 1.000 g" },
+    { id:"mat4_037", tipo:"seleccion", pregunta:"Película de 1h 45min. ¿Cuántos minutos?", opciones:["145","105","115","95"], respuesta:"105", hint:"60 + 45" },
+    { id:"mat4_038", tipo:"seleccion", pregunta:"¿Cuántas horas tiene un día completo?", opciones:["12","20","24","48"], respuesta:"24", hint:"De medianoche a medianoche" },
+    { id:"mat4_039", tipo:"seleccion", pregunta:"¿Cuántos lados tiene un hexágono?", opciones:["5","6","7","8"], respuesta:"6", hint:"'Hexa' = seis" },
+    { id:"mat4_040", tipo:"seleccion", pregunta:"Cuadrado con lados de 5 cm. ¿Perímetro?", opciones:["15 cm","20 cm","25 cm","10 cm"], respuesta:"20 cm", hint:"4 × 5 = 20" },
+    { id:"mat4_041", tipo:"seleccion", pregunta:"¿Cuántas caras tiene un cubo?", opciones:["4","5","6","8"], respuesta:"6", hint:"Piensa en un dado" },
+    { id:"mat4_042", tipo:"seleccion", pregunta:"¿Qué figura tiene 3 lados y 3 vértices?", opciones:["Cuadrado","Círculo","Triángulo","Rectángulo"], respuesta:"Triángulo", hint:"'Tri' = tres" },
+    { id:"mat4_043", tipo:"seleccion", pregunta:"Rectángulo 8cm × 3cm. ¿Perímetro?", opciones:["22 cm","24 cm","11 cm","20 cm"], respuesta:"22 cm", hint:"2×(8+3) = 22" },
+    { id:"mat4_044", tipo:"seleccion", pregunta:"María tiene el doble que Pedro. Juntos tienen 36 stickers. ¿Cuántos tiene María?", opciones:["18","24","12","20"], respuesta:"24", hint:"Pedro=12, María=24, 12+24=36" },
+    { id:"mat4_045", tipo:"seleccion", pregunta:"Un número × 7 = 63. ¿Cuál es?", opciones:["7","8","9","6"], respuesta:"9", hint:"63 ÷ 7 = 9" },
+    { id:"mat4_046", tipo:"seleccion", pregunta:"El triple de un número es 27. ¿Cuál es?", opciones:["7","8","9","10"], respuesta:"9", hint:"27 ÷ 3 = 9" },
+    { id:"mat4_047", tipo:"seleccion", pregunta:"3 cuadernos a $850 c/u. ¿Cuánto gasté?", opciones:["$2.450","$2.550","$2.650","$2.350"], respuesta:"$2.550", hint:"3 × 850" },
+    { id:"mat4_048", tipo:"seleccion", pregunta:"Tren sale 9:15, viaje dura 2h 20min. ¿Hora llegada?", opciones:["11:25","11:35","11:45","12:35"], respuesta:"11:35", hint:"9:15 + 2h = 11:15 + 20min = 11:35" },
+    { id:"mat4_049", tipo:"seleccion", pregunta:"¿Qué sigue: 5, 10, 15, 20, ...?", opciones:["22","24","25","30"], respuesta:"25", hint:"Suma 5 cada vez" },
+    { id:"mat4_050", tipo:"seleccion", pregunta:"¿Qué sigue: 2, 4, 8, 16, ...?", opciones:["20","24","32","28"], respuesta:"32", hint:"Se multiplica por 2" },
+    { id:"mat4_051", tipo:"seleccion", pregunta:"¿Qué sigue: 100, 90, 80, 70, ...?", opciones:["65","55","50","60"], respuesta:"60", hint:"Resta 10 cada vez" },
+    { id:"mat4_052", tipo:"seleccion", pregunta:"¿Qué falta: 3, 6, __, 12, 15?", opciones:["7","8","9","10"], respuesta:"9", hint:"Suma 3 cada vez" },
+    { id:"mat4_053", tipo:"seleccion", pregunta:"12 prefieren fútbol, 8 básquet, 5 tenis. ¿Cuántos encuestados?", opciones:["20","25","30","15"], respuesta:"25", hint:"12 + 8 + 5" },
+    { id:"mat4_054", tipo:"seleccion", pregunta:"Si 3 de cada 4 niños tienen mascota, ¿qué fracción NO tiene?", opciones:["3/4","1/2","1/4","2/4"], respuesta:"1/4", hint:"4/4 − 3/4 = 1/4" },
+    { id:"mat4_055", tipo:"seleccion", pregunta:"$1.200 repartidos entre 4 hermanos. ¿Cuánto cada uno?", opciones:["$200","$300","$400","$250"], respuesta:"$300", hint:"1.200 ÷ 4" },
+    { id:"mat4_056", tipo:"seleccion", pregunta:"¿Cuántas semanas hay en 35 días?", opciones:["4","5","6","7"], respuesta:"5", hint:"35 ÷ 7" },
+    { id:"mat4_057", tipo:"seleccion", pregunta:"Libro de 248 páginas, ya leí 179. ¿Cuántas faltan?", opciones:["59","69","79","89"], respuesta:"69", hint:"248 − 179" },
+    { id:"mat4_058", tipo:"seleccion", pregunta:"¿Cuánto es 25 × 4?", opciones:["90","95","100","105"], respuesta:"100", hint:"Dato útil: 25 × 4 = 100" },
+    { id:"mat4_059", tipo:"seleccion", pregunta:"Cada caja tiene 24 jugos, hay 3 cajas. ¿Cuántos jugos?", opciones:["62","72","82","68"], respuesta:"72", hint:"24 × 3" },
+    { id:"mat4_060", tipo:"seleccion", pregunta:"Cuadrado con perímetro 36 cm. ¿Cuánto mide cada lado?", opciones:["6 cm","8 cm","9 cm","12 cm"], respuesta:"9 cm", hint:"36 ÷ 4" },
+    { id:"mat4_061", tipo:"seleccion", pregunta:"¿Cuántas decenas hay en 450?", opciones:["4","45","450","5"], respuesta:"45", hint:"450 ÷ 10" },
+    { id:"mat4_062", tipo:"seleccion", pregunta:"5 helados a $600 c/u. ¿Cuánto pago?", opciones:["$2.800","$2.900","$3.000","$3.100"], respuesta:"$3.000", hint:"5 × 600" },
+    { id:"mat4_063", tipo:"seleccion", pregunta:"¿Cuánto es la mitad de 86?", opciones:["42","43","44","46"], respuesta:"43", hint:"86 ÷ 2" },
+    { id:"mat4_064", tipo:"seleccion", pregunta:"Cada piso tiene 4 deptos, hay 8 pisos. ¿Cuántos deptos?", opciones:["28","30","32","36"], respuesta:"32", hint:"4 × 8" },
+    { id:"mat4_065", tipo:"seleccion", pregunta:"Avión lleva 156 pasajeros y otro 98. ¿Total?", opciones:["244","254","264","234"], respuesta:"254", hint:"156 + 98" },
+    { id:"mat4_066", tipo:"seleccion", pregunta:"¿Qué número es 100 más que 4.567?", opciones:["4.667","5.567","4.577","4.657"], respuesta:"4.667", hint:"4.567 + 100" },
+    { id:"mat4_067", tipo:"seleccion", pregunta:"Martín ahorra $500 por semana. ¿Cuánto en 8 semanas?", opciones:["$3.500","$4.000","$4.500","$3.000"], respuesta:"$4.000", hint:"500 × 8" },
+    { id:"mat4_068", tipo:"seleccion", pregunta:"Rectángulo 4cm ancho, perímetro 18cm. ¿Largo?", opciones:["5 cm","6 cm","7 cm","9 cm"], respuesta:"5 cm", hint:"18=2×(L+4), L+4=9, L=5" },
+    { id:"mat4_069", tipo:"seleccion", pregunta:"Granja: gallinas y conejos, 10 animales, 28 patas. ¿Conejos?", opciones:["3","4","5","6"], respuesta:"4", hint:"4 conejos (16 patas) + 6 gallinas (12 patas) = 28" },
+    { id:"mat4_070", tipo:"seleccion", pregunta:"¿Qué sigue: 1, 1, 2, 3, 5, 8, ...?", opciones:["11","12","13","10"], respuesta:"13", hint:"Cada número = suma de los dos anteriores" },
+  ],
+  nivel_5: [
+    { id:"mat5_001", tipo:"seleccion", pregunta:"¿Cuánto es 3/4 + 1/4?", opciones:["4/8","1","4/4","2/4"], respuesta:"1", hint:"3+1=4, 4/4=1" },
+    { id:"mat5_002", tipo:"seleccion", pregunta:"¿Cuál es el 25% de 200?", opciones:["25","50","75","100"], respuesta:"50", hint:"200 ÷ 4 = 50" },
+    { id:"mat5_003", tipo:"seleccion", pregunta:"¿Cuánto es 2/3 + 1/3?", opciones:["3/6","1","2/3","3/3"], respuesta:"1", hint:"2+1=3, 3/3=1" },
+    { id:"mat5_004", tipo:"seleccion", pregunta:"¿Cuánto es 1/2 + 1/4?", opciones:["2/6","3/4","2/4","1/3"], respuesta:"3/4", hint:"1/2=2/4, entonces 2/4+1/4=3/4" },
+    { id:"mat5_005", tipo:"seleccion", pregunta:"¿Cuál es el 50% de 80?", opciones:["30","40","45","50"], respuesta:"40", hint:"La mitad de 80" },
+    { id:"mat5_006", tipo:"seleccion", pregunta:"¿Cuánto es 5/6 − 2/6?", opciones:["3/6","3/12","2/6","7/6"], respuesta:"3/6", hint:"5−2=3" },
+    { id:"mat5_007", tipo:"seleccion", pregunta:"¿Fracción equivalente a 2/4?", opciones:["1/3","1/2","3/4","2/3"], respuesta:"1/2", hint:"Simplifica: ambos ÷ 2" },
+    { id:"mat5_008", tipo:"seleccion", pregunta:"¿Cuánto es el 10% de 350?", opciones:["30","35","40","25"], respuesta:"35", hint:"350 ÷ 10" },
+    { id:"mat5_009", tipo:"seleccion", pregunta:"¿Cuánto es 0,5 + 0,3?", opciones:["0,2","0,8","0,53","8"], respuesta:"0,8", hint:"5 décimas + 3 décimas = 8 décimas" },
+    { id:"mat5_010", tipo:"seleccion", pregunta:"¿Mayor: 0,7 o 0,65?", opciones:["0,65","Iguales","0,7","No se sabe"], respuesta:"0,7", hint:"0,70 > 0,65" },
+    { id:"mat5_011", tipo:"seleccion", pregunta:"¿Cuánto es 2,5 × 2?", opciones:["4","4,5","5","5,5"], respuesta:"5", hint:"2,5 + 2,5" },
+    { id:"mat5_012", tipo:"seleccion", pregunta:"¿Cuánto es 1,2 + 0,8?", opciones:["1,10","2,0","2,10","1,28"], respuesta:"2,0", hint:"12+8=20 décimas = 2,0" },
+    { id:"mat5_013", tipo:"seleccion", pregunta:"¿Cuánto es 23 × 15?", opciones:["335","345","355","325"], respuesta:"345", hint:"23×10=230, 23×5=115, suma=345" },
+    { id:"mat5_014", tipo:"seleccion", pregunta:"¿Cuánto es 125 × 8?", opciones:["900","1.000","1.050","800"], respuesta:"1.000", hint:"125 × 8 = 1.000" },
+    { id:"mat5_015", tipo:"seleccion", pregunta:"15 niños pagan $1.200 c/u. ¿Cuánto juntaron?", opciones:["$15.000","$16.800","$18.000","$12.000"], respuesta:"$18.000", hint:"15 × 1.200" },
+    { id:"mat5_016", tipo:"seleccion", pregunta:"¿Cuánto es 50 × 50?", opciones:["250","2.500","25.000","500"], respuesta:"2.500", hint:"5×5=25, agrega dos ceros" },
+    { id:"mat5_017", tipo:"seleccion", pregunta:"Área de rectángulo 6cm × 4cm?", opciones:["20 cm²","24 cm²","10 cm²","28 cm²"], respuesta:"24 cm²", hint:"largo × ancho" },
+    { id:"mat5_018", tipo:"seleccion", pregunta:"Cuadrado lado 7cm. ¿Área?", opciones:["28 cm²","42 cm²","49 cm²","14 cm²"], respuesta:"49 cm²", hint:"7 × 7" },
+    { id:"mat5_019", tipo:"seleccion", pregunta:"Auto a 80 km/h. ¿Km en 3 horas?", opciones:["200","240","280","160"], respuesta:"240", hint:"80 × 3" },
+    { id:"mat5_020", tipo:"seleccion", pregunta:"3/5 de 30 alumnos son niñas. ¿Cuántas?", opciones:["15","18","20","12"], respuesta:"18", hint:"30÷5=6, 6×3=18" },
+    { id:"mat5_021", tipo:"seleccion", pregunta:"¿Cuánto es 1.000 ÷ 25?", opciones:["40","50","25","45"], respuesta:"40", hint:"25 × 40 = 1.000" },
+    { id:"mat5_022", tipo:"seleccion", pregunta:"Precio baja de $8.000 a $6.000. ¿% descuento?", opciones:["20%","25%","30%","15%"], respuesta:"25%", hint:"2.000/8.000 = 0,25 = 25%" },
+    { id:"mat5_023", tipo:"seleccion", pregunta:"¿Cuántos cuadrados de 1cm² caben en 5cm × 3cm?", opciones:["8","12","15","16"], respuesta:"15", hint:"5 × 3 = 15" },
+    { id:"mat5_024", tipo:"seleccion", pregunta:"Terreno 25m × 40m. ¿Área?", opciones:["1.000 m²","900 m²","650 m²","800 m²"], respuesta:"1.000 m²", hint:"25 × 40" },
+  ],
+  nivel_6: [
+    { id:"mat6_001", tipo:"seleccion", pregunta:"Cubo con aristas de 3cm. ¿Volumen?", opciones:["9 cm³","18 cm³","27 cm³","36 cm³"], respuesta:"27 cm³", hint:"3×3×3" },
+    { id:"mat6_002", tipo:"seleccion", pregunta:"¿Cuánto es 3/4 × 2/5?", opciones:["6/20","5/9","6/9","5/20"], respuesta:"6/20", hint:"3×2=6, 4×5=20" },
+    { id:"mat6_003", tipo:"seleccion", pregunta:"Triángulo base 10cm, altura 6cm. ¿Área?", opciones:["60 cm²","30 cm²","16 cm²","20 cm²"], respuesta:"30 cm²", hint:"b×h÷2 = 60÷2" },
+    { id:"mat6_004", tipo:"seleccion", pregunta:"¿Cuánto es 2³ + 3²?", opciones:["13","15","17","19"], respuesta:"17", hint:"8+9=17" },
+    { id:"mat6_005", tipo:"seleccion", pregunta:"Producto $5.000 + 19% IVA. ¿Total?", opciones:["$5.190","$5.950","$5.900","$5.500"], respuesta:"$5.950", hint:"5.000 × 0,19 = 950" },
+    { id:"mat6_006", tipo:"seleccion", pregunta:"¿Cuánto es −3 + 7?", opciones:["−4","4","−10","10"], respuesta:"4", hint:"Desde −3, avanza 7" },
+    { id:"mat6_007", tipo:"seleccion", pregunta:"Si x + 15 = 42, ¿cuánto vale x?", opciones:["27","37","17","57"], respuesta:"27", hint:"x = 42 − 15" },
+    { id:"mat6_008", tipo:"seleccion", pregunta:"¿15% de 600?", opciones:["80","85","90","95"], respuesta:"90", hint:"10%=60, 5%=30, total=90" },
+    { id:"mat6_009", tipo:"seleccion", pregunta:"Mapa: 1cm = 50km. Ciudades a 7cm. ¿Distancia real?", opciones:["300 km","350 km","400 km","450 km"], respuesta:"350 km", hint:"7 × 50" },
+    { id:"mat6_010", tipo:"seleccion", pregunta:"MCM de 4 y 6?", opciones:["8","10","12","24"], respuesta:"12", hint:"Múltiplos comunes: 12 es el primero" },
+    { id:"mat6_011", tipo:"seleccion", pregunta:"¿Cuánto es (−2) × (−5)?", opciones:["−10","10","−7","7"], respuesta:"10", hint:"Negativo × negativo = positivo" },
+    { id:"mat6_012", tipo:"seleccion", pregunta:"Cilindro radio 5cm, altura 10cm. ¿Volumen? (π≈3,14)", opciones:["785 cm³","628 cm³","1.570 cm³","314 cm³"], respuesta:"785 cm³", hint:"π×r²×h = 3,14×25×10" },
+  ]
+},
 
-  ciencias: {
-    nivel_4: [
-      {
-        id: "cie4_001", tipo: "seleccion",
-        pregunta: "¿Qué planeta del sistema solar está más cerca del Sol?",
-        opciones: ["Venus", "Marte", "Mercurio", "Tierra"],
-        respuesta: "Mercurio",
-        hint: "Su nombre viene del dios mensajero romano, el más rápido"
-      },
-      {
-        id: "cie4_002", tipo: "seleccion",
-        pregunta: "¿Qué parte de la planta absorbe el agua del suelo?",
-        opciones: ["Las hojas", "El tallo", "La raíz", "La flor"],
-        respuesta: "La raíz",
-        hint: "Está bajo la tierra..."
-      },
-      {
-        id: "cie4_003", tipo: "seleccion",
-        pregunta: "Cuando el hielo se derrite, ¿en qué estado queda el agua?",
-        opciones: ["Sólido", "Líquido", "Gaseoso", "Plasma"],
-        respuesta: "Líquido",
-        hint: "El hielo es sólido, al derretirse cambia a..."
-      },
-      {
-        id: "cie4_004", tipo: "seleccion",
-        pregunta: "¿Qué órgano del cuerpo humano bombea la sangre?",
-        opciones: ["Los pulmones", "El cerebro", "El corazón", "El hígado"],
-        respuesta: "El corazón",
-        hint: "Late todo el día sin parar"
-      }
-    ]
-  },
+ciencias: { nivel_4: [
+    { id:"cie4_001", tipo:"seleccion", pregunta:"¿Qué órgano bombea la sangre?", opciones:["Pulmones","Cerebro","Corazón","Hígado"], respuesta:"Corazón", hint:"Late sin parar todo el día" },
+    { id:"cie4_002", tipo:"seleccion", pregunta:"¿Qué sistema digiere los alimentos?", opciones:["Respiratorio","Digestivo","Circulatorio","Nervioso"], respuesta:"Digestivo", hint:"Estómago, intestinos..." },
+    { id:"cie4_003", tipo:"seleccion", pregunta:"¿Qué órganos nos permiten respirar?", opciones:["Riñones","Pulmones","Intestinos","Músculos"], respuesta:"Pulmones", hint:"Dentro del pecho, protegidos por costillas" },
+    { id:"cie4_004", tipo:"seleccion", pregunta:"¿Qué parte del cuerpo controla todas las funciones?", opciones:["Corazón","Estómago","Cerebro","Hígado"], respuesta:"Cerebro", hint:"El computador central del cuerpo" },
+    { id:"cie4_005", tipo:"seleccion", pregunta:"¿Cuántos huesos tiene un adulto aprox.?", opciones:["106","156","206","306"], respuesta:"206", hint:"Los bebés tienen más, se fusionan" },
+    { id:"cie4_006", tipo:"seleccion", pregunta:"¿Qué transporta oxígeno en la sangre?", opciones:["Plasma","Glóbulos blancos","Plaquetas","Glóbulos rojos"], respuesta:"Glóbulos rojos", hint:"Son rojos por la hemoglobina" },
+    { id:"cie4_007", tipo:"seleccion", pregunta:"¿Dónde se absorben los nutrientes?", opciones:["Estómago","Intestino delgado","Boca","Esófago"], respuesta:"Intestino delgado", hint:"Mide 6-7 metros de largo" },
+    { id:"cie4_008", tipo:"seleccion", pregunta:"¿Qué protege al cerebro?", opciones:["La piel","El cráneo","Las costillas","Los músculos"], respuesta:"El cráneo", hint:"Hueso duro que lo rodea" },
+    { id:"cie4_009", tipo:"seleccion", pregunta:"Seres que fabrican su alimento con luz solar son:", opciones:["Consumidores","Descomponedores","Productores","Depredadores"], respuesta:"Productores", hint:"Las plantas hacen fotosíntesis" },
+    { id:"cie4_010", tipo:"seleccion", pregunta:"Un consumidor primario come:", opciones:["Otros animales","Plantas","Hongos","Bacterias"], respuesta:"Plantas", hint:"Son herbívoros" },
+    { id:"cie4_011", tipo:"seleccion", pregunta:"¿Qué organismos descomponen la materia muerta?", opciones:["Productores","Consumidores","Depredadores","Descomponedores"], respuesta:"Descomponedores", hint:"Hongos y bacterias" },
+    { id:"cie4_012", tipo:"seleccion", pregunta:"¿Qué es un ecosistema?", opciones:["Solo animales","Solo plantas","Seres vivos y ambiente interactuando","Solo el clima"], respuesta:"Seres vivos y ambiente interactuando", hint:"Incluye lo vivo y lo no vivo" },
+    { id:"cie4_013", tipo:"seleccion", pregunta:"¿Qué animal es depredador tope en Chile?", opciones:["Conejo","Puma","Ratón","Caballo"], respuesta:"Puma", hint:"No tiene depredadores naturales" },
+    { id:"cie4_014", tipo:"seleccion", pregunta:"Cuando el hielo se derrite, pasa a estado:", opciones:["Sólido","Líquido","Gaseoso","Plasma"], respuesta:"Líquido", hint:"Hielo sólido → agua líquida" },
+    { id:"cie4_015", tipo:"seleccion", pregunta:"Cambio de líquido a gas se llama:", opciones:["Fusión","Solidificación","Evaporación","Condensación"], respuesta:"Evaporación", hint:"Charco al sol se evapora" },
+    { id:"cie4_016", tipo:"seleccion", pregunta:"Cambio de gas a líquido se llama:", opciones:["Evaporación","Fusión","Condensación","Sublimación"], respuesta:"Condensación", hint:"Gotas en vaso frío = condensación" },
+    { id:"cie4_017", tipo:"seleccion", pregunta:"¿En qué estado las partículas están más juntas?", opciones:["Líquido","Gas","Sólido","Plasma"], respuesta:"Sólido", hint:"Por eso mantienen su forma" },
+    { id:"cie4_018", tipo:"seleccion", pregunta:"¿Qué necesita el agua para evaporarse?", opciones:["Frío","Calor","Presión","Oscuridad"], respuesta:"Calor", hint:"El sol la transforma en vapor" },
+    { id:"cie4_019", tipo:"seleccion", pregunta:"¿Qué parte de la planta absorbe agua del suelo?", opciones:["Hojas","Tallo","Raíz","Flor"], respuesta:"Raíz", hint:"Bajo tierra, busca agua y minerales" },
+    { id:"cie4_020", tipo:"seleccion", pregunta:"¿Qué gas absorben las plantas para fotosíntesis?", opciones:["Oxígeno","Nitrógeno","CO₂","Hidrógeno"], respuesta:"CO₂", hint:"El que nosotros exhalamos" },
+    { id:"cie4_021", tipo:"seleccion", pregunta:"¿Qué gas liberan las plantas en fotosíntesis?", opciones:["CO₂","Nitrógeno","Oxígeno","Metano"], respuesta:"Oxígeno", hint:"El que necesitamos para respirar" },
+    { id:"cie4_022", tipo:"seleccion", pregunta:"¿Qué sustancia verde permite la fotosíntesis?", opciones:["Melanina","Clorofila","Hemoglobina","Celulosa"], respuesta:"Clorofila", hint:"Da color verde a las hojas" },
+    { id:"cie4_023", tipo:"seleccion", pregunta:"¿Función del tallo de una planta?", opciones:["Absorber agua","Fotosíntesis","Transportar agua y nutrientes","Atraer insectos"], respuesta:"Transportar agua y nutrientes", hint:"Autopista entre raíz y hojas" },
+    { id:"cie4_024", tipo:"seleccion", pregunta:"¿Cuál es un animal invertebrado?", opciones:["Perro","Araña","Gato","Salmón"], respuesta:"Araña", hint:"Sin columna vertebral" },
+    { id:"cie4_025", tipo:"seleccion", pregunta:"¿Qué tipo de animal es una rana?", opciones:["Reptil","Mamífero","Anfibio","Pez"], respuesta:"Anfibio", hint:"'Anfibio' = doble vida" },
+    { id:"cie4_026", tipo:"seleccion", pregunta:"Característica de TODOS los mamíferos:", opciones:["Vuelan","Ponen huevos","Tienen escamas","Amamantan crías"], respuesta:"Amamantan crías", hint:"De ahí viene 'mamífero'" },
+    { id:"cie4_027", tipo:"seleccion", pregunta:"¿Cómo respiran los peces?", opciones:["Pulmones","Branquias","Piel","No respiran"], respuesta:"Branquias", hint:"Filtran oxígeno del agua" },
+    { id:"cie4_028", tipo:"seleccion", pregunta:"¿Animal chileno en peligro de extinción?", opciones:["Paloma","Huemul","Gorrión","Ratón"], respuesta:"Huemul", hint:"En el escudo de Chile" },
+    { id:"cie4_029", tipo:"seleccion", pregunta:"¿Planeta más cercano al Sol?", opciones:["Venus","Marte","Mercurio","Tierra"], respuesta:"Mercurio", hint:"El más pequeño y cercano" },
+    { id:"cie4_030", tipo:"seleccion", pregunta:"¿Cuánto tarda la Tierra en orbitar el Sol?", opciones:["24 horas","30 días","365 días","7 días"], respuesta:"365 días", hint:"Un año" },
+    { id:"cie4_031", tipo:"seleccion", pregunta:"¿Qué provoca el día y la noche?", opciones:["La Luna","Rotación de la Tierra","Nubes","Sol moviéndose"], respuesta:"Rotación de la Tierra", hint:"Gira cada 24 horas" },
+    { id:"cie4_032", tipo:"seleccion", pregunta:"¿Planeta más grande del sistema solar?", opciones:["Saturno","Neptuno","Júpiter","Urano"], respuesta:"Júpiter", hint:"Caben más de 1.000 Tierras" },
+    { id:"cie4_033", tipo:"seleccion", pregunta:"¿Qué es la Luna?", opciones:["Planeta","Estrella","Satélite natural","Cometa"], respuesta:"Satélite natural", hint:"Gira alrededor de la Tierra" },
+    { id:"cie4_034", tipo:"seleccion", pregunta:"¿Qué fuerza nos mantiene en el suelo?", opciones:["Magnetismo","Fricción","Gravedad","Electricidad"], respuesta:"Gravedad", hint:"La Tierra nos atrae" },
+    { id:"cie4_035", tipo:"seleccion", pregunta:"¿Recurso natural renovable?", opciones:["Petróleo","Carbón","Agua","Gas natural"], respuesta:"Agua", hint:"Se renueva con el ciclo del agua" },
+    { id:"cie4_036", tipo:"seleccion", pregunta:"¿Qué energía produce un panel solar?", opciones:["Nuclear","Eólica","Eléctrica","Mecánica"], respuesta:"Eléctrica", hint:"Luz del sol → electricidad" },
+    { id:"cie4_037", tipo:"seleccion", pregunta:"¿Acción que ayuda al medio ambiente?", opciones:["Dejar luz prendida","Reciclar","Botar basura al río","Usar mucha agua"], respuesta:"Reciclar", hint:"Las 3 R: reducir, reutilizar, reciclar" },
+    { id:"cie4_038", tipo:"seleccion", pregunta:"¿Por qué hay estaciones del año?", opciones:["Tierra se aleja del Sol","Inclinación del eje terrestre","Sol cambia tamaño","Luna bloquea Sol"], respuesta:"Inclinación del eje terrestre", hint:"23,5° de inclinación" },
+    { id:"cie4_039", tipo:"seleccion", pregunta:"¿Qué pasa en superficie rugosa vs lisa?", opciones:["Objeto va igual","Más lento en rugosa","Más rápido en rugosa","No se mueve"], respuesta:"Más lento en rugosa", hint:"Más fricción = más lento" },
+    { id:"cie4_040", tipo:"seleccion", pregunta:"Ecosistema acuático chileno:", opciones:["Desierto de Atacama","Bosque valdiviano","Lago Llanquihue","Cordillera de los Andes"], respuesta:"Lago Llanquihue", hint:"Agua como elemento principal" },
+] },
 
-  historia: {
-    nivel_4: [
-      {
-        id: "his4_001", tipo: "seleccion",
-        pregunta: "¿En qué continente está Chile?",
-        opciones: ["Europa", "Asia", "América del Sur", "Oceanía"],
-        respuesta: "América del Sur",
-        hint: "Mira un mapa: estamos en la parte larga y flaquita del sur"
-      },
-      {
-        id: "his4_002", tipo: "seleccion",
-        pregunta: "¿Qué pueblo originario es el más numeroso de Chile?",
-        opciones: ["Aymara", "Rapa Nui", "Mapuche", "Diaguita"],
-        respuesta: "Mapuche",
-        hint: "Su nombre significa 'gente de la tierra'"
-      },
-      {
-        id: "his4_003", tipo: "seleccion",
-        pregunta: "¿En qué año Chile declaró su independencia?",
-        opciones: ["1810", "1818", "1820", "1800"],
-        respuesta: "1818",
-        hint: "La Primera Junta fue en 1810, pero la independencia oficial fue después"
-      }
-    ]
-  },
+historia: { nivel_4: [
+    { id:"his4_001", tipo:"seleccion", pregunta:"¿Pueblo originario más numeroso de Chile?", opciones:["Aymara","Rapa Nui","Mapuche","Diaguita"], respuesta:"Mapuche", hint:"'Gente de la tierra'" },
+    { id:"his4_002", tipo:"seleccion", pregunta:"¿Dónde vivían los Aymara?", opciones:["Costa central","Altiplano del norte","Sur de Chile","Isla de Pascua"], respuesta:"Altiplano del norte", hint:"Arica y Parinacota, Tarapacá" },
+    { id:"his4_003", tipo:"seleccion", pregunta:"¿Qué pueblo construyó los moai?", opciones:["Mapuche","Aymara","Rapa Nui","Diaguita"], respuesta:"Rapa Nui", hint:"En Isla de Pascua" },
+    { id:"his4_004", tipo:"seleccion", pregunta:"¿Pueblo conocido por cerámica con diseños geométricos?", opciones:["Mapuche","Changos","Diaguita","Chonos"], respuesta:"Diaguita", hint:"Valles del Norte Chico" },
+    { id:"his4_005", tipo:"seleccion", pregunta:"¿Vivienda tradicional mapuche?", opciones:["Tipi","Ruca","Iglú","Choza"], respuesta:"Ruca", hint:"Madera y paja" },
+    { id:"his4_006", tipo:"seleccion", pregunta:"¿Pueblo de canales australes que usaba canoas?", opciones:["Mapuche","Aymara","Kawésqar","Atacameños"], respuesta:"Kawésqar", hint:"También llamados alacalufes" },
+    { id:"his4_007", tipo:"seleccion", pregunta:"¿Qué cultivaban en el norte de Chile?", opciones:["Trigo y arroz","Papa, maíz y quínoa","Manzanas","Café"], respuesta:"Papa, maíz y quínoa", hint:"Adaptados al clima seco" },
+    { id:"his4_008", tipo:"seleccion", pregunta:"¿Quién construyó Machu Picchu?", opciones:["Maya","Azteca","Inca","Olmeca"], respuesta:"Inca", hint:"En los Andes de Perú" },
+    { id:"his4_009", tipo:"seleccion", pregunta:"¿Civilización con escritura jeroglífica avanzada?", opciones:["Inca","Azteca","Maya","Mapuche"], respuesta:"Maya", hint:"En Centroamérica" },
+    { id:"his4_010", tipo:"seleccion", pregunta:"¿Capital del Imperio Azteca?", opciones:["Cusco","Tenochtitlán","Tikal","Lima"], respuesta:"Tenochtitlán", hint:"Sobre un lago, hoy Ciudad de México" },
+    { id:"his4_011", tipo:"seleccion", pregunta:"¿Sistema Inca para contar con nudos?", opciones:["Papiro","Quipu","Pergamino","Tablillas"], respuesta:"Quipu", hint:"Cuerdas con nudos de colores" },
+    { id:"his4_012", tipo:"seleccion", pregunta:"¿En qué continente vivían Mayas y Aztecas?", opciones:["Europa","Asia","América","África"], respuesta:"América", hint:"México y Centroamérica" },
+    { id:"his4_013", tipo:"seleccion", pregunta:"¿En qué continente está Chile?", opciones:["Europa","Asia","América del Sur","Oceanía"], respuesta:"América del Sur", hint:"Largo y angosto" },
+    { id:"his4_014", tipo:"seleccion", pregunta:"¿Capital de Chile?", opciones:["Valparaíso","Concepción","Santiago","Viña del Mar"], respuesta:"Santiago", hint:"Región Metropolitana" },
+    { id:"his4_015", tipo:"seleccion", pregunta:"¿Desierto más árido del mundo, en Chile?", opciones:["Sahara","Gobi","Atacama","Kalahari"], respuesta:"Atacama", hint:"Hay zonas donde nunca ha llovido" },
+    { id:"his4_016", tipo:"seleccion", pregunta:"¿Cuántas regiones tiene Chile?", opciones:["13","15","16","12"], respuesta:"16", hint:"La última fue Ñuble" },
+    { id:"his4_017", tipo:"seleccion", pregunta:"¿Océano que baña las costas de Chile?", opciones:["Atlántico","Índico","Pacífico","Ártico"], respuesta:"Pacífico", hint:"Al oeste de Chile" },
+    { id:"his4_018", tipo:"seleccion", pregunta:"¿Río más largo de Chile?", opciones:["Biobío","Maipo","Baker","Loa"], respuesta:"Loa", hint:"En Antofagasta" },
+    { id:"his4_019", tipo:"seleccion", pregunta:"¿Cordillera que recorre Chile de norte a sur?", opciones:["Alpes","Himalaya","Andes","Apalaches"], respuesta:"Andes", hint:"La más larga del mundo" },
+    { id:"his4_020", tipo:"seleccion", pregunta:"¿Zona de Chile con clima templado y mucha fruta?", opciones:["Norte Grande","Zona Central","Zona Austral","Altiplano"], respuesta:"Zona Central", hint:"Santiago, Valparaíso, O'Higgins" },
+    { id:"his4_021", tipo:"seleccion", pregunta:"¿Isla chilena Patrimonio de la Humanidad en el Pacífico?", opciones:["Chiloé","Robinson Crusoe","Isla de Pascua","Navarino"], respuesta:"Isla de Pascua", hint:"Famosa por los moai" },
+    { id:"his4_022", tipo:"seleccion", pregunta:"¿Año de independencia de Chile?", opciones:["1810","1818","1820","1800"], respuesta:"1818", hint:"Primera Junta 1810, independencia 1818" },
+    { id:"his4_023", tipo:"seleccion", pregunta:"¿Quién fue Bernardo O'Higgins?", opciones:["Conquistador español","Libertador de Chile","Poeta","Rey"], respuesta:"Libertador de Chile", hint:"Primer Director Supremo" },
+    { id:"his4_024", tipo:"seleccion", pregunta:"¿Qué se celebra el 18 de septiembre?", opciones:["Navidad","Año Nuevo","Fiestas Patrias","Día del Trabajo"], respuesta:"Fiestas Patrias", hint:"Primera Junta de Gobierno 1810" },
+    { id:"his4_025", tipo:"seleccion", pregunta:"¿Conquistador que fundó Santiago?", opciones:["Colón","Pedro de Valdivia","Cortés","Pizarro"], respuesta:"Pedro de Valdivia", hint:"En 1541, cerro Santa Lucía" },
+    { id:"his4_026", tipo:"seleccion", pregunta:"¿Derecho de todos los niños y niñas?", opciones:["Trabajar","Votar","Estudiar","Conducir"], respuesta:"Estudiar", hint:"Derecho fundamental" },
+    { id:"his4_027", tipo:"seleccion", pregunta:"¿Qué es una democracia?", opciones:["Gobierno de un rey","Pueblo elige representantes","Gobierno militar","Sin leyes"], respuesta:"Pueblo elige representantes", hint:"Demo=pueblo, cracia=gobierno" },
+    { id:"his4_028", tipo:"seleccion", pregunta:"¿Cada cuántos años se elige presidente en Chile?", opciones:["2","4","6","8"], respuesta:"4", hint:"Período de 4 años" },
+    { id:"his4_029", tipo:"seleccion", pregunta:"¿Símbolo patrio con estrella blanca sobre azul y rojo?", opciones:["Escudo","Bandera","Escarapela","Himno"], respuesta:"Bandera", hint:"La estrella solitaria" },
+    { id:"his4_030", tipo:"seleccion", pregunta:"¿Institución que hace las leyes en Chile?", opciones:["Presidente","Tribunales","Congreso","Municipios"], respuesta:"Congreso", hint:"Senado + Cámara de Diputados" },
+    { id:"his4_031", tipo:"seleccion", pregunta:"¿Principal recurso minero de Chile?", opciones:["Oro","Plata","Cobre","Hierro"], respuesta:"Cobre", hint:"Mayor productor mundial" },
+    { id:"his4_032", tipo:"seleccion", pregunta:"¿Producto agrícola típico del Valle Central?", opciones:["Café","Uva","Arroz","Caña de azúcar"], respuesta:"Uva", hint:"Chile exporta mucho vino y fruta" },
+    { id:"his4_033", tipo:"seleccion", pregunta:"¿De qué zona viene el salmón chileno?", opciones:["Norte","Centro","Sur","Altiplano"], respuesta:"Sur", hint:"Lagos y fiordos del sur" },
+] },
 
-  ingles: {
-    nivel_4: [
-      {
-        id: "eng4_001", tipo: "seleccion",
-        pregunta: "What color is the sky on a sunny day?",
-        opciones: ["Red", "Blue", "Green", "Yellow"],
-        respuesta: "Blue",
-        hint: "Look up! ☀️"
-      },
-      {
-        id: "eng4_002", tipo: "seleccion",
-        pregunta: "How do you say 'gato' in English?",
-        opciones: ["Dog", "Cat", "Bird", "Fish"],
-        respuesta: "Cat",
-        hint: "Meow! 🐱"
-      },
-      {
-        id: "eng4_003", tipo: "seleccion",
-        pregunta: "Complete: 'She ___ a student.'",
-        opciones: ["am", "is", "are", "be"],
-        respuesta: "is",
-        hint: "I am, you are, she..."
-      }
-    ],
-    nivel_5: [
-      {
-        id: "eng5_001", tipo: "seleccion",
-        pregunta: "What is the past tense of 'go'?",
-        opciones: ["Goed", "Gone", "Went", "Going"],
-        respuesta: "Went",
-        hint: "It's an irregular verb — it changes completely!"
-      }
-    ],
-    nivel_6: [
-      {
-        id: "eng6_001", tipo: "seleccion",
-        pregunta: "Choose the correct sentence:",
-        opciones: [
-          "She don't like pizza",
-          "She doesn't likes pizza",
-          "She doesn't like pizza",
-          "She not like pizza"
-        ],
-        respuesta: "She doesn't like pizza",
-        hint: "With he/she/it, use 'doesn't' + base verb"
-      }
-    ]
-  },
+ingles: {
+  nivel_4: [
+    { id:"eng4_001", tipo:"seleccion", pregunta:"What color is the sky on a sunny day?", opciones:["Red","Blue","Green","Yellow"], respuesta:"Blue", hint:"Look up! ☀️" },
+    { id:"eng4_002", tipo:"seleccion", pregunta:"How do you say 'gato' in English?", opciones:["Dog","Cat","Bird","Fish"], respuesta:"Cat", hint:"Meow! 🐱" },
+    { id:"eng4_003", tipo:"seleccion", pregunta:"What is the opposite of 'hot'?", opciones:["Warm","Big","Cold","Small"], respuesta:"Cold", hint:"Ice cream is very ___" },
+    { id:"eng4_004", tipo:"seleccion", pregunta:"How do you say 'mariposa' in English?", opciones:["Butterfly","Dragonfly","Ladybug","Bee"], respuesta:"Butterfly", hint:"Butter + fly 🦋" },
+    { id:"eng4_005", tipo:"seleccion", pregunta:"What day comes after Monday?", opciones:["Wednesday","Sunday","Tuesday","Thursday"], respuesta:"Tuesday", hint:"Mon, Tue, Wed..." },
+    { id:"eng4_006", tipo:"seleccion", pregunta:"How many months are in a year?", opciones:["10","11","12","13"], respuesta:"12", hint:"January to December" },
+    { id:"eng4_007", tipo:"seleccion", pregunta:"What is the opposite of 'big'?", opciones:["Tall","Small","Long","Heavy"], respuesta:"Small", hint:"An ant is very ___" },
+    { id:"eng4_008", tipo:"seleccion", pregunta:"'Hermano' in English?", opciones:["Sister","Father","Brother","Mother"], respuesta:"Brother", hint:"A boy who shares your parents" },
+    { id:"eng4_009", tipo:"seleccion", pregunta:"What do you use to write on paper?", opciones:["Ruler","Pencil","Eraser","Scissors"], respuesta:"Pencil", hint:"Long and thin with graphite" },
+    { id:"eng4_010", tipo:"seleccion", pregunta:"What season comes after summer?", opciones:["Spring","Winter","Fall/Autumn","Summer"], respuesta:"Fall/Autumn", hint:"Leaves change color 🍂" },
+    { id:"eng4_011", tipo:"seleccion", pregunta:"Complete: 'She ___ a student.'", opciones:["am","is","are","be"], respuesta:"is", hint:"I am, you are, she..." },
+    { id:"eng4_012", tipo:"seleccion", pregunta:"Complete: 'They ___ soccer every Saturday.'", opciones:["plays","play","playing","played"], respuesta:"play", hint:"With 'they' use base form" },
+    { id:"eng4_013", tipo:"seleccion", pregunta:"Complete: 'He ___ breakfast at 7 AM.'", opciones:["eat","eats","eating","ate"], respuesta:"eats", hint:"He/she/it + -s" },
+    { id:"eng4_014", tipo:"seleccion", pregunta:"Complete: 'I ___ from Chile.'", opciones:["is","are","am","be"], respuesta:"am", hint:"I always goes with 'am'" },
+    { id:"eng4_015", tipo:"seleccion", pregunta:"Complete: 'My parents ___ very kind.'", opciones:["is","am","are","be"], respuesta:"are", hint:"Plural = 'are'" },
+    { id:"eng4_016", tipo:"seleccion", pregunta:"Complete: 'Fish ___ swim.'", opciones:["can't","can","is","are"], respuesta:"can", hint:"Fish are great swimmers 🐟" },
+    { id:"eng4_017", tipo:"seleccion", pregunta:"Complete: 'Penguins ___ fly.'", opciones:["can","is","can't","are"], respuesta:"can't", hint:"They walk and swim only" },
+    { id:"eng4_018", tipo:"seleccion", pregunta:"'Can you ride a bike?' — 'Yes, I ___.'", opciones:["do","am","can","is"], respuesta:"can", hint:"Answer with same word: can" },
+    { id:"eng4_019", tipo:"seleccion", pregunta:"'There ___ a book on the table.'", opciones:["are","is","am","be"], respuesta:"is", hint:"Singular = 'is'" },
+    { id:"eng4_020", tipo:"seleccion", pregunta:"'There ___ three cats in the garden.'", opciones:["is","are","am","was"], respuesta:"are", hint:"Plural = 'are'" },
+    { id:"eng4_021", tipo:"seleccion", pregunta:"Cat is ___ the table. (debajo)", opciones:["on","in","under","next to"], respuesta:"under", hint:"Under = debajo" },
+    { id:"eng4_022", tipo:"seleccion", pregunta:"Book is ___ the bag. (dentro)", opciones:["on","under","next to","in"], respuesta:"in", hint:"In = dentro" },
+    { id:"eng4_023", tipo:"seleccion", pregunta:"Dog is ___ the house. (al lado)", opciones:["in","on","under","next to"], respuesta:"next to", hint:"Next to = al lado" },
+    { id:"eng4_024", tipo:"seleccion", pregunta:"What animal says 'moo'?", opciones:["Pig","Cow","Duck","Horse"], respuesta:"Cow", hint:"Gives us milk 🐄" },
+    { id:"eng4_025", tipo:"seleccion", pregunta:"'Almuerzo' in English?", opciones:["Breakfast","Dinner","Lunch","Snack"], respuesta:"Lunch", hint:"Midday meal" },
+    { id:"eng4_026", tipo:"seleccion", pregunta:"'Lluvia' in English?", opciones:["Snow","Rain","Wind","Sun"], respuesta:"Rain", hint:"Need an umbrella! ☂️" },
+    { id:"eng4_027", tipo:"seleccion", pregunta:"Body part to hear?", opciones:["Eyes","Nose","Ears","Mouth"], respuesta:"Ears", hint:"Sides of your head 👂" },
+    { id:"eng4_028", tipo:"seleccion", pregunta:"'Cien' in English?", opciones:["Thousand","Hundred","Ten","Dozen"], respuesta:"Hundred", hint:"100" },
+    { id:"eng4_029", tipo:"seleccion", pregunta:"Opposite of 'happy'?", opciones:["Angry","Sad","Tired","Excited"], respuesta:"Sad", hint:"😢" },
+    { id:"eng4_030", tipo:"seleccion", pregunta:"Which is a fruit?", opciones:["Carrot","Lettuce","Strawberry","Potato"], respuesta:"Strawberry", hint:"Red and sweet 🍓" },
+  ],
+  nivel_5: [
+    { id:"eng5_001", tipo:"seleccion", pregunta:"Past tense of 'go'?", opciones:["Goed","Gone","Went","Going"], respuesta:"Went", hint:"go → went → gone" },
+    { id:"eng5_002", tipo:"seleccion", pregunta:"'She ___ to school yesterday.'", opciones:["go","goes","went","going"], respuesta:"went", hint:"Yesterday = past" },
+    { id:"eng5_003", tipo:"seleccion", pregunta:"Past tense of 'eat'?", opciones:["Eated","Eaten","Eating","Ate"], respuesta:"Ate", hint:"eat → ate → eaten" },
+    { id:"eng5_004", tipo:"seleccion", pregunta:"'I ___ watching TV right now.'", opciones:["is","are","am","was"], respuesta:"am", hint:"I + am + -ing" },
+    { id:"eng5_005", tipo:"seleccion", pregunta:"'An elephant is ___ than a cat.'", opciones:["big","bigger","biggest","more big"], respuesta:"bigger", hint:"Short adj + -er" },
+    { id:"eng5_006", tipo:"seleccion", pregunta:"Superlative of 'fast'?", opciones:["Faster","More fast","Fastest","Most fast"], respuesta:"Fastest", hint:"fast → faster → fastest" },
+    { id:"eng5_007", tipo:"seleccion", pregunta:"'I have ___ been to Europe.'", opciones:["ever","never","always","sometimes"], respuesta:"never", hint:"Haven't done it = never" },
+    { id:"eng5_008", tipo:"seleccion", pregunta:"'She ___ like pizza.'", opciones:["don't","doesn't","isn't","aren't"], respuesta:"doesn't", hint:"She + doesn't" },
+    { id:"eng5_009", tipo:"seleccion", pregunta:"'Library' in Spanish?", opciones:["Librería","Biblioteca","Libre","Libro"], respuesta:"Biblioteca", hint:"False friend! Library ≠ librería" },
+    { id:"eng5_010", tipo:"seleccion", pregunta:"'If it rains, I ___ stay home.'", opciones:["will","am","do","was"], respuesta:"will", hint:"Future with 'will'" },
+    { id:"eng5_011", tipo:"seleccion", pregunta:"Plural of 'child'?", opciones:["Childs","Childes","Children","Childrens"], respuesta:"Children", hint:"Irregular plural" },
+    { id:"eng5_012", tipo:"seleccion", pregunta:"'She is ___ than her sister.'", opciones:["tall","taller","tallest","more tall"], respuesta:"taller", hint:"Comparing two = -er" },
+    { id:"eng5_013", tipo:"seleccion", pregunta:"3:45 PM in words?", opciones:["Quarter past three","Quarter to four","Half past three","Four o'clock"], respuesta:"Quarter to four", hint:"15 min before 4" },
+    { id:"eng5_014", tipo:"seleccion", pregunta:"'We ___ to the park last weekend.'", opciones:["go","goes","went","going"], respuesta:"went", hint:"Last weekend = past" },
+    { id:"eng5_015", tipo:"seleccion", pregunta:"'Actually' means in Spanish?", opciones:["Actualmente","En realidad","Actuado","Actual"], respuesta:"En realidad", hint:"False friend!" },
+  ],
+  nivel_6: [
+    { id:"eng6_001", tipo:"seleccion", pregunta:"Correct sentence?", opciones:["She don't like pizza","She doesn't likes pizza","She doesn't like pizza","She not like pizza"], respuesta:"She doesn't like pizza", hint:"doesn't + base verb" },
+    { id:"eng6_002", tipo:"seleccion", pregunta:"'By the time we arrived, the movie ___.'", opciones:["started","has started","had started","starts"], respuesta:"had started", hint:"Past perfect for earlier past" },
+    { id:"eng6_003", tipo:"seleccion", pregunta:"Correct use of 'their'?", opciones:["Their going home","There dogs are cute","Their house is big","They're books"], respuesta:"Their house is big", hint:"Their = possessive" },
+    { id:"eng6_004", tipo:"seleccion", pregunta:"'If I ___ rich, I would travel.'", opciones:["am","was","were","is"], respuesta:"were", hint:"Second conditional: if + were" },
+    { id:"eng6_005", tipo:"seleccion", pregunta:"Passive of 'The dog ate the bone'?", opciones:["The bone is ate","The bone was eaten by the dog","The bone ate the dog","The bone eating"], respuesta:"The bone was eaten by the dog", hint:"was/were + past participle" },
+    { id:"eng6_006", tipo:"seleccion", pregunta:"'She asked me ___ I was feeling.'", opciones:["what","how","which","who"], respuesta:"how", hint:"Feeling → how" },
+    { id:"eng6_007", tipo:"seleccion", pregunta:"'Eventually' means?", opciones:["Eventualmente","Finalmente","Evidentemente","Posiblemente"], respuesta:"Finalmente", hint:"False friend!" },
+    { id:"eng6_008", tipo:"seleccion", pregunta:"Correct sentence?", opciones:["I've been waiting since 2 hours","I've been waiting for 2 hours","I've been waiting during 2 hours","I've been waiting in 2 hours"], respuesta:"I've been waiting for 2 hours", hint:"For + duration, since + point in time" },
+  ]
+},
 
-  funcion_ejecutiva: {
-    secuenciacion: [
-      {
-        id: "fe_sec_001", tipo: "ordenar",
-        pregunta: "Ordena los pasos para preparar un cereal con leche:",
-        items: ["Echar la leche", "Sacar el plato y la caja", "Comer", "Servir el cereal en el plato"],
-        orden_correcto: [1, 3, 0, 2]
-      },
-      {
-        id: "fe_sec_002", tipo: "ordenar",
-        pregunta: "Ordena los pasos para enviar un mensaje de WhatsApp:",
-        items: ["Tocar enviar", "Escribir el mensaje", "Abrir WhatsApp", "Elegir el contacto"],
-        orden_correcto: [2, 3, 1, 0]
-      }
-    ],
-    storytelling: [
-      {
-        id: "fe_sto_001", tipo: "storytelling",
-        pregunta: "Inventa UNA oración usando estas 3 palabras:",
-        palabras: ["dragón", "cocina", "morado"],
-        validacion: "contiene_palabras"
-      }
-    ],
-    planificacion: [
-      {
-        id: "fe_pla_001", tipo: "ordenar",
-        pregunta: "En Minecraft, un creeper viene en 5 minutos. ¿Qué haces primero?",
-        items: ["Hacer una puerta", "Construir paredes", "Elegir dónde construir", "Buscar materiales"],
-        orden_correcto: [2, 3, 1, 0]
-      }
-    ],
-    categorizacion: [
-      {
-        id: "fe_cat_001", tipo: "seleccion",
-        pregunta: "¿Cuál de estos NO es un planeta?",
-        opciones: ["Marte", "Venus", "Luna", "Júpiter"],
-        respuesta: "Luna",
-        hint: "Tres son planetas y uno es un satélite natural..."
-      },
-      {
-        id: "fe_cat_002", tipo: "seleccion",
-        pregunta: "¿Cuál de estos NO es un animal vertebrado?",
-        opciones: ["Perro", "Araña", "Águila", "Salmón"],
-        respuesta: "Araña",
-        hint: "Los vertebrados tienen columna vertebral y huesos"
-      }
-    ]
-  }
+funcion_ejecutiva: {
+  secuenciacion: [
+    { id:"fe_sec_001", tipo:"ordenar", pregunta:"Ordena: preparar cereal con leche", items:["Echar la leche","Sacar plato y caja","Comer","Servir cereal en el plato"], orden_correcto:[1,3,0,2] },
+    { id:"fe_sec_002", tipo:"ordenar", pregunta:"Ordena: enviar mensaje de WhatsApp", items:["Tocar enviar","Escribir mensaje","Abrir WhatsApp","Elegir contacto"], orden_correcto:[2,3,1,0] },
+    { id:"fe_sec_003", tipo:"ordenar", pregunta:"Ordena: lavarte los dientes", items:["Enjuagar boca","Poner pasta en cepillo","Cepillar 2 minutos","Mojar el cepillo"], orden_correcto:[3,1,2,0] },
+    { id:"fe_sec_004", tipo:"ordenar", pregunta:"Etapas de vida de una mariposa:", items:["Mariposa adulta","Huevo","Crisálida","Oruga"], orden_correcto:[1,3,2,0] },
+    { id:"fe_sec_005", tipo:"ordenar", pregunta:"Ordena: hacer un sándwich", items:["Poner rebanada encima","Poner ingrediente","Sacar dos rebanadas","Cortar por la mitad"], orden_correcto:[2,1,0,3] },
+    { id:"fe_sec_006", tipo:"ordenar", pregunta:"Planetas del más cercano al Sol:", items:["Tierra","Venus","Marte","Mercurio"], orden_correcto:[3,1,0,2] },
+    { id:"fe_sec_007", tipo:"ordenar", pregunta:"De menor a mayor: 1/4, 1/2, 3/4, 1/8", items:["1/2","1/4","1/8","3/4"], orden_correcto:[2,1,0,3] },
+    { id:"fe_sec_008", tipo:"ordenar", pregunta:"Ordena: sacar libro de la biblioteca", items:["Devolver a tiempo","Buscar el libro","Ir a la biblioteca","Registrar préstamo"], orden_correcto:[2,1,3,0] },
+    { id:"fe_sec_009", tipo:"ordenar", pregunta:"Ciclo del agua:", items:["Agua se evapora","Vapor forma nubes","Sol calienta agua","Llueve"], orden_correcto:[2,0,1,3] },
+    { id:"fe_sec_010", tipo:"ordenar", pregunta:"Cronológicamente:", items:["Chile se independiza","Llegan españoles","Pueblos originarios","Se funda Santiago"], orden_correcto:[2,1,3,0] },
+    { id:"fe_sec_011", tipo:"ordenar", pregunta:"Pasos del método científico:", items:["Experimentar","Observar","Concluir","Hacer hipótesis"], orden_correcto:[1,3,0,2] },
+    { id:"fe_sec_012", tipo:"ordenar", pregunta:"Para contar un cuento:", items:["Desenlace","Inicio","Desarrollo","Clímax"], orden_correcto:[1,2,3,0] },
+    { id:"fe_sec_013", tipo:"ordenar", pregunta:"Presentación en el colegio:", items:["Presentar al curso","Investigar tema","Elegir tema","Preparar láminas"], orden_correcto:[2,1,3,0] },
+  ],
+  storytelling: [
+    { id:"fe_sto_001", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["dragón","cocina","morado"], validacion:"contiene_palabras" },
+    { id:"fe_sto_002", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["astronauta","sandía","bailar"], validacion:"contiene_palabras" },
+    { id:"fe_sto_003", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["robot","chocolate","invisible"], validacion:"contiene_palabras" },
+    { id:"fe_sto_004", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["dinosaurio","mochila","volando"], validacion:"contiene_palabras" },
+    { id:"fe_sto_005", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["sirena","matemáticas","arcoíris"], validacion:"contiene_palabras" },
+    { id:"fe_sto_006", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["creeper","biblioteca","gigante"], validacion:"contiene_palabras" },
+    { id:"fe_sto_007", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["pingüino","guitarra","nieve"], validacion:"contiene_palabras" },
+    { id:"fe_sto_008", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["gato","planeta","dormir"], validacion:"contiene_palabras" },
+    { id:"fe_sto_009", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["bruja","fútbol","brillante"], validacion:"contiene_palabras" },
+    { id:"fe_sto_010", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["pirata","helado","submarino"], validacion:"contiene_palabras" },
+    { id:"fe_sto_011", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["profesor","cohete","payaso"], validacion:"contiene_palabras" },
+    { id:"fe_sto_012", tipo:"storytelling", pregunta:"Inventa UNA oración con estas 3 palabras:", palabras:["minecraft","estrella","pequeño"], validacion:"contiene_palabras" },
+  ],
+  planificacion: [
+    { id:"fe_pla_001", tipo:"ordenar", pregunta:"Creeper en 5 min en Minecraft. ¿Qué primero?", items:["Hacer puerta","Construir paredes","Elegir dónde construir","Buscar materiales"], orden_correcto:[2,3,1,0] },
+    { id:"fe_pla_002", tipo:"ordenar", pregunta:"4 tareas: mate (mañana), historia (pasado mañana), inglés (jueves), arte (viernes). ¿Orden?", items:["Arte (viernes)","Mate (mañana)","Historia (pasado mañana)","Inglés (jueves)"], orden_correcto:[1,2,3,0] },
+    { id:"fe_pla_003", tipo:"ordenar", pregunta:"Cocinar huevo frito:", items:["Servir en plato","Echar huevo en sartén","Prender fuego y poner sartén","Echar aceite"], orden_correcto:[2,3,1,0] },
+    { id:"fe_pla_004", tipo:"ordenar", pregunta:"Construir muro en Roblox:", items:["Decorar muro","Elegir material","Abrir modo construcción","Colocar bloques"], orden_correcto:[2,1,3,0] },
+    { id:"fe_pla_005", tipo:"ordenar", pregunta:"Tu mañana antes del colegio:", items:["Salir de casa","Desayunar","Vestirse","Levantarse y lavarse cara"], orden_correcto:[3,2,1,0] },
+    { id:"fe_pla_006", tipo:"ordenar", pregunta:"Comprar regalo con $5.000:", items:["Pagar en caja","Pensar qué le gusta","Ir a la tienda","Elegir regalo en presupuesto"], orden_correcto:[1,2,3,0] },
+    { id:"fe_pla_007", tipo:"ordenar", pregunta:"Organizar pijamada:", items:["Disfrutar pijamada","Invitar amigas","Pedir permiso","Preparar snacks y películas"], orden_correcto:[2,1,3,0] },
+    { id:"fe_pla_008", tipo:"ordenar", pregunta:"Plantar una semilla:", items:["Regar tierra","Poner semilla en hoyo","Conseguir maceta con tierra","Hacer hoyo pequeño"], orden_correcto:[2,3,1,0] },
+  ],
+  categorizacion: [
+    { id:"fe_cat_001", tipo:"seleccion", pregunta:"¿Cuál NO es un planeta?", opciones:["Marte","Venus","Luna","Júpiter"], respuesta:"Luna", hint:"Es un satélite natural" },
+    { id:"fe_cat_002", tipo:"seleccion", pregunta:"¿Cuál NO es vertebrado?", opciones:["Perro","Araña","Águila","Salmón"], respuesta:"Araña", hint:"Sin columna vertebral" },
+    { id:"fe_cat_003", tipo:"seleccion", pregunta:"¿Cuál NO es estado de la materia?", opciones:["Sólido","Líquido","Energía","Gaseoso"], respuesta:"Energía", hint:"Sólido, líquido, gaseoso" },
+    { id:"fe_cat_004", tipo:"seleccion", pregunta:"¿Cuál NO es instrumento musical?", opciones:["Flauta","Guitarra","Microscopio","Batería"], respuesta:"Microscopio", hint:"Es científico" },
+    { id:"fe_cat_005", tipo:"seleccion", pregunta:"¿Cuál NO es región de Chile?", opciones:["Valparaíso","Biobío","Buenos Aires","Ñuble"], respuesta:"Buenos Aires", hint:"Capital de Argentina" },
+    { id:"fe_cat_006", tipo:"seleccion", pregunta:"¿Cuál NO es verbo?", opciones:["Correr","Mesa","Saltar","Cantar"], respuesta:"Mesa", hint:"Es sustantivo" },
+    { id:"fe_cat_007", tipo:"seleccion", pregunta:"¿Cuál NO es mamífero?", opciones:["Ballena","Murciélago","Cocodrilo","Delfín"], respuesta:"Cocodrilo", hint:"Es reptil" },
+    { id:"fe_cat_008", tipo:"seleccion", pregunta:"¿Cuál NO es un sentido?", opciones:["Vista","Oído","Equilibrio","Olfato"], respuesta:"Equilibrio", hint:"Los 5: vista, oído, olfato, gusto, tacto" },
+    { id:"fe_cat_009", tipo:"seleccion", pregunta:"¿Cuál NO es polígono?", opciones:["Triángulo","Círculo","Cuadrado","Hexágono"], respuesta:"Círculo", hint:"Polígonos tienen lados rectos" },
+    { id:"fe_cat_010", tipo:"seleccion", pregunta:"¿Cuál NO pertenece al sistema solar?", opciones:["Saturno","Plutón","Alfa Centauri","Neptuno"], respuesta:"Alfa Centauri", hint:"Es otra estrella" },
+  ]
+}
 };
-
-// ═══════════════════════════════════════════
-// BANCO DE RECOMPENSAS
-// ═══════════════════════════════════════════
 
 const REWARD_BANK = {
   chistes: [
-    { texto: "¿Qué le dijo un techo a otro techo?\n— ¡Techo de menos! 😄" },
-    { texto: "¿Qué hace una abeja en el gimnasio?\n— ¡Zumba! 🐝" },
-    { texto: "¿Cómo se despiden los químicos?\n— ¡Ácido un placer! 🧪" },
-    { texto: "¿Qué le dijo la luna al sol?\n— ¡Tan grande y no te dejan salir de noche! 🌙" },
-    { texto: "¿Por qué los pájaros no usan Facebook?\n— Porque ya tienen Twitter 🐦" }
+    { texto:"¿Qué le dijo un techo a otro techo?\n— ¡Techo de menos! 😄" },
+    { texto:"¿Qué hace una abeja en el gimnasio?\n— ¡Zumba! 🐝" },
+    { texto:"¿Cómo se despiden los químicos?\n— ¡Ácido un placer! 🧪" },
+    { texto:"¿Qué le dijo la luna al sol?\n— ¡Tan grande y no te dejan salir de noche! 🌙" },
+    { texto:"¿Por qué los pájaros no usan Facebook?\n— Porque ya tienen Twitter 🐦" },
+    { texto:"¿Qué le dijo el 0 al 8?\n— ¡Bonito cinturón! 😂" },
+    { texto:"¿Qué le dijo una iguana a su hermana gemela?\n— ¡Somos iguanitas! 🦎" },
+    { texto:"¿Cuál es el colmo de un electricista?\n— Que su esposa se llame Luz y sus hijos le sigan la corriente ⚡" },
+    { texto:"¿Por qué el libro de mate estaba triste?\n— Porque tenía demasiados problemas 📚" },
+    { texto:"¿Qué le dijo el semáforo al auto?\n— ¡No me mires que me estoy cambiando! 🚦" },
+    { texto:"¿Qué hace un perro con un taladro?\n— ¡Tala-ladra! 🐕" },
+    { texto:"¿Qué le dijo un jaguar a otro?\n— Jaguar you? 🐆" },
+    { texto:"¿Cuál es el animal más antiguo?\n— La cebra, porque está en blanco y negro 🦓" },
+    { texto:"¿Qué le dijo una pared a otra?\n— ¡Nos vemos en la esquina! 🏠" },
+    { texto:"¿Por qué los esqueletos no pelean?\n— Porque no tienen agallas 💀" },
+    { texto:"Mamá, ¿qué hay de comer?\n— Carne de res.\n— ¿Y si no rezo? 🍖" },
   ],
   datos_bizarros: [
-    { texto: "🪳 Las cucarachas pueden vivir UNA SEMANA sin cabeza. Mueren de hambre, no por falta de cabeza." },
-    { texto: "🤢 Un humano produce suficiente saliva en su vida para llenar DOS piscinas olímpicas." },
-    { texto: "🧠 Tu cerebro genera suficiente electricidad para encender una ampolleta pequeña." },
-    { texto: "🦷 Los dientes de los tiburones se regeneran. ¡Pueden tener más de 30.000 en su vida!" },
-    { texto: "💨 Los astronautas NO pueden eructar en el espacio. La gravedad cero lo impide." }
+    { texto:"🪳 Las cucarachas viven UNA SEMANA sin cabeza. Mueren de hambre." },
+    { texto:"🤢 Un humano produce saliva para llenar DOS piscinas olímpicas en su vida." },
+    { texto:"🧠 Tu cerebro genera electricidad para encender una ampolleta pequeña." },
+    { texto:"🦷 Los tiburones tienen más de 30.000 dientes en su vida." },
+    { texto:"💨 Los astronautas NO pueden eructar en el espacio." },
+    { texto:"👃 Tu nariz recuerda más de 50.000 olores diferentes." },
+    { texto:"💀 Los bebés nacen con 300 huesos, los adultos tienen 206." },
+    { texto:"🫁 Tus vasos sanguíneos estirados darían 2,5 vueltas a la Tierra." },
+    { texto:"👁️ Es imposible estornudar con los ojos abiertos." },
+    { texto:"🦴 El hueso más pequeño está en el oído: el estribo, 3 mm." },
+    { texto:"🌊 Hay más estrellas que granos de arena en todas las playas." },
+    { texto:"🍌 Los plátanos son ligeramente radioactivos." },
+    { texto:"💧 Una nube pesa más de 500 toneladas." },
+    { texto:"🧬 Compartes 60% de tu ADN con un plátano. 🍌" },
+    { texto:"🦠 Tienes más bacterias que células humanas en tu cuerpo." },
   ],
   records_guinness: [
-    { texto: "🍕 La pizza más grande del mundo midió 1.300 metros cuadrados. Se hizo en Roma en 2023." },
-    { texto: "👁️ El récord de no pestañear es de 1 hora y 5 minutos. ¡No lo intentes en casa!" },
-    { texto: "🎮 El speedrun más rápido de Minecraft es de menos de 2 minutos. ¡Imposible!" },
-    { texto: "🏗️ La torre de LEGO más alta del mundo tenía 35 metros. Usaron más de 500.000 piezas." }
+    { texto:"🍕 La pizza más grande: 1.300 m². En Roma." },
+    { texto:"👁️ Récord sin pestañear: 1 hora 5 minutos." },
+    { texto:"🎮 Speedrun más rápido de Minecraft: menos de 2 minutos." },
+    { texto:"🏗️ Torre de LEGO más alta: 35 metros, 500.000+ piezas." },
+    { texto:"🎈 Mayor globos inflados por la nariz en 1 hora: 23." },
+    { texto:"🏃 Récord velocidad humana (Usain Bolt): 44,72 km/h." },
+    { texto:"📚 Biblioteca más grande: 170+ millones de ítems, Washington." },
+    { texto:"🐕 Perro más alto: 1,12 m al hombro. Gran Danés." },
+    { texto:"🧊 Cubo de Rubik más rápido: 3,13 segundos." },
+    { texto:"🎵 Canción más larga: 857 horas. 35 días seguidos." },
   ],
   sabias_que_animales: [
-    { texto: "🐙 Los pulpos tienen TRES corazones y su sangre es de color AZUL." },
-    { texto: "🦎 Los axolotl pueden regenerar sus patas, su corazón e incluso partes de su cerebro." },
-    { texto: "🐌 Los caracoles pueden dormir hasta 3 AÑOS seguidos. Ojalá tú no." },
-    { texto: "🦑 El calamar gigante tiene los ojos más grandes del reino animal: del tamaño de un plato." },
-    { texto: "🐬 Los delfines duermen con UN OJO ABIERTO. Literalmente." }
+    { texto:"🐙 Los pulpos tienen TRES corazones y sangre AZUL." },
+    { texto:"🦎 Los axolotl regeneran patas, corazón y partes del cerebro." },
+    { texto:"🐌 Los caracoles pueden dormir hasta 3 AÑOS seguidos." },
+    { texto:"🦑 Ojos del calamar gigante: del tamaño de un plato." },
+    { texto:"🐬 Los delfines duermen con UN OJO ABIERTO." },
+    { texto:"🦩 Los flamencos son rosados porque comen camarones." },
+    { texto:"🐝 Una abeja visita 50 a 1.000 flores en un solo viaje." },
+    { texto:"🦈 Los tiburones existían ANTES que los árboles. 400 millones de años." },
+    { texto:"🐢 Las tortugas pueden respirar por el trasero. En serio." },
+    { texto:"🐘 Los elefantes no pueden saltar. Ni un poquito." },
+    { texto:"🦜 Los loros pueden vivir más de 80 años." },
+    { texto:"🐈 Los gatos duermen el 70% de su vida. 14 horas al día." },
+    { texto:"🦔 Los erizos son inmunes al veneno de víboras." },
+    { texto:"🐋 Corazón de ballena azul = tamaño de un auto." },
+    { texto:"🦊 Zorros árticos sobreviven a −70°C." },
   ],
   que_preferirías: [
-    { texto: "🤔 ¿Preferirías poder VOLAR pero solo a 1 km/h... o CORRER a 200 km/h pero solo hacia atrás?" },
-    { texto: "🤔 ¿Preferirías hablar con los animales pero que nadie te crea... o ser invisible pero solo cuando estornudas?" },
-    { texto: "🤔 ¿Preferirías tener un dragón de mascota pero del tamaño de un hámster... o un hámster del tamaño de un dragón?" },
-    { texto: "🤔 ¿Preferirías que llovieran completos... o que las nubes fueran de algodón de azúcar?" }
+    { texto:"🤔 ¿VOLAR a 1 km/h... o CORRER a 200 km/h pero hacia atrás?" },
+    { texto:"🤔 ¿Hablar con animales pero nadie te cree... o ser invisible solo al estornudar?" },
+    { texto:"🤔 ¿Dragón mascota tamaño hámster... o hámster tamaño dragón?" },
+    { texto:"🤔 ¿Que llovieran completos... o nubes de algodón de azúcar?" },
+    { texto:"🤔 ¿Teletransportarte a lugares visitados... o pausar el tiempo 10 segundos?" },
+    { texto:"🤔 ¿Mil Robux en la vida real... o meter comida de Minecraft a tu plato?" },
+    { texto:"🤔 ¿Tu mascota habla pero dice cosas vergonzosas... o lee tu mente?" },
+    { texto:"🤔 ¿Vivir en mundo de Minecraft... o de Roblox?" },
+    { texto:"🤔 ¿Poderes de pulpo (3 corazones, cambiar color)... o de mantis camarón (golpe a velocidad de bala)?" },
+    { texto:"🤔 ¿Nunca más dormir... o nunca más comer?" },
+    { texto:"🤔 ¿Hablar todos los idiomas... o hablar con todos los animales?" },
+    { texto:"🤔 ¿Memoria perfecta... o leer 100 veces más rápido?" },
   ],
   datos_gamer: [
-    { texto: "🌍 Un mundo de Minecraft tiene 8 VECES la superficie de la Tierra. ¡Y tú quejándote de que no encuentras diamantes!" },
-    { texto: "⛏️ El bloque de diamante en Minecraft es en realidad de color azul celeste, no azul oscuro como los diamantes reales." },
-    { texto: "🎮 Roblox tiene más de 40 MILLONES de juegos creados por usuarios. ¿Cuántos has jugado tú?" },
-    { texto: "💥 Un Creeper originalmente iba a ser un cerdo, pero Notch se equivocó programando y creó un monstruo." },
-    { texto: "🏠 La primera casa que construyes en Minecraft siempre es un cubo de tierra. No lo niegues. Todos lo hicimos." }
+    { texto:"🌍 Mundo de Minecraft = 8 VECES la superficie de la Tierra." },
+    { texto:"⛏️ El diamante en Minecraft es azul celeste, no azul oscuro." },
+    { texto:"🎮 Roblox tiene más de 40 MILLONES de juegos." },
+    { texto:"💥 El Creeper iba a ser un cerdo. Notch se equivocó programando." },
+    { texto:"🏠 Tu primera casa en Minecraft siempre es un cubo de tierra." },
+    { texto:"📦 Steve puede cargar 44.467 toneladas de oro. Más fuerte que Superman." },
+    { texto:"🐉 El Ender Dragon se llama 'Jean'. Tiene nombre." },
+    { texto:"💎 Diamantes más comunes en capa -59 de Minecraft." },
+    { texto:"🎵 La música de Minecraft la hizo C418. La más famosa: 'Sweden'." },
+    { texto:"🔨 Roblox se creó en 2004. Más viejo de lo que piensas." },
+    { texto:"👾 Primer videojuego: 'Tennis for Two' (1958). Una línea." },
+    { texto:"🎯 Juego más jugado de Roblox: 40+ MIL MILLONES de visitas." },
+    { texto:"⚔️ Espadas de netherite son las más fuertes, pero diamante brilla más." },
+    { texto:"🏆 Algunos pro gamers ganan más de $1 MILLÓN al año." },
+    { texto:"🌋 1 bloque en Nether = 8 bloques en Overworld." },
   ]
 };
