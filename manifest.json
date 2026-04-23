@@ -1,0 +1,17 @@
+{
+  "name": "LevelUp!",
+  "short_name": "LevelUp!",
+  "description": "Juego educativo con recompensas",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0e23",
+  "theme_color": "#0f0e23",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230f0e23' width='100' height='100' rx='20'/><text x='50' y='55' text-anchor='middle' font-size='40' fill='%2300e5ff' font-family='sans-serif' font-weight='bold'>⬆</text><text x='50' y='80' text-anchor='middle' font-size='16' fill='%23ffd700' font-family='sans-serif' font-weight='bold'>LVL UP</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
