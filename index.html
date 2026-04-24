@@ -425,11 +425,58 @@ h3 { font-size: 18px; font-weight: 600; }
   background: var(--bg-card);
   border: 2px solid var(--accent-yellow);
   border-radius: var(--radius);
-  padding: 24px;
-  max-width: 360px;
+  padding: 28px 24px;
+  max-width: 380px;
+  width: 90%;
   text-align: center;
   box-shadow: var(--glow-yellow);
   animation: popIn 0.4s ease;
+}
+/* Explicación didáctica en respuesta incorrecta */
+.explanation-card {
+  background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(177,77,255,0.08));
+  border: 2px solid var(--accent-cyan);
+  border-radius: var(--radius);
+  padding: 20px;
+  max-width: 380px;
+  width: 90%;
+  text-align: left;
+  margin-bottom: 12px;
+  animation: popIn 0.4s ease;
+}
+.explanation-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.explanation-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+.explanation-correct {
+  color: var(--accent-green);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+/* Countdown timer en botón siguiente */
+.btn-countdown {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.btn-countdown .countdown-num {
+  display: inline;
+}
+.btn-active .countdown-num {
+  display: none;
+}
+.btn-active {
+  opacity: 1;
+  pointer-events: auto;
 }
 @keyframes popIn {
   0% { transform: scale(0.8) rotate(-2deg); opacity: 0; }
@@ -444,8 +491,8 @@ h3 { font-size: 18px; font-weight: 600; }
   margin-bottom: 12px;
 }
 .reward-text {
-  font-size: 17px;
-  line-height: 1.5;
+  font-size: 19px;
+  line-height: 1.6;
   white-space: pre-line;
 }
 
@@ -645,20 +692,26 @@ h3 { font-size: 18px; font-weight: 600; }
 <div class="feedback-overlay" id="feedback-overlay">
   <div class="feedback-icon" id="feedback-icon"></div>
   <div class="feedback-text" id="feedback-text"></div>
-  <div class="feedback-hint" id="feedback-hint"></div>
   <div class="xp-gain" id="feedback-xp"></div>
+  <div class="explanation-card" id="explanation-card" style="display:none">
+    <div class="explanation-label">💡 EXPLICACIÓN</div>
+    <div class="explanation-correct" id="explanation-correct"></div>
+    <div class="explanation-text" id="explanation-text"></div>
+  </div>
   <div class="reward-card" id="reward-card" style="display:none">
     <div class="reward-label" id="reward-label"></div>
     <div class="reward-text" id="reward-text"></div>
   </div>
-  <button class="btn btn-primary mt-16" onclick="nextQuestion()">Siguiente →</button>
+  <button class="btn btn-primary mt-16 btn-countdown" id="btn-siguiente" onclick="nextQuestion()">
+    Siguiente <span class="countdown-num" id="countdown-num">(5)</span> →
+  </button>
 </div>
 
 <!-- ═══════ SCREEN: INICIO ═══════ -->
 <div class="screen active" id="screen-inicio">
   <div style="margin-top: 20px;"></div>
   <div class="logo">LevelUp!</div>
-  <div class="greeting" id="greeting">¡Hola Magda! 👋</div>
+  <div class="greeting" id="greeting">¡Hola! 👋</div>
   <div class="greeting-sub" id="greeting-sub"></div>
 
   <div class="nivel-badge" id="inicio-nivel">NOOB</div>
@@ -792,14 +845,7 @@ h3 { font-size: 18px; font-weight: 600; }
 
   <div class="panel-section">
     <h3>Nivel de dificultad adaptativo</h3>
-    <div class="panel-row">
-      <span class="panel-row-label">Matemáticas</span>
-      <span class="panel-row-value text-cyan" id="panel-diff-mate">4° básico</span>
-    </div>
-    <div class="panel-row">
-      <span class="panel-row-label">Inglés</span>
-      <span class="panel-row-value text-purple" id="panel-diff-ingles">4° básico</span>
-    </div>
+    <div id="panel-diff-container"></div>
   </div>
 
   <div class="panel-section">
@@ -818,25 +864,20 @@ h3 { font-size: 18px; font-weight: 600; }
 </div>
 
 <!-- ═══════ SCRIPTS ═══════ -->
+<script src="config.js"></script>
 <script src="questions.js"></script>
 <script>
 // ═══════════════════════════════════════════
 // LevelUp! — Motor de juego
 // ═══════════════════════════════════════════
 
-// ─── NIVELES ───
-const LEVELS = [
-  { name: "Noob", xp: 0 },
-  { name: "Amateur", xp: 100 },
-  { name: "Pro", xp: 300 },
-  { name: "Máster", xp: 600 },
-  { name: "Leyenda", xp: 1000 },
-  { name: "Hacker Supremo", xp: 1500 }
-];
+// ─── NIVELES (desde config) ───
+const LEVELS = CONFIG.niveles;
 
-const QUESTIONS_PER_BLOCK = 8;
-const BLOCK_TIME_SECONDS = 300; // 5 min
-const DEFAULT_PIN = "1234";
+const QUESTIONS_PER_BLOCK = CONFIG.preguntas_por_bloque;
+const BLOCK_TIME_SECONDS = CONFIG.tiempo_bloque_segundos;
+const REWARD_DELAY = CONFIG.tiempo_minimo_recompensa;
+const DEFAULT_PIN = CONFIG.pin;
 
 // ─── ESTADO DEL JUEGO ───
 let progreso = loadProgress();
@@ -859,12 +900,10 @@ function loadProgress() {
     racha_actual: 0,
     racha_record: 0,
     ultima_sesion: null,
-    dificultad_mate: "nivel_4",
-    dificultad_ingles: "nivel_4",
-    mate_seguidas_ok: 0,
-    mate_seguidas_mal: 0,
-    ingles_seguidas_ok: 0,
-    ingles_seguidas_mal: 0,
+    // Dificultad adaptativa se inicializa dinámicamente
+    ...Object.fromEntries(CONFIG.adaptativas.map(m => [`dificultad_${m}`, 'nivel_4'])),
+    ...Object.fromEntries(CONFIG.adaptativas.map(m => [`${m}_seguidas_ok`, 0])),
+    ...Object.fromEntries(CONFIG.adaptativas.map(m => [`${m}_seguidas_mal`, 0])),
     total_correctas: 0,
     total_respondidas: 0,
     total_sesiones: 0,
@@ -910,17 +949,12 @@ function showScreen(screenId) {
 function updateInicio() {
   // Saludo según hora
   const hour = new Date().getHours();
-  let saludo = hour < 12 ? '¡Buenos días Magda! ☀️' : hour < 19 ? '¡Hola Magda! 👋' : '¡Buenas noches Magda! 🌙';
+  const nombre = CONFIG.nombre;
+  let saludo = hour < 12 ? `¡Buenos días ${nombre}! ☀️` : hour < 19 ? `¡Hola ${nombre}! 👋` : `¡Buenas noches ${nombre}! 🌙`;
   document.getElementById('greeting').textContent = saludo;
 
   // Frase motivacional
-  const frases = [
-    "¿Lista para subir de nivel?",
-    "Tu cerebro está listo para explotar 🧠",
-    "Hoy vas a romperla 💪",
-    "Cada respuesta te acerca al siguiente nivel",
-    "¡A craftear conocimiento! ⛏️"
-  ];
+  const frases = CONFIG.frases_saludo;
   document.getElementById('greeting-sub').textContent = frases[Math.floor(Math.random() * frases.length)];
 
   // Stats
@@ -949,14 +983,13 @@ function updateInicio() {
 function buildBlock() {
   let questions = [];
 
-  // Materias y sus pesos de aparición
-  const materiaPool = [
-    { materia: 'matematicas', peso: 2 },
-    { materia: 'ciencias', peso: 1.5 },
-    { materia: 'historia', peso: 1.5 },
-    { materia: 'ingles', peso: 2 },
-    { materia: 'funcion_ejecutiva', peso: 1 }
-  ];
+  // Materias y sus pesos de aparición (solo habilitadas)
+  const materiaPool = [];
+  if (CONFIG.materias.matematicas) materiaPool.push({ materia: 'matematicas', peso: 2 });
+  if (CONFIG.materias.ciencias) materiaPool.push({ materia: 'ciencias', peso: 1.5 });
+  if (CONFIG.materias.historia) materiaPool.push({ materia: 'historia', peso: 1.5 });
+  if (CONFIG.materias.ingles) materiaPool.push({ materia: 'ingles', peso: 2 });
+  if (CONFIG.materias.funcion_ejecutiva) materiaPool.push({ materia: 'funcion_ejecutiva', peso: 1 });
 
   // Obtener preguntas disponibles por materia
   function getAvailable(materia) {
@@ -968,10 +1001,11 @@ function buildBlock() {
       }
     } else {
       const bank = QUESTION_BANK[materia];
-      // Para mate e inglés, usar nivel adaptativo
+      // Usar nivel adaptativo si la materia está en CONFIG.adaptativas
       let nivel = 'nivel_4';
-      if (materia === 'matematicas') nivel = progreso.dificultad_mate;
-      if (materia === 'ingles') nivel = progreso.dificultad_ingles;
+      if (CONFIG.adaptativas.includes(materia)) {
+        nivel = progreso[`dificultad_${materia}`] || 'nivel_4';
+      }
 
       if (bank[nivel]) {
         pool.push(...bank[nivel].map(q => ({ ...q, materia, nivel })));
@@ -1265,45 +1299,32 @@ function processAnswer(correct, q, isStory = false) {
   if (correct) {
     blockCorrect++;
     progreso.total_correctas++;
-    xpGained = 10;
+    xpGained = CONFIG.xp_correcta;
 
     // Bonus por racha de correctas en el bloque
-    if (blockCorrect > 1) xpGained += 5;
+    if (blockCorrect > 1) xpGained += CONFIG.xp_bonus_racha;
 
-    // Dificultad adaptativa mate
-    if (q.materia === 'matematicas') {
-      progreso.mate_seguidas_ok++;
-      progreso.mate_seguidas_mal = 0;
-      if (progreso.mate_seguidas_ok >= 3) {
-        const upgraded = upgradeDifficulty('mate');
-        if (upgraded) progreso.mate_seguidas_ok = 0;
-      }
-    }
-    // Dificultad adaptativa inglés
-    if (q.materia === 'ingles') {
-      progreso.ingles_seguidas_ok++;
-      progreso.ingles_seguidas_mal = 0;
-      if (progreso.ingles_seguidas_ok >= 3) {
-        const upgraded = upgradeDifficulty('ingles');
-        if (upgraded) progreso.ingles_seguidas_ok = 0;
+    // Dificultad adaptativa genérica
+    if (CONFIG.adaptativas.includes(q.materia)) {
+      const key_ok = `${q.materia}_seguidas_ok`;
+      const key_mal = `${q.materia}_seguidas_mal`;
+      progreso[key_ok] = (progreso[key_ok] || 0) + 1;
+      progreso[key_mal] = 0;
+      if (progreso[key_ok] >= 3) {
+        const upgraded = upgradeDifficulty(q.materia);
+        if (upgraded) progreso[key_ok] = 0;
       }
     }
   } else {
     // Dificultad adaptativa: bajar si falla mucho
-    if (q.materia === 'matematicas') {
-      progreso.mate_seguidas_mal++;
-      progreso.mate_seguidas_ok = 0;
-      if (progreso.mate_seguidas_mal >= 2) {
-        downgradeDifficulty('mate');
-        progreso.mate_seguidas_mal = 0;
-      }
-    }
-    if (q.materia === 'ingles') {
-      progreso.ingles_seguidas_mal++;
-      progreso.ingles_seguidas_ok = 0;
-      if (progreso.ingles_seguidas_mal >= 2) {
-        downgradeDifficulty('ingles');
-        progreso.ingles_seguidas_mal = 0;
+    if (CONFIG.adaptativas.includes(q.materia)) {
+      const key_ok = `${q.materia}_seguidas_ok`;
+      const key_mal = `${q.materia}_seguidas_mal`;
+      progreso[key_mal] = (progreso[key_mal] || 0) + 1;
+      progreso[key_ok] = 0;
+      if (progreso[key_mal] >= 2) {
+        downgradeDifficulty(q.materia);
+        progreso[key_mal] = 0;
       }
     }
   }
@@ -1341,6 +1362,7 @@ function processAnswer(correct, q, isStory = false) {
 
 function upgradeDifficulty(subject) {
   const key = `dificultad_${subject}`;
+  if (!progreso[key]) progreso[key] = 'nivel_4';
   if (progreso[key] === 'nivel_4') { progreso[key] = 'nivel_5'; return true; }
   if (progreso[key] === 'nivel_5') { progreso[key] = 'nivel_6'; return true; }
   return false;
@@ -1348,6 +1370,7 @@ function upgradeDifficulty(subject) {
 
 function downgradeDifficulty(subject) {
   const key = `dificultad_${subject}`;
+  if (!progreso[key]) progreso[key] = 'nivel_4';
   if (progreso[key] === 'nivel_6') { progreso[key] = 'nivel_5'; return true; }
   if (progreso[key] === 'nivel_5') { progreso[key] = 'nivel_4'; return true; }
   return false;
@@ -1362,47 +1385,82 @@ function calculateLevel(xp) {
 }
 
 // ─── FEEDBACK ───
+let countdownTimer = null;
+
 function showFeedback(correct, xp, q, isStory) {
   const overlay = document.getElementById('feedback-overlay');
   overlay.className = 'feedback-overlay active ' + (correct ? 'correct-bg' : 'incorrect-bg');
 
-  const correctPhrases = [
-    "¡GG! 🎮", "¡Crack! 💪", "¡Eso es! ✨", "¡Nailed it! 🎯",
-    "¡Pro move! 🏆", "¡Ez! 😎", "¡Genial! 🌟"
-  ];
-  const incorrectPhrases = [
-    "¡Casi! La próxima la clavas 💪", "No pasa nada, sigue intentando 🌟",
-    "¡Uff, por poquito! 😅", "Un error más cerca de aprender 🧠"
-  ];
-
   document.getElementById('feedback-icon').textContent = correct ? '✅' : '🤔';
   document.getElementById('feedback-text').textContent = correct
-    ? correctPhrases[Math.floor(Math.random() * correctPhrases.length)]
-    : incorrectPhrases[Math.floor(Math.random() * incorrectPhrases.length)];
-
-  // Hint solo cuando es incorrecta y hay hint
-  const hintEl = document.getElementById('feedback-hint');
-  if (!correct && q.hint) {
-    hintEl.textContent = '💡 ' + q.hint;
-    hintEl.style.display = 'block';
-  } else if (isStory && correct) {
-    hintEl.textContent = '¡Gran oración! Tu creatividad es nivel pro 🎨';
-    hintEl.style.display = 'block';
-  } else {
-    hintEl.style.display = 'none';
-  }
+    ? CONFIG.frases_correcta[Math.floor(Math.random() * CONFIG.frases_correcta.length)]
+    : CONFIG.frases_incorrecta[Math.floor(Math.random() * CONFIG.frases_incorrecta.length)];
 
   // XP
   document.getElementById('feedback-xp').textContent = correct ? `+${xp} XP` : '';
 
+  // Explicación didáctica (solo cuando se equivoca)
+  const explCard = document.getElementById('explanation-card');
+  if (!correct && !isStory) {
+    explCard.style.display = 'block';
+    // Mostrar respuesta correcta
+    const correctEl = document.getElementById('explanation-correct');
+    if (q.tipo === 'seleccion') {
+      correctEl.textContent = `✓ Respuesta correcta: ${q.respuesta}`;
+    } else if (q.tipo === 'ordenar') {
+      const ordered = q.orden_correcto.map(i => q.items[i]);
+      correctEl.textContent = `✓ Orden correcto: ${ordered.map((item, i) => `${i+1}. ${item}`).join(' → ')}`;
+    } else {
+      correctEl.textContent = '';
+    }
+    // Explicación detallada
+    document.getElementById('explanation-text').textContent = q.hint || '';
+  } else if (isStory && correct) {
+    explCard.style.display = 'block';
+    document.getElementById('explanation-correct').textContent = '';
+    document.getElementById('explanation-text').textContent = '¡Gran oración! Tu creatividad es nivel pro 🎨';
+  } else {
+    explCard.style.display = 'none';
+  }
+
   // Recompensa
   showReward();
+
+  // Countdown en botón (mínimo REWARD_DELAY segundos)
+  startCountdown();
+}
+
+function startCountdown() {
+  const btn = document.getElementById('btn-siguiente');
+  const numSpan = document.getElementById('countdown-num');
+  let remaining = REWARD_DELAY;
+
+  btn.className = 'btn btn-primary mt-16 btn-countdown';
+  numSpan.textContent = `(${remaining})`;
+
+  if (countdownTimer) clearInterval(countdownTimer);
+
+  countdownTimer = setInterval(() => {
+    remaining--;
+    if (remaining > 0) {
+      numSpan.textContent = `(${remaining})`;
+    } else {
+      clearInterval(countdownTimer);
+      btn.className = 'btn btn-primary mt-16 btn-active';
+      numSpan.textContent = '';
+    }
+  }, 1000);
 }
 
 function showReward() {
   const card = document.getElementById('reward-card');
-  const categories = Object.keys(REWARD_BANK);
-  const cat = categories[Math.floor(Math.random() * categories.length)];
+  // Solo usar categorías habilitadas
+  const enabledCats = Object.keys(REWARD_BANK).filter(cat =>
+    CONFIG.recompensas[cat] !== false
+  );
+  if (enabledCats.length === 0) { card.style.display = 'none'; return; }
+
+  const cat = enabledCats[Math.floor(Math.random() * enabledCats.length)];
   const rewards = REWARD_BANK[cat];
   const reward = rewards[Math.floor(Math.random() * rewards.length)];
 
@@ -1421,8 +1479,10 @@ function showReward() {
 }
 
 function nextQuestion() {
+  if (countdownTimer) clearInterval(countdownTimer);
   document.getElementById('feedback-overlay').classList.remove('active');
   document.getElementById('reward-card').style.display = 'none';
+  document.getElementById('explanation-card').style.display = 'none';
   currentIndex++;
   renderQuestion();
 }
@@ -1546,8 +1606,18 @@ function updatePanel() {
 
   // Dificultad
   const diffNames = { nivel_4: '4° básico', nivel_5: '5° básico', nivel_6: '6° básico' };
-  document.getElementById('panel-diff-mate').textContent = diffNames[progreso.dificultad_mate] || '4° básico';
-  document.getElementById('panel-diff-ingles').textContent = diffNames[progreso.dificultad_ingles] || '4° básico';
+  const materiaLabels = { matematicas:'Matemáticas', ciencias:'Ciencias', historia:'Historia', ingles:'Inglés', funcion_ejecutiva:'Desafío Mental' };
+  const diffContainer = document.getElementById('panel-diff-container');
+  diffContainer.innerHTML = '';
+  for (const mat of CONFIG.adaptativas) {
+    const div = document.createElement('div');
+    div.className = 'panel-row';
+    div.innerHTML = `
+      <span class="panel-row-label">${materiaLabels[mat] || mat}</span>
+      <span class="panel-row-value text-cyan">${diffNames[progreso[`dificultad_${mat}`]] || '4° básico'}</span>
+    `;
+    diffContainer.appendChild(div);
+  }
 
   // Materias
   const materiasDiv = document.getElementById('panel-materias');
