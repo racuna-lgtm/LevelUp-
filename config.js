@@ -1,39 +1,60 @@
 // ═══════════════════════════════════════════════════════════════
 // LevelUp! — Configuración por niño/a
-// 
-// Para adaptar la app a otro niño/a:
-// 1. Copia esta carpeta completa
-// 2. Modifica SOLO este archivo con los datos del niño/a
-// 3. Sube a un nuevo repo en GitHub Pages
+// Perfil: Magdalena, 9 años, 4° básico
+// Informado por evaluación WISC-V (abril 2026)
 // ═══════════════════════════════════════════════════════════════
 
 const CONFIG = {
 
-  // ─── DATOS DEL NIÑO/A ───
   nombre: "Magda",
-  curso: "4° básico",            // Nivel escolar actual
+  curso: "4° básico",
   edad: 9,
 
   // ─── MATERIAS HABILITADAS ───
-  // true = aparece en el juego, false = no aparece
   materias: {
     matematicas: true,
     ciencias: true,
     historia: true,
     ingles: true,
-    funcion_ejecutiva: true      // Secuenciación, storytelling, planificación, categorización
+    funcion_ejecutiva: true,
+    patrones_logica: true,        // NUEVO: razonamiento fluido puro
+    comprension: true,            // NUEVO: comprensión lectora con inferencia
+    visoespacial: true            // NUEVO: rotación, cubos, vistas
   },
 
   // ─── DIFICULTAD ADAPTATIVA ───
-  // Las materias listadas aquí suben de nivel automáticamente
-  // (3 correctas seguidas = sube, 2 incorrectas seguidas = baja)
-  // Materias NO listadas se mantienen en nivel_4 fijo
+  // Materias que suben/bajan nivel automáticamente
+  // Mate ahora tiene nivel_7 (olimpiadas) que se desbloquea tras dominar nivel_6
   adaptativas: ["matematicas", "ingles"],
+  niveles_disponibles: {
+    matematicas: ["nivel_4", "nivel_5", "nivel_6", "nivel_7"],
+    ingles: ["nivel_4", "nivel_5", "nivel_6"]
+  },
 
   // ─── BLOQUE DE JUEGO ───
-  preguntas_por_bloque: 8,       // Cuántas preguntas por sesión
-  tiempo_bloque_segundos: 300,   // 5 minutos
-  tiempo_minimo_recompensa: 5,   // Segundos mínimos viendo la recompensa
+  preguntas_por_bloque: 8,
+  tiempo_bloque_segundos: 300,    // 5 minutos por defecto
+  tiempo_bloque_corto: 180,       // 3 minutos para días de más fatiga
+  tiempo_minimo_recompensa: 5,
+
+  // ─── ESTRUCTURA PREDECIBLE (TEA) ───
+  // Muestra un mini roadmap visual al inicio de cada bloque
+  mostrar_roadmap: true,
+
+  // ─── GESTIÓN DE FATIGA (TEA + TDAH) ───
+  fatiga: {
+    habilitada: true,
+    // Si el tiempo promedio sube 40%+ vs el promedio del bloque, insertar pausa
+    umbral_porcentaje: 40,
+    // Cantidad mínima de preguntas antes de evaluar fatiga
+    preguntas_minimas: 3,
+    // No poner 2 preguntas verbales/alta carga seguidas
+    intercalar_carga: true
+  },
+
+  // ─── LECTURA EN VOZ ALTA (Web Speech API) ───
+  lecturaEnVoz: false,           // Toggle: true para activar lectura automática
+  voz_idioma: "es-CL",          // Español chileno
 
   // ─── NIVELES Y XP ───
   niveles: [
@@ -45,26 +66,46 @@ const CONFIG = {
     { name: "Hacker Supremo", xp: 1500 }
   ],
 
-  xp_correcta: 10,              // XP por respuesta correcta
-  xp_bonus_racha: 5,            // XP extra si lleva racha en el bloque
+  xp_correcta: 10,
+  xp_bonus_racha: 5,
 
-  // ─── RECOMPENSAS HABILITADAS ───
-  // Categorías de recompensas que aparecen (todas true por defecto)
+  // ─── RECOMPENSAS ───
   recompensas: {
     chistes: true,
     datos_bizarros: true,
     records_guinness: true,
     sabias_que_animales: true,
     que_preferirías: true,
-    datos_gamer: true            // Referencias a Roblox, Minecraft, etc.
+    datos_gamer: true
   },
 
-  // ─── PANEL MAMÁ/PAPÁ ───
-  pin: "1234",                   // PIN de acceso al panel de estadísticas
+  // ─── PANEL ADULTO ───
+  pin: "1234",
+
+  // ─── MÉTRICAS COGNITIVAS EN PANEL (agrupación por habilidad) ───
+  metricas_cognitivas: {
+    razonamiento_logico: ["matematicas", "patrones_logica"],
+    comprension_verbal: ["comprension", "funcion_ejecutiva"],
+    memoria_trabajo: ["funcion_ejecutiva"],
+    visoespacial: ["visoespacial"]
+  },
+
+  // ─── CARGA COGNITIVA POR MATERIA ───
+  // "alta" = verbal/producción, "media" = curricular, "baja" = fortaleza/diversión
+  // Se usa para intercalar y no poner 2 de carga alta seguidas
+  carga_materia: {
+    matematicas: "baja",         // Fortaleza — la activa
+    patrones_logica: "baja",     // Fortaleza — la activa
+    ciencias: "media",
+    historia: "media",
+    ingles: "media",
+    comprension: "alta",         // Verbal — fatiga más rápido
+    funcion_ejecutiva: "alta",   // Producción — fatiga más rápido
+    visoespacial: "media"
+  },
 
   // ─── PERSONALIZACIÓN VISUAL ───
   tema: {
-    // Puedes cambiar los colores del tema
     fondo: "#0f0e23",
     tarjeta: "#1a1940",
     acento_cyan: "#00e5ff",
@@ -76,7 +117,6 @@ const CONFIG = {
   },
 
   // ─── FRASES MOTIVACIONALES ───
-  // Puedes personalizar según los intereses del niño/a
   frases_correcta: [
     "¡GG! 🎮", "¡Crack! 💪", "¡Eso es! ✨", "¡Nailed it! 🎯",
     "¡Pro move! 🏆", "¡Ez! 😎", "¡Genial! 🌟", "¡Épico! ⚡"
@@ -89,7 +129,7 @@ const CONFIG = {
     "¡El siguiente es tuyo! 🎯"
   ],
   frases_saludo: [
-    "¿List@ para subir de nivel?",
+    "¿Lista para subir de nivel?",
     "Tu cerebro está listo para explotar 🧠",
     "Hoy vas a romperla 💪",
     "Cada respuesta te acerca al siguiente nivel",
