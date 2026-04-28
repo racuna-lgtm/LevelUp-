@@ -414,3 +414,137 @@ const REWARD_BANK = {
     { texto:"🌋 1 bloque en Nether = 8 bloques en Overworld." },
   ]
 };
+
+// ╔═══════════════════════════════════════════════════════════╗
+// ║  AMPLIACIÓN WISC-V — Nuevas categorías y niveles          ║
+// ╚═══════════════════════════════════════════════════════════╝
+
+// ─── MATE NIVEL 7: OLIMPIADAS (IRC=139) ───
+// Se desbloquea cuando domina nivel_6
+QUESTION_BANK.matematicas.nivel_7 = [
+  { id:"mat7_001", tipo:"seleccion", pregunta:"Si 3 gatos comen 3 ratones en 3 minutos, ¿cuántos gatos se necesitan para comer 100 ratones en 100 minutos?", opciones:["3","33","100","9"], respuesta:"3", hint:"Cada gato come 1 ratón en 3 min. En 100 min, cada gato come ~33. Con 3 gatos: 99. ¡Pero 3 gatos alcanzan!" },
+  { id:"mat7_002", tipo:"seleccion", pregunta:"Tengo un número de 2 cifras. Si invierto sus cifras, obtengo un número 27 mayor. ¿Cuál podría ser el número original?", opciones:["25","36","47","58"], respuesta:"25", hint:"25 invertido = 52. Y 52 − 25 = 27 ✓" },
+  { id:"mat7_003", tipo:"seleccion", pregunta:"En una fiesta, cada persona le da la mano a todas las demás exactamente una vez. Hubo 28 apretones de mano. ¿Cuántas personas había?", opciones:["6","7","8","9"], respuesta:"8", hint:"Con n personas: n×(n−1)÷2 = 28. Entonces n×(n−1)=56. 8×7=56 ✓" },
+  { id:"mat7_004", tipo:"seleccion", pregunta:"¿Cuántos cuadrados hay en un tablero de ajedrez de 4×4? (no solo los pequeños)", opciones:["16","20","30","26"], respuesta:"30", hint:"4×4=16 de 1×1, 3×3=9 de 2×2, 2×2=4 de 3×3, 1×1=1 de 4×4. Total: 30" },
+  { id:"mat7_005", tipo:"seleccion", pregunta:"Un reloj marca las 3:00. ¿Cuál es el ángulo entre las manecillas?", opciones:["60°","90°","120°","180°"], respuesta:"90°", hint:"Cada hora = 30° (360÷12). A las 3:00 = 3×30° = 90°" },
+  { id:"mat7_006", tipo:"seleccion", pregunta:"Si sumo todos los números del 1 al 20, ¿cuánto da?", opciones:["190","200","210","220"], respuesta:"210", hint:"Truco de Gauss: (20×21)÷2 = 210. Agrupa: 1+20=21, 2+19=21... hay 10 pares" },
+  { id:"mat7_007", tipo:"seleccion", pregunta:"Tengo 12 monedas idénticas y una balanza de platillos. Una moneda es falsa y pesa distinto. ¿Mínimo de pesadas para encontrarla?", opciones:["2","3","4","6"], respuesta:"3", hint:"Divide en 3 grupos de 4. Con 3 pesadas alcanza (problema clásico de lógica)" },
+  { id:"mat7_008", tipo:"seleccion", pregunta:"¿Cuántos triángulos hay en esta secuencia de figuras? △ △△ △△△", opciones:["4","6","8","10"], respuesta:"8", hint:"3 individuales por fila + 2 formados juntando + otros combinados = 8" },
+  { id:"mat7_009", tipo:"seleccion", pregunta:"Un caracol sube 3 metros de día pero resbala 2 por la noche. ¿Cuántos días tarda en salir de un pozo de 10 metros?", opciones:["8","9","10","7"], respuesta:"8", hint:"Día 7: llega a 7m. Día 8: sube a 10m → ¡salió! Ya no resbala" },
+  { id:"mat7_010", tipo:"seleccion", pregunta:"Si A★B significa (A×B)+(A+B), ¿cuánto es 3★4?", opciones:["16","19","21","24"], respuesta:"19", hint:"3★4 = (3×4)+(3+4) = 12+7 = 19" },
+  { id:"mat7_011", tipo:"seleccion", pregunta:"Tengo 5 camisetas y 3 pantalones. ¿De cuántas formas distintas me puedo vestir?", opciones:["8","10","15","20"], respuesta:"15", hint:"Principio de multiplicación: 5 × 3 = 15 combinaciones" },
+  { id:"mat7_012", tipo:"seleccion", pregunta:"¿Cuántos números de 3 cifras tienen todas sus cifras iguales? (ej: 111, 222...)", opciones:["8","9","10","12"], respuesta:"9", hint:"111, 222, 333, 444, 555, 666, 777, 888, 999 = 9" },
+  { id:"mat7_013", tipo:"seleccion", pregunta:"Si hoy es miércoles, ¿qué día será dentro de 100 días?", opciones:["Lunes","Martes","Jueves","Viernes"], respuesta:"Viernes", hint:"100÷7 = 14 semanas + 2 días. Miércoles + 2 = viernes" },
+  { id:"mat7_014", tipo:"seleccion", pregunta:"Tres amigos se reparten $1.000. A recibe el doble que B, y B recibe el doble que C. ¿Cuánto recibe C?", opciones:["$100","$143","$200","$250"], respuesta:"$143", hint:"C=x, B=2x, A=4x. Total: 7x=1000. x≈143" },
+  { id:"mat7_015", tipo:"seleccion", pregunta:"¿Cuál es el último dígito de 7^100 (7 elevado a 100)?", opciones:["1","3","7","9"], respuesta:"1", hint:"Patrón: 7¹=7, 7²=49, 7³=343, 7⁴=2401. El último dígito se repite cada 4: 7,9,3,1. 100÷4=25 exacto → último dígito = 1" },
+  { id:"mat7_016", tipo:"seleccion", pregunta:"En un torneo todos juegan contra todos una vez. Si hay 45 partidos en total, ¿cuántos equipos hay?", opciones:["8","9","10","11"], respuesta:"10", hint:"n×(n−1)÷2 = 45. n×(n−1) = 90. 10×9 = 90 ✓" },
+  { id:"mat7_017", tipo:"seleccion", pregunta:"Si divido un pastel en 3 cortes rectos, ¿cuál es el máximo de pedazos que puedo obtener?", opciones:["4","6","7","8"], respuesta:"7", hint:"1 corte=2, 2 cortes=4, 3 cortes=7 (si cada corte cruza todos los anteriores)" },
+  { id:"mat7_018", tipo:"seleccion", pregunta:"Un número es divisible por 9 si la suma de sus cifras es divisible por 9. ¿Cuál es divisible por 9?", opciones:["1.234","2.345","4.518","5.432"], respuesta:"4.518", hint:"4+5+1+8 = 18. Y 18÷9 = 2 ✓" },
+  { id:"mat7_019", tipo:"seleccion", pregunta:"¿Cuántos cubos pequeños se necesitan para armar un cubo de 4×4×4?", opciones:["16","32","48","64"], respuesta:"64", hint:"4³ = 4×4×4 = 64" },
+  { id:"mat7_020", tipo:"seleccion", pregunta:"Si 5 máquinas hacen 5 productos en 5 minutos, ¿cuántas máquinas hacen 100 productos en 100 minutos?", opciones:["5","20","50","100"], respuesta:"5", hint:"Cada máquina hace 1 producto en 5 min. En 100 min, cada máquina hace 20. Con 5 máquinas: 100 productos" },
+  { id:"mat7_021", tipo:"seleccion", pregunta:"La suma de 3 números consecutivos es 84. ¿Cuál es el mayor?", opciones:["27","28","29","30"], respuesta:"29", hint:"n + (n+1) + (n+2) = 84. 3n+3=84. n=27. El mayor: 29" },
+  { id:"mat7_022", tipo:"seleccion", pregunta:"¿Cuántos números pares hay entre 1 y 99?", opciones:["48","49","50","51"], respuesta:"49", hint:"2, 4, 6... 98. Son 49 números" },
+  { id:"mat7_023", tipo:"seleccion", pregunta:"Si un cuadrado tiene diagonal de 10 cm, ¿cuál es su área aproximada?", opciones:["25 cm²","50 cm²","75 cm²","100 cm²"], respuesta:"50 cm²", hint:"Área = diagonal²÷2 = 100÷2 = 50 cm²" },
+  { id:"mat7_024", tipo:"seleccion", pregunta:"¿Cuántos ceros tiene el número 1.000.000?", opciones:["5","6","7","8"], respuesta:"6", hint:"Un millón = 10⁶ = 1 seguido de 6 ceros" },
+  { id:"mat7_025", tipo:"seleccion", pregunta:"Un tren de 100 metros cruza un puente de 200 metros a 60 km/h. ¿Cuántos segundos tarda en cruzar completamente?", opciones:["12","15","18","20"], respuesta:"18", hint:"Recorre 300m (tren+puente). 60km/h = 16,67m/s. 300÷16,67 ≈ 18 seg" },
+  { id:"mat7_026", tipo:"seleccion", pregunta:"Si escribo todos los números del 1 al 100, ¿cuántas veces escribo el dígito 5?", opciones:["10","11","19","20"], respuesta:"20", hint:"Unidades: 5,15,25,35,45,55,65,75,85,95 = 10. Decenas: 50-59 = 10. Total: 20" },
+  { id:"mat7_027", tipo:"seleccion", pregunta:"Un cuadrado mágico 3×3 tiene números del 1 al 9. ¿Cuánto suma cada fila?", opciones:["12","14","15","18"], respuesta:"15", hint:"Suma total 1-9 = 45. Hay 3 filas: 45÷3 = 15" },
+  { id:"mat7_028", tipo:"seleccion", pregunta:"¿Cuántos divisores tiene el número 36?", opciones:["6","7","8","9"], respuesta:"9", hint:"1,2,3,4,6,9,12,18,36 = 9 divisores" },
+  { id:"mat7_029", tipo:"seleccion", pregunta:"Si doblo un papel por la mitad 6 veces, ¿en cuántas partes queda dividido?", opciones:["12","32","64","128"], respuesta:"64", hint:"Cada doblez duplica: 2⁶ = 64" },
+  { id:"mat7_030", tipo:"seleccion", pregunta:"Dos velas iguales se encienden al mismo tiempo. Una tarda 4 horas en consumirse, la otra 5 horas. ¿En cuántas horas la primera será la mitad de la segunda?", opciones:["2","2,5","3","3,5"], respuesta:"2,5", hint:"Después de t horas: vela1 = 1−t/4, vela2 = 1−t/5. Cuando vela1 = vela2/2: resolver da t=2,5h" },
+];
+
+// ─── PATRONES Y LÓGICA (IRF=134) ───
+QUESTION_BANK.patrones_logica = { nivel_4: [
+  { id:"pl_001", tipo:"seleccion", pregunta:"¿Qué número sigue? 2, 6, 18, 54, ...", opciones:["108","162","72","110"], respuesta:"162", hint:"Cada número se multiplica por 3: 2→6→18→54→162" },
+  { id:"pl_002", tipo:"seleccion", pregunta:"¿Qué letra sigue? A, C, E, G, ...", opciones:["H","I","J","K"], respuesta:"I", hint:"Se salta una letra cada vez: A(B)C(D)E(F)G(H)I" },
+  { id:"pl_003", tipo:"seleccion", pregunta:"Si 🔴 = 3 y 🔵 = 5, ¿cuánto es 🔴 + 🔵 + 🔴?", opciones:["11","13","8","10"], respuesta:"11", hint:"3 + 5 + 3 = 11" },
+  { id:"pl_004", tipo:"seleccion", pregunta:"Descubre la regla: 1→1, 2→4, 3→9, 4→16, 5→?", opciones:["20","25","30","21"], respuesta:"25", hint:"La regla es n². 5² = 25" },
+  { id:"pl_005", tipo:"seleccion", pregunta:"Si ALTO es a BAJO como GRANDE es a ___", opciones:["Gordo","Pequeño","Ancho","Largo"], respuesta:"Pequeño", hint:"Son opuestos: alto↔bajo, grande↔pequeño" },
+  { id:"pl_006", tipo:"seleccion", pregunta:"¿Qué número NO pertenece a la serie? 2, 4, 6, 9, 10, 12", opciones:["4","9","10","12"], respuesta:"9", hint:"Todos son pares excepto 9" },
+  { id:"pl_007", tipo:"seleccion", pregunta:"Si ☀️ + ☀️ = 10 y ☀️ + 🌙 = 8, ¿cuánto vale 🌙?", opciones:["2","3","4","5"], respuesta:"3", hint:"☀️=5 (porque 5+5=10). Entonces 5+🌙=8, 🌙=3" },
+  { id:"pl_008", tipo:"seleccion", pregunta:"Descubre la regla: 1→2, 2→5, 3→10, 4→17, 5→?", opciones:["24","25","26","28"], respuesta:"26", hint:"La regla es n²+1. 5²+1 = 26" },
+  { id:"pl_009", tipo:"seleccion", pregunta:"Si LIBRO es a LEER como COMIDA es a ___", opciones:["Cocinar","Comer","Comprar","Cortar"], respuesta:"Comer", hint:"Un libro sirve para leer, la comida sirve para comer" },
+  { id:"pl_010", tipo:"seleccion", pregunta:"¿Qué sigue? 1, 1, 2, 3, 5, 8, 13, ...", opciones:["18","20","21","15"], respuesta:"21", hint:"Fibonacci: cada número = suma de los 2 anteriores. 8+13=21" },
+  { id:"pl_011", tipo:"seleccion", pregunta:"Si 🐱 × 🐱 = 9 y 🐶 × 🐶 = 16, ¿cuánto es 🐱 + 🐶?", opciones:["5","7","25","12"], respuesta:"7", hint:"🐱=3 (3²=9) y 🐶=4 (4²=16). 3+4=7" },
+  { id:"pl_012", tipo:"seleccion", pregunta:"Hay 3 cajas: roja, azul, verde. Las llaves están en orden inverso al color. ¿Qué llave abre la caja roja?", opciones:["Roja","Azul","Verde","Ninguna"], respuesta:"Verde", hint:"Orden inverso: Roja↔Verde, Azul↔Azul, Verde↔Roja" },
+  { id:"pl_013", tipo:"seleccion", pregunta:"¿Qué sigue? 1, 4, 9, 16, 25, ...", opciones:["30","36","35","49"], respuesta:"36", hint:"Son cuadrados perfectos: 1², 2², 3², 4², 5², 6²=36" },
+  { id:"pl_014", tipo:"seleccion", pregunta:"Ana es más alta que Bea. Bea es más alta que Cami. ¿Quién es la más baja?", opciones:["Ana","Bea","Cami","No se puede saber"], respuesta:"Cami", hint:"Ana > Bea > Cami. Cami es la más baja" },
+  { id:"pl_015", tipo:"seleccion", pregunta:"Si 🔺+🔺+🔺 = 12 y 🔺+⬜ = 7, ¿cuánto vale ⬜?", opciones:["2","3","4","5"], respuesta:"3", hint:"🔺=4 (porque 4×3=12). Entonces 4+⬜=7, ⬜=3" },
+  { id:"pl_016", tipo:"seleccion", pregunta:"Descubre la regla: 3, 6, 12, 24, 48, ...", opciones:["72","84","96","60"], respuesta:"96", hint:"Cada número se multiplica por 2: 48×2=96" },
+  { id:"pl_017", tipo:"seleccion", pregunta:"Si PÁJARO es a NIDO como PEZ es a ___", opciones:["Mar","Agua","Río","Pecera"], respuesta:"Mar", hint:"Un pájaro vive en su nido, un pez vive en el mar" },
+  { id:"pl_018", tipo:"seleccion", pregunta:"5 amigos se sientan en fila. Ana no puede estar al lado de Bea. ¿De cuántas formas se pueden sentar? (aproximado)", opciones:["Menos de 120","Exactamente 120","Más de 120","72"], respuesta:"72", hint:"Total sin restricción: 5!=120. Restamos los casos donde están juntas: 120−48=72" },
+  { id:"pl_019", tipo:"seleccion", pregunta:"¿Qué número falta? 2, _, 8, 16, 32", opciones:["3","4","6","5"], respuesta:"4", hint:"Se duplica cada vez: 2, 4, 8, 16, 32" },
+  { id:"pl_020", tipo:"seleccion", pregunta:"Si todos los Bloops son Fleeps, y algunos Fleeps son Zoops, ¿qué es seguro?", opciones:["Todos los Bloops son Zoops","Algunos Bloops son Zoops","Algunos Bloops podrían ser Zoops","Ningún Bloop es Zoop"], respuesta:"Algunos Bloops podrían ser Zoops", hint:"Como ALGUNOS Fleeps son Zoops, los Bloops (que son Fleeps) PODRÍAN ser Zoops, pero no es seguro" },
+  { id:"pl_021", tipo:"seleccion", pregunta:"Si hoy gano $2, mañana $4, pasado $8... ¿cuánto gano el día 10?", opciones:["20","512","1.024","256"], respuesta:"1.024", hint:"Se duplica: día n = 2ⁿ. Día 10: 2¹⁰ = 1.024" },
+  { id:"pl_022", tipo:"seleccion", pregunta:"¿Qué número sigue? 1, 3, 7, 15, 31, ...", opciones:["47","62","63","45"], respuesta:"63", hint:"Regla: ×2+1. 31×2+1=63. También: 2ⁿ−1" },
+  { id:"pl_023", tipo:"seleccion", pregunta:"Si mezclo ROJO + AZUL = MORADO, y ROJO + AMARILLO = NARANJO, ¿qué obtengo con AZUL + AMARILLO?", opciones:["Morado","Naranjo","Verde","Café"], respuesta:"Verde", hint:"Colores primarios: azul + amarillo = verde" },
+  { id:"pl_024", tipo:"seleccion", pregunta:"Tengo un dado. Si sale par, gano $10. Si sale impar, pierdo $5. ¿Cuánto gano en promedio por tirada?", opciones:["$2,50","$5","$7,50","$0"], respuesta:"$2,50", hint:"3 caras pares (gano $30) + 3 impares (pierdo $15) = $15 en 6 tiradas = $2,50 promedio" },
+  { id:"pl_025", tipo:"seleccion", pregunta:"Si A=1, B=2, C=3... ¿cuánto 'vale' la palabra SOL?", opciones:["42","46","36","51"], respuesta:"46", hint:"S=19, O=15, L=12. Total: 19+15+12=46" },
+]};
+
+// ─── COMPRENSIÓN LECTORA CON INFERENCIA ───
+QUESTION_BANK.comprension = { nivel_4: [
+  { id:"comp_001", tipo:"seleccion", pregunta:"\"María salió corriendo de la casa con un paraguas. Las calles estaban mojadas.\" ¿Qué puedes concluir?", opciones:["Estaba lloviendo","Era de noche","María estaba triste","Hacía calor"], respuesta:"Estaba lloviendo", hint:"Pistas: paraguas + calles mojadas = lluvia" },
+  { id:"comp_002", tipo:"seleccion", pregunta:"\"El perro movía la cola y daba saltos cuando vio llegar a Tomás.\" ¿Cómo se sentía el perro?", opciones:["Asustado","Contento","Hambriento","Cansado"], respuesta:"Contento", hint:"Cola moviéndose + saltos = alegría al ver a su dueño" },
+  { id:"comp_003", tipo:"seleccion", pregunta:"\"Ana guardó sus juguetes, se puso pijama y tomó un vaso de leche.\" ¿Qué va a hacer Ana?", opciones:["Ir al colegio","Ir a dormir","Salir a jugar","Hacer tareas"], respuesta:"Ir a dormir", hint:"Guardar juguetes + pijama + leche = rutina de dormir" },
+  { id:"comp_004", tipo:"seleccion", pregunta:"\"El hielo del vaso se derritió rápido. Todos se abanicaban con lo que podían.\" ¿Cómo estaba el clima?", opciones:["Frío","Nublado","Muy caluroso","Lluvioso"], respuesta:"Muy caluroso", hint:"Hielo derritiéndose rápido + abanicarse = mucho calor" },
+  { id:"comp_005", tipo:"seleccion", pregunta:"\"Pablo miró el reloj y apuró el paso. El bus pasaba en 3 minutos.\" ¿Qué le preocupaba a Pablo?", opciones:["Llegar tarde y perder el bus","Que lloviera","Que el reloj estuviera malo","No tener dinero"], respuesta:"Llegar tarde y perder el bus", hint:"Mirar reloj + apurar paso + bus en 3 min = riesgo de perderlo" },
+  { id:"comp_006", tipo:"seleccion", pregunta:"\"La vitrina estaba llena de tortas con velas. Había globos de colores por todas partes.\" ¿Dónde estamos probablemente?", opciones:["En un hospital","En una pastelería o fiesta de cumpleaños","En un supermercado","En el colegio"], respuesta:"En una pastelería o fiesta de cumpleaños", hint:"Tortas con velas + globos = contexto de cumpleaños" },
+  { id:"comp_007", tipo:"seleccion", pregunta:"\"Luisa leyó la carta tres veces. Después sonrió y la guardó cerca de su corazón.\" ¿Qué tipo de carta era probablemente?", opciones:["Una cuenta del banco","Una carta de amor o cariño","Una tarea del colegio","Una receta de cocina"], respuesta:"Una carta de amor o cariño", hint:"Leer varias veces + sonreír + guardar cerca del corazón = carta importante y emotiva" },
+  { id:"comp_008", tipo:"seleccion", pregunta:"\"El explorador miró el mapa, sacó su brújula y caminó hacia el norte. Los árboles se hacían más densos.\" ¿Dónde estaba?", opciones:["En la ciudad","En el desierto","En un bosque","En la playa"], respuesta:"En un bosque", hint:"Mapa + brújula + árboles densos = explorando un bosque" },
+  { id:"comp_009", tipo:"seleccion", pregunta:"\"Todos aplaudieron cuando la niña terminó su canción. La profesora le puso una estrella dorada.\" ¿Qué había hecho la niña?", opciones:["Una prueba de matemáticas","Una presentación musical","Un dibujo","Una carrera"], respuesta:"Una presentación musical", hint:"Canción + aplausos + estrella = presentó algo musical y lo hizo bien" },
+  { id:"comp_010", tipo:"seleccion", pregunta:"\"El gatito maulló frente a la puerta cerrada. Afuera se escuchaban truenos.\" ¿Qué quería el gatito?", opciones:["Comer","Jugar","Entrar a la casa (refugiarse)","Dormir"], respuesta:"Entrar a la casa (refugiarse)", hint:"Puerta cerrada + truenos afuera = quiere refugiarse de la tormenta" },
+  { id:"comp_011", tipo:"seleccion", pregunta:"\"La abuela tejía sentada junto a la ventana. Cada cierto rato miraba el camino y suspiraba.\" ¿Qué hacía la abuela?", opciones:["Contaba ovejas","Esperaba a alguien","Estaba aburrida","Tenía frío"], respuesta:"Esperaba a alguien", hint:"Mirar el camino repetidamente + suspirar = esperando que alguien llegue" },
+  { id:"comp_012", tipo:"seleccion", pregunta:"\"No encuentro mi mochila por ningún lado. Ayer la dejé en la silla y hoy no está.\" ¿Cuál es el problema?", opciones:["Perdió su mochila","Se le rompió la mochila","No tiene mochila nueva","La mochila es muy pesada"], respuesta:"Perdió su mochila", hint:"La dejó en un lugar y ya no está = la perdió o alguien la movió" },
+  { id:"comp_013", tipo:"seleccion", pregunta:"\"Las hojas de los árboles estaban rojas y amarillas. El viento las arrastraba por el suelo.\" ¿En qué estación del año estamos?", opciones:["Primavera","Verano","Otoño","Invierno"], respuesta:"Otoño", hint:"Hojas rojas/amarillas cayendo = otoño" },
+  { id:"comp_014", tipo:"seleccion", pregunta:"\"Miguel cerró su libro y apagó la lámpara. Bostezó y se tapó con la frazada.\" ¿Qué hora era aproximadamente?", opciones:["Mediodía","Tarde","Noche","Mañana"], respuesta:"Noche", hint:"Cerrar libro + apagar lámpara + taparse = irse a dormir de noche" },
+  { id:"comp_015", tipo:"seleccion", pregunta:"\"En la sala había instrumentos por todos lados: un violín, un piano y varias flautas. Las sillas estaban ordenadas en semicírculo.\" ¿Qué tipo de sala era?", opciones:["Sala de clases","Sala de ensayo musical","Sala de espera","Comedor"], respuesta:"Sala de ensayo musical", hint:"Instrumentos + sillas en semicírculo = sala de ensayo o concierto" },
+]};
+
+// ─── VISOESPACIAL (IVE=108 — práctica gentil) ───
+QUESTION_BANK.visoespacial = { nivel_4: [
+  { id:"vis_001", tipo:"seleccion", pregunta:"En Minecraft, un cubo tiene 6 caras. Si pinto 3 caras de rojo y 3 de azul, ¿cuántos colores ves si miras desde arriba?", opciones:["Solo 1","Depende de cómo lo pinté","Solo 2","Los 6"], respuesta:"Solo 1", hint:"Desde arriba solo ves 1 cara, por lo tanto 1 color" },
+  { id:"vis_001b", tipo:"seleccion", pregunta:"¿Cuántos cubos necesitas para hacer una torre de 3 bloques de alto, 2 de ancho y 2 de fondo?", opciones:["7","10","12","14"], respuesta:"12", hint:"3 × 2 × 2 = 12 cubos" },
+  { id:"vis_002", tipo:"seleccion", pregunta:"Si construyes una escalera de bloques: 1 bloque, luego 2, luego 3, luego 4... ¿Cuántos bloques usaste en total?", opciones:["8","10","12","14"], respuesta:"10", hint:"1+2+3+4 = 10" },
+  { id:"vis_003", tipo:"seleccion", pregunta:"Tienes un cubo de 3×3×3 hecho de cubos pequeños. ¿Cuántos cubos pequeños están en las esquinas?", opciones:["4","6","8","12"], respuesta:"8", hint:"Un cubo tiene 8 esquinas, cada una con 1 cubo pequeño" },
+  { id:"vis_004", tipo:"seleccion", pregunta:"Si miras una casa por el frente ves un cuadrado con un triángulo arriba (el techo). ¿Qué forma ves si la miras desde arriba?", opciones:["Un cuadrado","Un triángulo","Un rectángulo","Un círculo"], respuesta:"Un rectángulo", hint:"Desde arriba ves la planta del techo, que es rectangular" },
+  { id:"vis_005", tipo:"seleccion", pregunta:"Construyes una L con bloques: 3 bloques hacia la derecha y 3 hacia arriba desde la esquina. ¿Cuántos bloques usaste?", opciones:["5","6","7","9"], respuesta:"5", hint:"3 + 3 = 6, pero la esquina se comparte: 6−1 = 5" },
+  { id:"vis_006", tipo:"seleccion", pregunta:"Si giras un cuadrado 45 grados, ¿qué forma parece?", opciones:["Un triángulo","Un rombo/diamante","Un círculo","Un rectángulo"], respuesta:"Un rombo/diamante", hint:"Un cuadrado girado 45° se ve como un diamante ◇" },
+  { id:"vis_007", tipo:"seleccion", pregunta:"¿Cuántas caras de un cubo puedes ver al mismo tiempo si lo miras desde una esquina?", opciones:["1","2","3","4"], respuesta:"3", hint:"Desde una esquina ves exactamente 3 caras" },
+  { id:"vis_008", tipo:"seleccion", pregunta:"En Roblox construyes un muro de 5 bloques de largo y 3 de alto. ¿Cuántos bloques usaste?", opciones:["8","12","15","18"], respuesta:"15", hint:"5 × 3 = 15" },
+  { id:"vis_009", tipo:"seleccion", pregunta:"Si doblas un papel cuadrado por la mitad 2 veces y cortas una esquina, ¿cuántos agujeros tiene al desdoblar?", opciones:["1","2","4","8"], respuesta:"4", hint:"Cada doblez duplica la simetría. 2 dobleces = 4 capas = 4 agujeros" },
+  { id:"vis_010", tipo:"seleccion", pregunta:"¿Cuántas líneas de simetría tiene un cuadrado?", opciones:["2","3","4","8"], respuesta:"4", hint:"Horizontal, vertical y 2 diagonales = 4" },
+  { id:"vis_011", tipo:"seleccion", pregunta:"Si armas un cubo con una red (cruceta), ¿cuántos cuadrados necesitas?", opciones:["4","5","6","8"], respuesta:"6", hint:"Un cubo tiene 6 caras = 6 cuadrados" },
+  { id:"vis_012", tipo:"seleccion", pregunta:"Tienes 2 bloques rojos y 2 azules. Los pones en fila. ¿De cuántas formas distintas puedes ordenarlos?", opciones:["4","6","8","12"], respuesta:"6", hint:"RRAA, RARA, RAAR, ARRA, ARAR, AARR = 6 formas" },
+  { id:"vis_013", tipo:"seleccion", pregunta:"En Minecraft, si caminas 5 bloques al norte, 3 al este, 5 al sur y 3 al oeste, ¿dónde terminas?", opciones:["Lejos del inicio","En el mismo lugar","5 bloques al norte","3 bloques al este"], respuesta:"En el mismo lugar", hint:"Norte y sur se cancelan, este y oeste se cancelan: vuelves al inicio" },
+  { id:"vis_014", tipo:"seleccion", pregunta:"¿Cuántos cubos ves en una pirámide de base 2×2 con 1 cubo arriba?", opciones:["4","5","6","8"], respuesta:"5", hint:"Base: 2×2 = 4 cubos. Arriba: 1 cubo. Total: 5" },
+  { id:"vis_015", tipo:"seleccion", pregunta:"Si reflejas la letra R en un espejo (eje vertical), ¿qué ves?", opciones:["R normal","R al revés (Я)","Una P","Una B"], respuesta:"R al revés (Я)", hint:"El espejo invierte horizontalmente: R se ve como Я" },
+]};
+
+// ─── STORYTELLING ESTRUCTURADO (ajuste verbal) ───
+// Reemplaza producción libre por opciones con estructura
+QUESTION_BANK.funcion_ejecutiva.storytelling_estructurado = [
+  { id:"fe_ste_001", tipo:"seleccion", pregunta:"Completa la historia: \"El dragón entró a la cocina y encontró...\"", opciones:["un tesoro de galletas doradas","nada interesante","una puerta","un plato"], respuesta:"un tesoro de galletas doradas", hint:"La mejor opción conecta dragón + cocina de forma creativa. ¡Todas son válidas pero esta es la más divertida!" },
+  { id:"fe_ste_002", tipo:"seleccion", pregunta:"¿Cuál es el mejor título para este cuento? \"Un niño encontró un mapa en su mochila. Lo siguió y llegó a una cueva llena de cristales brillantes.\"", opciones:["Mi mochila nueva","El mapa misterioso","Los cristales del colegio","La cueva del miedo"], respuesta:"El mapa misterioso", hint:"El título debe capturar lo más importante: el mapa que inicia la aventura" },
+  { id:"fe_ste_003", tipo:"seleccion", pregunta:"¿Qué oración continúa mejor esta historia? \"Llovía mucho y el río subía cada vez más.\"", opciones:["Los vecinos empezaron a preparar sacos de arena","El sol salió brillante","Los peces estaban contentos","Alguien comió un helado"], respuesta:"Los vecinos empezaron a preparar sacos de arena", hint:"La continuación lógica es una reacción al problema del río subiendo" },
+  { id:"fe_ste_004", tipo:"seleccion", pregunta:"¿Cuál es el PROBLEMA de esta historia? \"Sara quería ir al parque pero estaba lloviendo. Se quedó en casa mirando por la ventana.\"", opciones:["Sara no tiene paraguas","La lluvia no la deja ir al parque","La ventana está sucia","Sara está enferma"], respuesta:"La lluvia no la deja ir al parque", hint:"El problema central: quiere ir al parque pero la lluvia se lo impide" },
+  { id:"fe_ste_005", tipo:"seleccion", pregunta:"¿Cuál sería un buen FINAL para esta historia? \"Un gatito se perdió en el bosque. Caminó toda la noche buscando su casa.\"", opciones:["Al amanecer, reconoció el olor de su casa y corrió hacia ella","El bosque era muy grande","El gatito tenía hambre","Había muchos árboles"], respuesta:"Al amanecer, reconoció el olor de su casa y corrió hacia ella", hint:"Un buen final resuelve el problema (el gatito perdido encuentra su casa)" },
+  { id:"fe_ste_006", tipo:"seleccion", pregunta:"Ordena para que la historia tenga sentido: 1) Llegó a una isla misteriosa 2) Un pirata encontró un mapa 3) Desenterró un cofre del tesoro 4) Navegó durante 40 días", opciones:["2-4-1-3","1-2-3-4","2-1-4-3","4-2-1-3"], respuesta:"2-4-1-3", hint:"Primero encuentra el mapa, luego navega, llega a la isla y encuentra el tesoro" },
+  { id:"fe_ste_007", tipo:"seleccion", pregunta:"¿Qué sentimiento describe mejor al personaje? \"Martín miró su prueba: un 7,0. Saltó de su silla y corrió a contarle a su mamá.\"", opciones:["Tristeza","Orgullo y alegría","Miedo","Aburrimiento"], respuesta:"Orgullo y alegría", hint:"Saltar + correr a contar = emoción positiva por su logro" },
+  { id:"fe_ste_008", tipo:"seleccion", pregunta:"¿Cuál es la CAUSA de lo que pasa? \"Las plantas del jardín se secaron porque...\"", opciones:["nadie las regó durante semanas","las mariposas volaron","el jardín era bonito","había muchas flores"], respuesta:"nadie las regó durante semanas", hint:"La causa de que se sequen es la falta de agua (riego)" },
+];
+
+// ─── FRASES DE REFUERZO DE PROCESO ───
+const PROCESS_PHRASES = [
+  "¡Esa era nivel 🔥! Buen razonamiento",
+  "Le encontraste el patrón altiro 🧠",
+  "¡Resolviste una difícil! Eso es pensar como una pro 💪",
+  "Tu estrategia fue perfecta 🎯",
+  "¡Ni lo dudaste! Tremendo control 🏆",
+  "Usaste la lógica como una crack ⚡",
+  "Esa pregunta era trampa y no caíste 🧩",
+  "¡Pro move! Pensaste antes de responder 🌟",
+  "Increíble cómo conectaste las ideas 🔗",
+  "¡Eso fue razonamiento puro! Nivel olimpiadas 🥇"
+];
