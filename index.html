@@ -251,6 +251,74 @@ h3 { font-size: 18px; font-weight: 600; }
 .materia-historia { background: rgba(255,138,0,0.15); color: var(--accent-orange); }
 .materia-ingles { background: rgba(177,77,255,0.15); color: var(--accent-purple); }
 .materia-funcion_ejecutiva { background: rgba(255,77,166,0.15); color: var(--accent-pink); }
+.materia-patrones_logica { background: rgba(0,229,255,0.15); color: var(--accent-cyan); }
+.materia-comprension { background: rgba(177,77,255,0.15); color: var(--accent-purple); }
+.materia-visoespacial { background: rgba(255,138,0,0.15); color: var(--accent-orange); }
+
+/* ─── ROADMAP BAR ─── */
+.roadmap-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%; max-width: 400px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto;
+}
+.roadmap-item {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+}
+.roadmap-item.active {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(0,229,255,0.4);
+  transform: scale(1.15);
+}
+.roadmap-item.done {
+  background: var(--accent-green);
+  opacity: 0.7;
+}
+.roadmap-arrow {
+  color: rgba(255,255,255,0.15);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* ─── PAUSA FATIGA ─── */
+.fatigue-pause {
+  display: none;
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  z-index: 150;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  background: rgba(15,14,35,0.95);
+  padding: 24px;
+  animation: fadeIn 0.4s ease;
+}
+.fatigue-pause.active { display: flex; }
+
+/* ─── SPEECH TOGGLE ─── */
+.speech-btn {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: var(--bg-card-light);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 5;
+}
 
 .question-text {
   font-size: 20px; font-weight: 600;
@@ -679,6 +747,20 @@ h3 { font-size: 18px; font-weight: 600; }
 </head>
 <body>
 
+<!-- ═══════ FATIGUE PAUSE ═══════ -->
+<div class="fatigue-pause" id="fatigue-pause">
+  <div style="font-size:48px;margin-bottom:16px;">🧘</div>
+  <h2 style="margin-bottom:8px;">Mini pausa</h2>
+  <p class="text-secondary text-center mb-16" style="max-width:300px;">Tu cerebro hizo mucho esfuerzo. Tómate un respiro de 10 segundos.</p>
+  <div class="reward-card" id="fatigue-reward-card">
+    <div class="reward-label" id="fatigue-reward-label"></div>
+    <div class="reward-text" id="fatigue-reward-text"></div>
+  </div>
+  <button class="btn btn-primary mt-16 btn-countdown" id="btn-fatigue-continue" onclick="resumeFromFatigue()">
+    Continuar <span class="countdown-num" id="fatigue-countdown">(10)</span> →
+  </button>
+</div>
+
 <!-- ═══════ CONFETTI CANVAS ═══════ -->
 <canvas id="confetti-canvas"></canvas>
 
@@ -755,6 +837,10 @@ h3 { font-size: 18px; font-weight: 600; }
 
 <!-- ═══════ SCREEN: JUEGO ═══════ -->
 <div class="screen" id="screen-juego">
+  <button class="speech-btn" id="speech-toggle" onclick="toggleSpeech()" title="Leer en voz alta" style="display:none;">🔇</button>
+
+  <div class="roadmap-bar" id="roadmap-bar" style="display:none;"></div>
+
   <div class="game-header">
     <div class="question-counter" id="q-counter">1/8</div>
     <div class="progress-bar-bg">
@@ -851,6 +937,11 @@ h3 { font-size: 18px; font-weight: 600; }
   <div class="panel-section">
     <h3>Rendimiento por materia</h3>
     <div id="panel-materias"></div>
+  </div>
+
+  <div class="panel-section">
+    <h3>Métricas por habilidad cognitiva</h3>
+    <div id="panel-cognitivo"></div>
   </div>
 
   <div class="panel-section">
@@ -986,21 +1077,25 @@ function buildBlock() {
   // Materias y sus pesos de aparición (solo habilitadas)
   const materiaPool = [];
   if (CONFIG.materias.matematicas) materiaPool.push({ materia: 'matematicas', peso: 2 });
-  if (CONFIG.materias.ciencias) materiaPool.push({ materia: 'ciencias', peso: 1.5 });
-  if (CONFIG.materias.historia) materiaPool.push({ materia: 'historia', peso: 1.5 });
-  if (CONFIG.materias.ingles) materiaPool.push({ materia: 'ingles', peso: 2 });
+  if (CONFIG.materias.ciencias) materiaPool.push({ materia: 'ciencias', peso: 1 });
+  if (CONFIG.materias.historia) materiaPool.push({ materia: 'historia', peso: 1 });
+  if (CONFIG.materias.ingles) materiaPool.push({ materia: 'ingles', peso: 1.5 });
   if (CONFIG.materias.funcion_ejecutiva) materiaPool.push({ materia: 'funcion_ejecutiva', peso: 1 });
+  if (CONFIG.materias.patrones_logica) materiaPool.push({ materia: 'patrones_logica', peso: 1.5 });
+  if (CONFIG.materias.comprension) materiaPool.push({ materia: 'comprension', peso: 0.8 });
+  if (CONFIG.materias.visoespacial) materiaPool.push({ materia: 'visoespacial', peso: 0.8 });
 
   // Obtener preguntas disponibles por materia
   function getAvailable(materia) {
     let pool = [];
     if (materia === 'funcion_ejecutiva') {
       const fe = QUESTION_BANK.funcion_ejecutiva;
-      for (const tipo of ['secuenciacion', 'storytelling', 'planificacion', 'categorizacion']) {
+      for (const tipo of ['secuenciacion', 'storytelling', 'storytelling_estructurado', 'planificacion', 'categorizacion']) {
         if (fe[tipo]) pool.push(...fe[tipo].map(q => ({ ...q, materia: 'funcion_ejecutiva', subtipo: tipo })));
       }
     } else {
       const bank = QUESTION_BANK[materia];
+      if (!bank) return [];
       // Usar nivel adaptativo si la materia está en CONFIG.adaptativas
       let nivel = 'nivel_4';
       if (CONFIG.adaptativas.includes(materia)) {
@@ -1066,6 +1161,23 @@ function buildBlock() {
   }
 
   shuffleArray(questions);
+
+  // ─── INTERCALACIÓN: no poner 2 de carga "alta" seguidas ───
+  if (CONFIG.fatiga && CONFIG.fatiga.intercalar_carga) {
+    const carga = CONFIG.carga_materia || {};
+    for (let i = 1; i < questions.length; i++) {
+      if (carga[questions[i].materia] === 'alta' && carga[questions[i-1].materia] === 'alta') {
+        // Buscar una pregunta no-alta más adelante para intercambiar
+        for (let j = i + 1; j < questions.length; j++) {
+          if (carga[questions[j].materia] !== 'alta') {
+            [questions[i], questions[j]] = [questions[j], questions[i]];
+            break;
+          }
+        }
+      }
+    }
+  }
+
   return questions;
 }
 
@@ -1084,8 +1196,10 @@ function startGame() {
   blockCorrect = 0;
   blockXP = 0;
   timeRemaining = BLOCK_TIME_SECONDS;
+  questionTimes = [];
 
   showScreen('screen-juego');
+  renderRoadmap();
   startTimer();
   renderQuestion();
 }
@@ -1134,13 +1248,25 @@ function renderQuestion() {
     ciencias: '🔬 Ciencias',
     historia: '🏛️ Historia',
     ingles: '🇬🇧 English',
-    funcion_ejecutiva: '🧩 Desafío Mental'
+    funcion_ejecutiva: '🧩 Desafío Mental',
+    patrones_logica: '🧠 Patrones y Lógica',
+    comprension: '📖 Comprensión',
+    visoespacial: '🎲 Visoespacial'
   };
   badge.textContent = materiaNames[q.materia] || q.materia;
   badge.className = 'materia-badge materia-' + q.materia;
 
   // Pregunta
   document.getElementById('question-text').textContent = q.pregunta;
+
+  // Leer en voz alta si está habilitado
+  speakText(q.pregunta);
+
+  // Roadmap update
+  updateRoadmap();
+
+  // Timer de fatiga
+  startQuestionTimer();
 
   // Body según tipo
   const body = document.getElementById('question-body');
@@ -1289,6 +1415,9 @@ function renderStorytelling(container, q) {
 
 // ─── PROCESAR RESPUESTA ───
 function processAnswer(correct, q, isStory = false) {
+  // Registrar tiempo para fatiga
+  recordQuestionTime();
+
   // Registrar
   respondidas.push(q.id);
   saveAnswered();
@@ -1336,6 +1465,15 @@ function processAnswer(correct, q, isStory = false) {
   progreso.stats_materia[q.materia].total++;
   if (correct) progreso.stats_materia[q.materia].correctas++;
 
+  // Track hard questions separately
+  const isHard = (q.nivel && ['nivel_5','nivel_6','nivel_7'].includes(q.nivel)) || q.materia === 'patrones_logica';
+  if (isHard) {
+    if (!progreso.stats_hard) progreso.stats_hard = {};
+    if (!progreso.stats_hard[q.materia]) progreso.stats_hard[q.materia] = { correctas:0, total:0 };
+    progreso.stats_hard[q.materia].total++;
+    if (correct) progreso.stats_hard[q.materia].correctas++;
+  }
+
   // XP
   blockXP += xpGained;
   const oldLevel = progreso.nivel;
@@ -1363,16 +1501,26 @@ function processAnswer(correct, q, isStory = false) {
 function upgradeDifficulty(subject) {
   const key = `dificultad_${subject}`;
   if (!progreso[key]) progreso[key] = 'nivel_4';
-  if (progreso[key] === 'nivel_4') { progreso[key] = 'nivel_5'; return true; }
-  if (progreso[key] === 'nivel_5') { progreso[key] = 'nivel_6'; return true; }
+  const levels = (CONFIG.niveles_disponibles && CONFIG.niveles_disponibles[subject])
+    || ['nivel_4', 'nivel_5', 'nivel_6'];
+  const idx = levels.indexOf(progreso[key]);
+  if (idx < levels.length - 1) {
+    progreso[key] = levels[idx + 1];
+    return true;
+  }
   return false;
 }
 
 function downgradeDifficulty(subject) {
   const key = `dificultad_${subject}`;
   if (!progreso[key]) progreso[key] = 'nivel_4';
-  if (progreso[key] === 'nivel_6') { progreso[key] = 'nivel_5'; return true; }
-  if (progreso[key] === 'nivel_5') { progreso[key] = 'nivel_4'; return true; }
+  const levels = (CONFIG.niveles_disponibles && CONFIG.niveles_disponibles[subject])
+    || ['nivel_4', 'nivel_5', 'nivel_6'];
+  const idx = levels.indexOf(progreso[key]);
+  if (idx > 0) {
+    progreso[key] = levels[idx - 1];
+    return true;
+  }
   return false;
 }
 
@@ -1392,9 +1540,16 @@ function showFeedback(correct, xp, q, isStory) {
   overlay.className = 'feedback-overlay active ' + (correct ? 'correct-bg' : 'incorrect-bg');
 
   document.getElementById('feedback-icon').textContent = correct ? '✅' : '🤔';
-  document.getElementById('feedback-text').textContent = correct
-    ? CONFIG.frases_correcta[Math.floor(Math.random() * CONFIG.frases_correcta.length)]
-    : CONFIG.frases_incorrecta[Math.floor(Math.random() * CONFIG.frases_incorrecta.length)];
+
+  // Frase de proceso para preguntas difíciles respondidas bien
+  let feedbackPhrase;
+  if (correct) {
+    const processPhrase = getProcessPhrase(q);
+    feedbackPhrase = processPhrase || CONFIG.frases_correcta[Math.floor(Math.random() * CONFIG.frases_correcta.length)];
+  } else {
+    feedbackPhrase = CONFIG.frases_incorrecta[Math.floor(Math.random() * CONFIG.frases_incorrecta.length)];
+  }
+  document.getElementById('feedback-text').textContent = feedbackPhrase;
 
   // XP
   document.getElementById('feedback-xp').textContent = correct ? `+${xp} XP` : '';
@@ -1484,6 +1639,13 @@ function nextQuestion() {
   document.getElementById('reward-card').style.display = 'none';
   document.getElementById('explanation-card').style.display = 'none';
   currentIndex++;
+
+  // Check fatigue before next question
+  if (checkFatigue() && currentIndex < currentBlock.length) {
+    showFatiguePause();
+    return;
+  }
+
   renderQuestion();
 }
 
@@ -1605,8 +1767,8 @@ function updatePanel() {
   document.getElementById('panel-record').textContent = progreso.racha_record + ' días';
 
   // Dificultad
-  const diffNames = { nivel_4: '4° básico', nivel_5: '5° básico', nivel_6: '6° básico' };
-  const materiaLabels = { matematicas:'Matemáticas', ciencias:'Ciencias', historia:'Historia', ingles:'Inglés', funcion_ejecutiva:'Desafío Mental' };
+  const diffNames = { nivel_4: '4° básico', nivel_5: '5° básico', nivel_6: '6° básico', nivel_7: 'Olimpiadas 🏅' };
+  const materiaLabels = { matematicas:'Matemáticas', ciencias:'Ciencias', historia:'Historia', ingles:'Inglés', funcion_ejecutiva:'Desafío Mental', patrones_logica:'Patrones y Lógica', comprension:'Comprensión', visoespacial:'Visoespacial' };
   const diffContainer = document.getElementById('panel-diff-container');
   diffContainer.innerHTML = '';
   for (const mat of CONFIG.adaptativas) {
@@ -1627,14 +1789,20 @@ function updatePanel() {
     ciencias: 'Ciencias',
     historia: 'Historia',
     ingles: 'Inglés',
-    funcion_ejecutiva: 'Desafío Mental'
+    funcion_ejecutiva: 'Desafío Mental',
+    patrones_logica: 'Patrones y Lógica',
+    comprension: 'Comprensión',
+    visoespacial: 'Visoespacial'
   };
   const materiaColors = {
     matematicas: 'var(--accent-cyan)',
     ciencias: 'var(--accent-green)',
     historia: 'var(--accent-orange)',
     ingles: 'var(--accent-purple)',
-    funcion_ejecutiva: 'var(--accent-pink)'
+    funcion_ejecutiva: 'var(--accent-pink)',
+    patrones_logica: 'var(--accent-cyan)',
+    comprension: 'var(--accent-purple)',
+    visoespacial: 'var(--accent-orange)'
   };
 
   for (const [key, name] of Object.entries(materiaNames)) {
@@ -1676,6 +1844,9 @@ function updatePanel() {
       histDiv.appendChild(div);
     });
   }
+
+  // Métricas cognitivas
+  renderCognitiveMetrics();
 }
 
 function exportProgress() {
@@ -1809,7 +1980,210 @@ function animateConfetti() {
   }
 }
 
+// ─── ROADMAP (estructura predecible TEA) ───
+function renderRoadmap() {
+  const bar = document.getElementById('roadmap-bar');
+  if (!CONFIG.mostrar_roadmap) { bar.style.display = 'none'; return; }
+  bar.style.display = 'flex';
+  bar.innerHTML = '';
+
+  const materiaIcons = {
+    matematicas:'🔢', ciencias:'🔬', historia:'🏛️', ingles:'🇬🇧',
+    funcion_ejecutiva:'🧩', patrones_logica:'🧠', comprension:'📖',
+    visoespacial:'🎲'
+  };
+
+  currentBlock.forEach((q, i) => {
+    if (i > 0) {
+      const arrow = document.createElement('span');
+      arrow.className = 'roadmap-arrow';
+      arrow.textContent = '›';
+      bar.appendChild(arrow);
+    }
+    const item = document.createElement('div');
+    item.className = 'roadmap-item' + (i === currentIndex ? ' active' : i < currentIndex ? ' done' : '');
+    item.textContent = materiaIcons[q.materia] || '❓';
+    item.id = `roadmap-${i}`;
+    bar.appendChild(item);
+  });
+
+  // Add reward icon at end
+  const arrow = document.createElement('span');
+  arrow.className = 'roadmap-arrow';
+  arrow.textContent = '›';
+  bar.appendChild(arrow);
+  const reward = document.createElement('div');
+  reward.className = 'roadmap-item';
+  reward.textContent = '🏆';
+  bar.appendChild(reward);
+}
+
+function updateRoadmap() {
+  if (!CONFIG.mostrar_roadmap) return;
+  currentBlock.forEach((q, i) => {
+    const el = document.getElementById(`roadmap-${i}`);
+    if (el) {
+      el.className = 'roadmap-item' + (i === currentIndex ? ' active' : i < currentIndex ? ' done' : '');
+    }
+  });
+}
+
+// ─── FATIGUE DETECTION ───
+let questionTimes = []; // timestamps per question
+let questionStartTime = 0;
+
+function startQuestionTimer() {
+  questionStartTime = Date.now();
+}
+
+function recordQuestionTime() {
+  if (questionStartTime > 0) {
+    questionTimes.push(Date.now() - questionStartTime);
+  }
+}
+
+function checkFatigue() {
+  if (!CONFIG.fatiga || !CONFIG.fatiga.habilitada) return false;
+  if (questionTimes.length < CONFIG.fatiga.preguntas_minimas) return false;
+
+  const avg = questionTimes.reduce((a,b) => a+b, 0) / questionTimes.length;
+  const recent = questionTimes.slice(-3);
+  const recentAvg = recent.reduce((a,b) => a+b, 0) / recent.length;
+
+  return recentAvg > avg * (1 + CONFIG.fatiga.umbral_porcentaje / 100);
+}
+
+function showFatiguePause() {
+  const pause = document.getElementById('fatigue-pause');
+  pause.classList.add('active');
+
+  // Show a reward during pause
+  const categories = Object.keys(REWARD_BANK).filter(c => CONFIG.recompensas[c] !== false);
+  const cat = categories[Math.floor(Math.random() * categories.length)];
+  const rewards = REWARD_BANK[cat];
+  const reward = rewards[Math.floor(Math.random() * rewards.length)];
+  const catNames = { chistes:'😂 CHISTE', datos_bizarros:'🤯 DATO BIZARRO', records_guinness:'🏆 RÉCORD', sabias_que_animales:'🦎 ¿SABÍAS QUE...?', que_preferirías:'🤔 ¿QUÉ PREFERIRÍAS?', datos_gamer:'🎮 DATO GAMER' };
+  document.getElementById('fatigue-reward-label').textContent = catNames[cat] || cat;
+  document.getElementById('fatigue-reward-text').textContent = reward.texto;
+
+  // Countdown
+  let remaining = 10;
+  const btn = document.getElementById('btn-fatigue-continue');
+  const numSpan = document.getElementById('fatigue-countdown');
+  btn.className = 'btn btn-primary mt-16 btn-countdown';
+  numSpan.textContent = `(${remaining})`;
+
+  const timer = setInterval(() => {
+    remaining--;
+    if (remaining > 0) {
+      numSpan.textContent = `(${remaining})`;
+    } else {
+      clearInterval(timer);
+      btn.className = 'btn btn-primary mt-16 btn-active';
+      numSpan.textContent = '';
+    }
+  }, 1000);
+
+  // Reset fatigue tracking
+  questionTimes = [];
+}
+
+function resumeFromFatigue() {
+  document.getElementById('fatigue-pause').classList.remove('active');
+  renderQuestion();
+}
+
+// ─── WEB SPEECH API ───
+let speechEnabled = false;
+
+function initSpeech() {
+  if (!CONFIG.lecturaEnVoz) return;
+  const btn = document.getElementById('speech-toggle');
+  btn.style.display = 'flex';
+  speechEnabled = CONFIG.lecturaEnVoz;
+  btn.textContent = speechEnabled ? '🔊' : '🔇';
+}
+
+function toggleSpeech() {
+  speechEnabled = !speechEnabled;
+  document.getElementById('speech-toggle').textContent = speechEnabled ? '🔊' : '🔇';
+  if (!speechEnabled) window.speechSynthesis.cancel();
+}
+
+function speakText(text) {
+  if (!speechEnabled || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = CONFIG.voz_idioma || 'es-CL';
+  utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
+}
+
+// ─── PROCESS PHRASES (refuerzo de proceso) ───
+function getProcessPhrase(q) {
+  // Solo para preguntas de nivel alto o categorías difíciles
+  const isHard = (q.nivel && ['nivel_6','nivel_7'].includes(q.nivel))
+    || q.materia === 'patrones_logica'
+    || (q.materia === 'matematicas' && q.nivel === 'nivel_5');
+
+  if (isHard && typeof PROCESS_PHRASES !== 'undefined') {
+    return PROCESS_PHRASES[Math.floor(Math.random() * PROCESS_PHRASES.length)];
+  }
+  return null;
+}
+
+// ─── PANEL: MÉTRICAS COGNITIVAS ───
+function renderCognitiveMetrics() {
+  if (!CONFIG.metricas_cognitivas) return;
+
+  const container = document.getElementById('panel-cognitivo');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const groupLabels = {
+    razonamiento_logico: '🧠 Razonamiento Lógico',
+    comprension_verbal: '📖 Comprensión Verbal',
+    memoria_trabajo: '🧩 Memoria de Trabajo',
+    visoespacial: '🎲 Visoespacial'
+  };
+  const groupColors = {
+    razonamiento_logico: 'var(--accent-cyan)',
+    comprension_verbal: 'var(--accent-purple)',
+    memoria_trabajo: 'var(--accent-pink)',
+    visoespacial: 'var(--accent-orange)'
+  };
+
+  for (const [group, materias] of Object.entries(CONFIG.metricas_cognitivas)) {
+    let totalOk = 0, totalAll = 0, hardOk = 0, hardAll = 0;
+    for (const m of materias) {
+      const s = progreso.stats_materia[m];
+      if (s) { totalOk += s.correctas; totalAll += s.total; }
+      // Hard questions counter
+      if (progreso.stats_hard && progreso.stats_hard[m]) {
+        hardOk += progreso.stats_hard[m].correctas;
+        hardAll += progreso.stats_hard[m].total;
+      }
+    }
+    const pct = totalAll > 0 ? Math.round((totalOk / totalAll) * 100) : 0;
+
+    const div = document.createElement('div');
+    div.className = 'materia-bar-container';
+    let hardText = hardAll > 0 ? ` | Difíciles: ${hardOk}/${hardAll}` : '';
+    div.innerHTML = `
+      <div class="materia-bar-label">
+        <span>${groupLabels[group] || group}</span>
+        <span>${totalOk}/${totalAll} (${pct}%)${hardText}</span>
+      </div>
+      <div class="materia-bar-bg">
+        <div class="materia-bar-fill" style="width:${pct}%;background:${groupColors[group] || 'var(--accent-cyan)'}"></div>
+      </div>
+    `;
+    container.appendChild(div);
+  }
+}
+
 // ─── INIT ───
+initSpeech();
 updateInicio();
 </script>
 </body>
