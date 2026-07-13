@@ -1,2 +1,2 @@
 # LevelUp-
-App de juegos de Magda
+App de juegos 
